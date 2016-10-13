@@ -1,0 +1,54 @@
+﻿@model MantoxWebApp.Models.LoginViewModel
+@{
+    ViewBag.Title = "IniciarSesion";
+    Layout = "~/Views/Shared/_PlantillaIniciarSesion.cshtml";
+}
+
+    <p class="login-box-msg">Con&eacute;ctese para ingresar al sistema</p>
+
+    @using (Html.BeginForm("Login", "Usuario", FormMethod.Post, new { @id = "formulario_inicio_sesion" }))
+    {
+        if (!ViewData.ModelState.IsValidField("submit"))
+        {
+            @Html.ValidationSummary(true, "Inicio de sesión incorrecto. Valide el nombre de usuario y la contraseña.", new { @class = "alert alert-danger" }, "div");
+        }
+
+        <div class="form-group has-feedback field">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            @Html.TextBoxFor(u => u.Email, new { @type = "email", @class = "form-control", @placeholder = "Email"})
+        </div>
+
+        if (!ViewData.ModelState.IsValidField("Email"))
+        {
+            @Html.ValidationMessageFor(u => u.Email, null, new { @class = "alert alert-danger" }, "div")
+        }
+
+        <div class="form-group has-feedback">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            @Html.PasswordFor(u => u.Contrasena, new { @type = "password", @class = "form-control", @placeholder = "Contraseña"})
+        </div>
+
+        if (!ViewData.ModelState.IsValidField("Contrasena"))
+        {
+            @Html.ValidationMessageFor(u => u.Contrasena, null, new { @class = "alert alert-danger" }, "div")
+        }
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="checkbox icheck">
+                    &nbsp;
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-xs-6">
+                <input type="submit" class="btn btn-primary btn-block btn-flat" value="Iniciar sesión">
+            </div>
+            <!-- /.col -->
+        </div>
+        <a href="#">Recuperar contraseña</a><br>
+        <a href="register.html" class="text-center">Registrarse</a>
+
+        <!-- /.login-box-body -->
+
+
+}

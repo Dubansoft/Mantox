@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PlantillaError.cshtml";
+}
+
+<!-- Main content -->
+    
+
+    <div class="error-page">
+        
+        <h3 class="headline text-red" style="float:none !important; font-size: 75px !important;">500: Error Interno</h3>
+        
+        <h3>
+            <i class="fa fa-warning text-red"></i>
+            Oops! Algo salió mal al acceder a la p&aacute;gina "@ViewBag.Titulo".
+        </h3>
+
+        <p>
+            Estamos trabajando para corregir este problema...
+        </p>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p>
+                <h3>El error generado es el siguiente:</h3>
+                <div style="width:100%; height:auto;overflow:auto">
+                    <pre>@ViewBag.ErrorMessage</pre>
+                </div>
+
+            </p>
+        }
+        
+@*
+    <form class="search-form">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Buscar">
+
+            <div class="input-group-btn">
+                <button type="submit" name="submit" class="btn btn-danger btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <!-- /.input-group -->
+    </form>*@
+</div>
+<!-- /.error-page -->
+
+

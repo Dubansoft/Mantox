@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MantoxWebApp.Models.Area>
+
+<div class="form-group">
+    <label>&Aacute;rea espec&iacute;fica</label>
+    @Html.DropDownList("Id_Area", (MultiSelectList)ViewBag.Areas, new { @class = "select2 form-control nivel2 nivel3 nivel4 nivel5" })
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //Eliminar selección predeterminada de edificio
+        $('#Id_Area').val([]);
+
+        $(function () {
+            //Initialize Select2 Elements
+            $(".select2").select2();
+        });
+    });
+</script>

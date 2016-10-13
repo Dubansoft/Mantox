@@ -1,0 +1,67 @@
+﻿@model MantoxWebApp.Models.Movimiento
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Movimiento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Equipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Equipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Area_Origen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Area_Origen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Area_Destino)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Area_Destino)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Razon_Movimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Razon_Movimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Usuario)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

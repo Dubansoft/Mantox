@@ -1,0 +1,166 @@
+﻿@model MantoxWebApp.Models.Licencia
+
+
+@{
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+@section EstilosEncabezado {
+
+    @Styles.Render("~/adminLte/css/select2/")
+
+}
+
+@using (Html.BeginForm("Create", "Licencia", FormMethod.Post, new { @id = "formulario_crear_licencia" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <!-- Nuevo layout -->
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.Id_Tipo_Licencia, "Licencia")
+                @Html.DropDownList("Id_Tipo_Licencia", (MultiSelectList)ViewBag.Licencias, new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Tipo_Licencia, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Serial, "Serial")
+                @Html.EditorFor(model => model.Serial, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Serial, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Vencimiento, "Fecha de vencimiento")
+                @Html.EditorFor(model => model.Fecha_Vencimiento, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+                @Html.ValidationMessageFor(model => model.Fecha_Vencimiento, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Compra, " Fecha de compra")
+                @Html.EditorFor(model => model.Fecha_Compra, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+                @Html.ValidationMessageFor(model => model.Fecha_Compra, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Equipo, "Equipo")
+                @Html.DropDownList("Id_Equipo", (MultiSelectList)ViewBag.Equipos, new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Equipo, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- /.form-group -->
+
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div id="divResultadoSedes"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoEdificios"></div>
+                </div>
+            </div>
+            <!-- /row -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoPisos"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoAreas"></div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /.col -->
+    </div>
+        <!-- /.row -->
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="submit" value="@ViewBag.Titulo" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+        <!-- /Fin nuevo layout -->
+
+}
+
+<div>
+    @Html.ActionLink("Volver a la lista", "Index")
+</div>
+
+@section ScriptsPieDePagina {
+
+        <!-- Inicio datepicker -->
+
+    <!-- Data picker -->
+    @Styles.Render("~/adminLte/css/Datepicker/")
+
+    <!-- Data picker -->
+    @Scripts.Render("~/adminLte/js/Datepicker/")
+
+    <script>
+            $(function () {
+
+                //Date picker
+                $('#Fecha_Vencimiento').datepicker({
+                autoclose: true
+                });
+
+                //Date picker
+                $('#Fecha_Compra').datepicker({
+                autoclose: true
+                });
+
+            });
+    </script>
+
+    <!-- /Fin datepicker -->
+
+    <!-- Select2 -->
+    @Scripts.Render("~/adminLte/js/select2/")
+
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+      });
+    </script>
+
+    <!-- Validate .js-->
+    @Scripts.Render("~/adminLte/js/validate/")
+
+    <script>
+	    $().ready(function() {
+	    // validate signup form on keyup and submit
+
+	        $("#formulario_crear_licencia").validate({
+		        rules: {
+
+		            Id_Tipo_Licencia: {
+		                required: true,
+		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+		            },
+		            Serial: "required",
+		            Fecha_Vencimiento: "required",
+		            Fecha_Compra: "required",
+
+		            Id_Equipo: {
+		                required: true,
+		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+		            },
+		        }
+		    });
+	    });
+    </script>
+}

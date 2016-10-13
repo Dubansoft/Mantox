@@ -1,0 +1,147 @@
+﻿@model MantoxWebApp.Models.Movimiento
+
+@{
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+@section EstilosEncabezado {
+
+    @Styles.Render("~/adminLte/css/select2/")
+
+}
+
+@using (Html.BeginForm("Create", "Movimiento", FormMethod.Post, new { @id = "formulario_crear_movimiento" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <!-- Nuevo layout -->
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Sede</label>
+                @Html.DropDownList("Id_Sede", (MultiSelectList)ViewBag.Sedes, "", new { @class = "form-control select2 col-sm-12" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoEdificios"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoPisos"></div>
+                </div>
+            </div>
+            <!-- /row -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoAreas"></div>
+                </div>
+            </div>
+            <!-- /row -->
+          
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Area_Destino, "Area de destino")
+                @Html.DropDownList("Id_Area_Destino", (MultiSelectList)ViewBag.Destinos, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Area_Destino, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div id="divResultadoSedes"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoEdificios"></div>
+                </div>
+            </div>
+            <!-- /row -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoPisos"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoAreas"></div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /.col -->
+    </div>
+        <!-- /.row -->
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="submit" value="@ViewBag.Titulo" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+        <!-- /Fin nuevo layout -->
+
+}
+
+<div>
+    @Html.ActionLink("Volver a la lista", "Index")
+</div>
+
+
+@section ScriptsPieDePagina {
+
+
+    <!-- Select2 -->
+    @Scripts.Render("~/adminLte/js/select2/")
+
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+      });
+    </script>
+
+    <!-- Ajax -->
+    @Scripts.Render("~/adminLte/js/msAjax/")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //Eliminar selección predeterminada de sede
+            $('#Id_Sede').val([]);
+
+           //Carga asincrónica de los edificios al seleccionar la sede
+        $("#Id_Sede").on("blur mouseup change", (function () {
+            $('.nivel3').empty();
+            var idSede = $("#Id_Sede").val();
+            $("#divResultadoEdificios").load('@(Url.Action("FiltrarEdificios", "Edificio",null, Request.Url.Scheme))?idSede=' + idSede);
+        }));
+
+        });
+    </script>
+
+    <!-- Validate .js-->
+    @Scripts.Render("~/adminLte/js/validate/")
+
+    <script>
+	    $().ready(function() {
+	    // validate signup form on keyup and submit
+
+	        $("#formulario_crear_movimiento").validate({
+		        rules: {
+
+		            Id_Area_Destino: "required",
+              
+		        }
+		    });
+	    });
+    </script>
+}
+

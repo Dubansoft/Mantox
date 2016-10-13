@@ -1,0 +1,67 @@
+﻿@model MantoxWebApp.Models.Mantenimiento
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Mantenimiento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Equipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Equipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Usuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Tipo_Mantenimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Tipo_Mantenimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Piezas_Instaladas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Piezas_Instaladas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Piezas_Retiradas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Piezas_Retiradas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observaciones)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

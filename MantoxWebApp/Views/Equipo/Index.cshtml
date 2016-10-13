@@ -1,0 +1,112 @@
+﻿@model IEnumerable<MantoxWebApp.Models.Equipo>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Activo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Serial)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre_Equipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ip)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comentario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha_Ingreso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha_Fin_Garantia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Responsable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Area)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Modelo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Sistema_Operativo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Propietario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Version_Office)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Estado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Activo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Serial)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre_Equipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ip)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comentario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha_Ingreso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha_Fin_Garantia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Responsable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Area)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Modelo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Sistema_Operativo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Propietario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Version_Office)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Estado)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

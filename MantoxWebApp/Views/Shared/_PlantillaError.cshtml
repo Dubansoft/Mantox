@@ -1,0 +1,42 @@
+﻿@{ 
+    ViewBag.Title = "Inicio de sesion xd";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Titulo</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    
+    <!-- Bootstrap 3.3.6 -->
+    @Styles.Render("~/adminLte/css/bootstrap/")
+
+    <!-- Font Awesome -->
+    @Styles.Render("~/adminLte/css/fontawesome/")
+
+    <!-- Ionicons -->
+    @Styles.Render("~/adminLte/css/ionicons/")
+
+    <!-- Theme style -->
+    @Styles.Render("~/adminLte/css/AdminLte/")
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        @Scripts.Render("~/adminLte/js/htmlshiv/")
+        @Scripts.Render("~/adminLte/js/respondjs/")
+    <![endif]-->
+
+</head>
+<body class="hold-transition login-page">
+        @RenderBody()
+
+        <!-- Bootstrap -->
+        @Scripts.Render("~/adminLte/js/bootstrap/")
+</body>
+</html>
+
+

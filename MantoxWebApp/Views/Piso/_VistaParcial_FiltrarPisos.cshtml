@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MantoxWebApp.Models.Edificio>
+
+<div class="form-group">
+    <label>Piso</label>
+    @Html.DropDownList("Piso", (MultiSelectList)ViewBag.Pisos, new { @class = "select2 form-control nivel2 nivel3 nivel4" })
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //Eliminar selección predeterminada de edificio
+        $('#Piso').val([]);
+
+        //Carga asincrónica de los edificios al seleccionar la sede
+        $("#Piso").change(function () {
+            $('.nivel5').empty();
+
+            var id_edificio = $("#Id_Edificio").val();
+            var numPiso = $("#Piso").val();
+
+            $("#divResultadoAreas").load('@(Url.Action("FiltrarAreas", "Area", null, Request.Url.Scheme))?idEdificio=' + id_edificio + '&numPiso=' + numPiso);
+        });
+
+        $(function () {
+            //Initialize Select2 Elements
+            $(".select2").select2({
+                tags: true
+            } );
+        });
+    });
+</script>

@@ -1,0 +1,261 @@
+﻿@using MantoxWebApp.Models
+@model V_Usuarios
+@{ 
+    V_Usuarios vu = new V_Usuarios();
+
+    if (ViewBag.Accion == "Editar")
+    {
+        vu = (V_Usuarios)ViewData["UsuarioActual"];
+    }
+
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+@section EstilosEncabezado {
+
+    @Styles.Render("~/adminLte/css/select2/")
+
+}
+
+@using (Html.BeginForm("Crear", "Usuario", FormMethod.Post, new { @id = "formulario_crear_usuario" }))
+{
+    @Html.HiddenFor(model => model.Id)
+    @Html.AntiForgeryToken()
+    <!-- Nuevo layout -->
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre)
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apellido)
+                @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contrasena, "Contraseña")
+                @Html.PasswordFor(model => model.Contrasena, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contrasena, "Contraseña de nuevo")
+                @Html.PasswordFor(model => model.Contrasena, new {@id ="Contrasena2", @class = "form-control", @Name="Contrasena2"})
+            </div>
+            <!-- /.form-group -->
+        </div>
+        <div class="col-md-6  col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Rol, "Rol de Usuario")
+                @Html.DropDownList("Id_Rol", (MultiSelectList)ViewBag.Roles, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Rol, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Estado, "Estado inicial")
+                @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form -control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                <label>Empresa</label>
+                @Html.DropDownList("Id_Empresa", (MultiSelectList)ViewBag.Empresas, new { @class = "form-control select2 col-sm-12" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div id="divResultadoSedes">
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div id="divResultadoEdificios"></div>
+                </div>
+            </div>
+            <!-- /row -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div id="divResultadoPisos"></div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div id="divResultadoAreas"></div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /.col -->
+    </div>
+        <!-- /.row -->
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="submit" value="@ViewBag.Titulo" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+        <!-- /Fin nuevo layout -->
+
+}
+
+
+@section ScriptsPieDePagina {
+
+    <!-- Select2 -->
+    @Scripts.Render("~/adminLte/js/select2/")
+
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+      });
+    </script>
+
+    <!-- Ajax -->
+    @Scripts.Render("~/adminLte/js/msAjax/")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var accion = "@ViewBag.Accion";
+
+            if (accion == "Crear") {
+                //Eliminar selección predeterminada de empresa
+                $('#Id_Empresa').val([]);
+            } else {
+                //Asignar selección predeterminada de empresa
+                $('#Id_Empresa').val([@vu.Id_Empresa]);
+            }
+
+            //Carga asincrónica de las sedes al seleccionar la empresa
+            $("#Id_Empresa").change(function () {
+                var idEmpresa = $("#Id_Empresa").val();
+                cargarSedes(idEmpresa);
+            });
+
+            function cargarSedes(idEmpresa) {
+                $('.nivel2').empty();
+                $("#divResultadoSedes").load('@(Url.Action("FiltrarSedes", "Sede", null, Request.Url.Scheme))?idEmpresa=' + idEmpresa);
+            }
+
+            if (accion == "Editar") {
+
+                cargarSedes(@vu.Id_Empresa);
+
+                setTimeout(function () {
+
+                    $('#Id_Sede').val([@vu.Id_Sede]).change();
+
+                    setTimeout(function () {
+
+                        $('#Id_Edificio').val([@vu.Id_Edificio]).change();
+
+                        setTimeout(function () {
+
+                            $('#Piso').val([@vu.Piso]).change();
+
+                            setTimeout(function () {
+
+                                $('#Id_Area').val([@vu.Id_Area]).change();
+
+                            }, 1000);
+
+                        }, 1000);
+
+                    }, 1000);
+
+                }, 1000);
+            }
+
+        });
+    </script>
+
+    <!-- Validate .js-->
+    @Scripts.Render("~/adminLte/js/validate/")
+
+    <script>
+	    $().ready(function() {
+	    // validate signup form on keyup and submit
+
+		    $("#formulario_crear_usuario").validate({
+		        rules: {
+		            Nombre: "required",
+		            Apellido: "required",
+		            Email: {
+		                required: true,
+		                email: true
+		            },
+		            Contrasena: "required",
+		            Contrasena2: {
+		                required: true,
+		                equalTo: "#Contrasena"
+		            },
+		            Id_Rol: {
+		                required: true
+		            },
+		            Id_Estado: {
+		                required: true,
+		                min: 1
+		            },
+		            Id_Area: {
+		                required: true,
+		                min: 2
+		            },
+		            Id_Empresa: {
+		                required: true,
+		                min: 2
+		            },
+		            Id_Sede: {
+		                required: true,
+		                min: 2
+		            },
+		            Id_Edificio: {
+		                required: true,
+		                min: 2
+		            },
+		            Id_Piso: {
+		                required: true
+		            },
+		            Id_Area: {
+		                required: true,
+		                min: 2
+		            }
+		        }
+		    });
+	    });
+    </script>
+    
+    @*@if (vu.Id > 0)
+    {
+        <script>
+            //Esto evita que el email sea cambiado cuando se está editando un usuario
+            var email = $("#Email").val();
+
+            $("#Email").attr('readonly', 'readonly');
+            $("#Email").on("change keyup mouseup",function () {
+                $("#Email").val([email]);
+            })
+        </script>
+    }*@
+}

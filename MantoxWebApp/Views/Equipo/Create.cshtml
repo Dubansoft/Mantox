@@ -1,0 +1,272 @@
+﻿@model MantoxWebApp.Models.Equipo
+
+@{
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+@section EstilosEncabezado {
+
+    @Styles.Render("~/adminLte/css/select2/")
+
+}
+
+@using (Html.BeginForm("Create", "Equipo", FormMethod.Post, new { @id = "formulario_crear_equipo" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <!-- Nuevo layout -->
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Activo)
+                @Html.EditorFor(model => model.Activo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Serial)
+                @Html.EditorFor(model => model.Serial, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Serial, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre_Equipo, "Nombre del equipo")
+                @Html.EditorFor(model => model.Nombre_Equipo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre_Equipo, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Ip)
+                @Html.EditorFor(model => model.Ip, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ip, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Comentario)
+                @Html.EditorFor(model => model.Comentario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Comentario, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Ingreso, "Fecha ingreso")
+                @Html.EditorFor(model => model.Fecha_Ingreso, new { htmlAttributes = new { @class = "form-control", @type="text" } })
+                @Html.ValidationMessageFor(model => model.Fecha_Ingreso, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Fin_Garantia, "Fin de la garantia")
+                @Html.EditorFor(model => model.Fecha_Fin_Garantia, new { htmlAttributes = new { @class="form-control ", @type = "text" } })
+                @Html.ValidationMessageFor(model => model.Fecha_Fin_Garantia, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Responsable, "Responsable")
+                @Html.EditorFor(model => model.Id_Responsable, new { htmlAttributes = new { @class = "form-control select2" } })
+                @Html.ValidationMessageFor(model => model.Id_Responsable, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Area, "Area")
+                @Html.DropDownList("Id_Area", (MultiSelectList)ViewBag.Areas,  new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Area, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Modelo, "Modelo")
+                @Html.DropDownList("ModeloId", (MultiSelectList)ViewBag.Modelos, new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Modelo, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Sistema_Operativo,"Sistemas operativo")
+                @Html.DropDownList("SistemaOperativoId", (MultiSelectList)ViewBag.SistemasOperativos, new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Sistema_Operativo, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Propietario, "Propietario")
+                @Html.DropDownList("Id_Propietario", (MultiSelectList)ViewBag.Propietarios, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Propietario, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Version_Office,"Office")
+                @Html.DropDownList("Id_Version_Office", (MultiSelectList)ViewBag.Office, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Version_Office, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Estado,"Estado")
+                @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div id="divResultadoSedes"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoEdificios"></div>
+                </div>
+            </div>
+            <!-- /row -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoPisos"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoAreas"></div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /.col -->
+    </div>
+        <!-- /.row -->
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="submit" value="@ViewBag.Titulo" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+        <!-- /Fin nuevo layout -->
+
+}
+
+<div>
+    @Html.ActionLink("Volver a la lista", "Index")
+</div>
+
+    
+    @section ScriptsPieDePagina {
+
+    <!-- Inicio datepicker -->
+
+
+        <!-- Data picker -->
+            @Styles.Render("~/adminLte/css/Datepicker/")
+
+        <!-- Data picker -->
+            @Scripts.Render("~/adminLte/js/Datepicker/")
+
+    <script>
+        $(function () {
+         
+            //Date picker
+            $('#Fecha_Ingreso').datepicker({
+            autoclose: true
+            });
+
+            //Date picker
+            $('#Fecha_Fin_Garantia').datepicker({
+            autoclose: true
+            });
+   
+        });
+    </script>
+
+<!-- /Fin datepicker -->
+
+   
+    <!-- Select2 -->
+    @Scripts.Render("~/adminLte/js/select2/")
+
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+      });
+    </script>
+
+    <!-- Ajax -->
+    @Scripts.Render("~/adminLte/js/msAjax/")
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        //Eliminar selección predeterminada de empresa
+        $('#Id_Empresa').val([]);
+
+        //Carga asincrónica de las sedes al seleccionar la empresa
+        $("#Id_Empresa").change(function () {
+            $('.nivel2').empty();
+            var idEmpresa = $("#Id_Empresa").val();
+            $("#divResultadoSedes").load('@(Url.Action("FiltrarSedes", "Sede", null, Request.Url.Scheme))?idEmpresa=' + idEmpresa);
+        });
+
+    });
+    </script>
+
+
+    <!-- Validate .js-->
+    @Scripts.Render("~/adminLte/js/validate/")
+
+    <script>
+	    $().ready(function() {
+	    // validate signup form on keyup and submit
+
+	        $("#formulario_crear_equipo").validate({
+		        rules: {
+		            Activo: "required",
+		            Serial: "required",
+		            Nombre_Equipo: "required",
+		            Ip: "required",
+		            Comentario: "required",
+		            Fecha_Ingreso: "required",
+		            Fecha_Fin_Garantia: "required",
+
+		            Id_Responsable: {
+		                required: true,
+		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+		            },
+		            Id_Area:{
+		                required: true,
+		                min: 1
+		            },
+		            Id_Modelo: {
+		                required: true,
+		                min: 2
+		            },
+		            Id_Sistema_Operativo: {
+		                required: true,
+		                min: 2
+		            },
+		            Id_Propietario: {
+		                required: true,
+		                min: 2
+		            },
+		            Id_Version_Office: {
+		                required: true
+		            },
+		            Id_Estado: {
+		                required: true,
+		                min: 1
+		            }
+		        }
+		    });
+	    });
+    </script>
+}
+
+    

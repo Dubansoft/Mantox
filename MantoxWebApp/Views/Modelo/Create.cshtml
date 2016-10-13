@@ -1,0 +1,138 @@
+﻿@model MantoxWebApp.Models.Modelo
+
+@{
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+@section EstilosEncabezado {
+
+    @Styles.Render("~/adminLte/css/select2/")
+
+}
+
+@using (Html.BeginForm("Create", "Modelo", FormMethod.Post, new { @id = "formulario_crear_modelo" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <!-- Nuevo layout -->
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, "Nombre")
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Marca, "Marca")
+                @Html.DropDownList("Id_Marca", (MultiSelectList)ViewBag.Marcas, new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Marca, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Tipo_Equipo, "Tipo de Equipo")
+                @Html.DropDownList("Id_Tipo_Equipo", (MultiSelectList)ViewBag.Equipos, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Tipo_Equipo, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Estado, "Estado actual")
+                @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div id="divResultadoSedes"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoEdificios"></div>
+                </div>
+            </div>
+            <!-- /row -->
+
+            <div class="row">
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoPisos"></div>
+                </div>
+                <div class="col-md-6 col-sm-1">
+                    <div id="divResultadoAreas"></div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /.col -->
+    </div>
+        <!-- /.row -->
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="submit" value="@ViewBag.Titulo" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+        <!-- /Fin nuevo layout -->
+
+}
+
+<div>
+    @Html.ActionLink("Volver a la lista", "Index")
+</div>
+
+
+@section ScriptsPieDePagina {
+
+
+    <!-- Select2 -->
+    @Scripts.Render("~/adminLte/js/select2/")
+
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+      });
+    </script>
+
+    <!-- Validate .js-->
+    @Scripts.Render("~/adminLte/js/validate/")
+
+    <script>
+	    $().ready(function() {
+	    // validate signup form on keyup and submit
+
+	        $("#formulario_crear_modelo").validate({
+		        rules: {
+
+		            Nombre: "required",
+
+		            Id_Marca: {
+		                required: true,
+		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+		            },
+
+		            Id_Tipo_Equipo: {
+		                required: true,
+		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+		            },
+
+		            Id_Estado: {
+		                required: true,
+		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+		            },
+		        }
+		    });
+	    });
+    </script>
+}
+
+

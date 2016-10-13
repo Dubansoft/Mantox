@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MantoxWebApp.Models.Mantenimiento>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Equipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Tipo_Mantenimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Piezas_Instaladas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Piezas_Retiradas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Equipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Usuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Tipo_Mantenimiento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Piezas_Instaladas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Piezas_Retiradas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observaciones)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
