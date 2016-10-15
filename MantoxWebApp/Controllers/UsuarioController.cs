@@ -17,6 +17,7 @@ namespace MantoxWebApp.Controllers
 {
     public class UsuarioController : MantoxController
     {
+        //Instancia de conexión por framework a base de datos
         private MantoxDBEntities bdMantox = new MantoxDBEntities();
         public string NombreContexto = "Usuarios";
         public string NombreObjeto = "Usuario";
@@ -137,7 +138,7 @@ namespace MantoxWebApp.Controllers
             }
 
         }
-        
+
 
         /// <summary>
         /// Devuelve un formulario de edición del usuario especificado por medio del Id
@@ -162,7 +163,7 @@ namespace MantoxWebApp.Controllers
                 ViewData.Add("NombreObjeto", this.NombreObjeto);
                 ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
 
-                //Objeto V_Usuarios de tipo con los datos del usuario que se está editando
+                //Objeto de tipo V_Usuarios con los datos del usuario que se está editando
                 ViewData.Add("UsuarioActual", bdMantox.V_Usuarios.FirstOrDefault(u => u.Id == id));
 
                 //Se devuelve el formulario de creación de usuario con un objeto de tipo V_Usuarios con los datos del usuario que se está editando
@@ -174,7 +175,7 @@ namespace MantoxWebApp.Controllers
                 return View("Error500");
             }
         }
-        
+
         /// <summary>
         /// Muestra un formulario para crear un usuario nuevo
         /// </summary>
@@ -219,27 +220,65 @@ namespace MantoxWebApp.Controllers
         {
             try
             {
+                //Creamos una instancia de usuario con los datos que recibimos del formulario
                 Usuario nuevoUsuario = new Usuario();
                 nuevoUsuario = (Usuario)usuariovm;
 
-                if(nuevoUsuario.Duplicado("V_Usuarios", new string[,] { { "Email", nuevoUsuario.Email } }))
-                {
+                //Creamos un diccionario con el email del usuario nuevo, para validar si ya existe
+                Dictionary<string, string> criteria = new Dictionary<string, string>();
+                criteria.Add("Email", nuevoUsuario.Email);
 
+                //Si el usuario no es nuevo (el id > 0) entonces validamos primero si ha cambiado el email
+                //Para ello consultamos a la bd y vemos el email actual y lo comparamos con el
+                //email enviado.
+                if (nuevoUsuario.Id > 0)
+                {
+                    //Seleccionamos el usuario por medio del id
+                    V_Usuarios usuarioSeleccionado = bdMantox.V_Usuarios.FirstOrDefault(u => u.Id == nuevoUsuario.Id);
+
+                    //Almacenamos el email en un string
+                    string emailUsuarioSeleccionado = usuarioSeleccionado.Email;
+
+                    //Comparamos este emaiil con el que se envió desde el formulario
+                    if (emailUsuarioSeleccionado != nuevoUsuario.Email)
+                    {
+                        //Si es diferente, validamos que no exista en la bd.
+                        if (nuevoUsuario.Duplicado("V_Usuarios", criteria))
+                        {
+                            //Si existe, se añade error al modelo.
+                            ModelState.AddModelError("Email", "El email ingresado ya existe.");
+                        }
+                    }
+                }
+                else
+                {
+                    //Si el usuario es nuevo (id  = 0), validamos que el email no exista.
+                    if (nuevoUsuario.Duplicado("V_Usuarios", criteria))
+                    {
+                        //Si existe, se añade error al modelo
+                        ModelState.AddModelError("Email", "El email ingresado ya existe.");
+                    }
                 }
 
+                //Validamos que no haya errores en el modelo
                 if (ModelState.IsValid)
                 {
-                    // No id so we add it to database
+                    //Si es usuario nuevo...
                     if (usuariovm.Id <= 0)
                     {
+                        //Lo añadirmos a la base de datos
                         bdMantox.Usuarios.Add(nuevoUsuario);
                     }
-                    else
+                    else //Si es usuario existente (id > 0)
                     {
+                        //Lo ponemos en estado modificado
                         bdMantox.Entry(nuevoUsuario).State = EntityState.Modified;
                     }
 
+                    //Enviamos los cambios a la base de datos
                     await bdMantox.SaveChangesAsync();
+
+                    //Redirigimos a la página de creación de usuario.
                     return RedirectToAction("Crear");
                 }
 
@@ -267,22 +306,15 @@ namespace MantoxWebApp.Controllers
                 return View("Error500");
             }
         }
-        
+
 
         // POST: Usuario/Editar/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Editar([Bind(Include = "Id,Nombre,Apellido,Email,Contrasena,Id_Rol,Id_Area,Id_Estado")] Usuario usuario)
+        public ActionResult Editar([Bind(Include = "Id,Nombre,Apellido,Email,Contrasena,Id_Rol,Id_Area,Id_Estado")] Usuario usuario)
         {
-            if (ModelState.IsValid)
-            {
-                bdMantox.Entry(usuario).State = EntityState.Modified;
-                await bdMantox.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
             llenarListasDesplegables();
 
             ViewBag.Roles = new MultiSelectList(roles, "RolId", "RolNombre");
@@ -303,21 +335,31 @@ namespace MantoxWebApp.Controllers
         // GET: Usuario/Delete/5
         public async Task<ActionResult> Eliminar(int? id)
         {
+            //Se valida si el id es nulo
             if (id == null)
             {
+                //Si es nulo se envía Error "Bad Request"
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            //Si no es nulo, se busca el id en la base de datos
             Usuario usuario = await bdMantox.Usuarios.FindAsync(id);
+
+            //Se valida si se encontró o no
             if (usuario == null)
             {
+                //Si no se encuentra, se devuelve error 404
                 return HttpNotFound();
             }
-            
+
+            //Finalmente, si se encuentra el usuario, se elimina
             bdMantox.Usuarios.Remove(usuario);
+            //Se guardan los cambios
             await bdMantox.SaveChangesAsync();
+            //Se devuelve error 200 (ok)
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
-        
+
 
         /// <summary>
         /// Vista inicial de inicio de sesión.
@@ -330,7 +372,7 @@ namespace MantoxWebApp.Controllers
         }
 
         /// <summary>
-        /// Crea una sesión y almacena en ella todos los detalles del usuario, tomados de la vista vist_usuarios. 
+        /// Crea una sesión y almacena en ella todos los detalles del usuario, tomados de la vista vist_usuarios.
         /// Devuelve la vista de inicio si el usuario inició correctamente la sesión, de lo contrario, devuelve la pantalla de inicio de sesión con los mensajes de error correspondientes.
         /// </summary>
         /// <param name="usuario">Models.Usuario: El usuario que inicia la sesión</param>
@@ -407,7 +449,7 @@ namespace MantoxWebApp.Controllers
                 bdMantox.Dispose();
             }
             base.Dispose(disposing);
-            
+
         }
 
         /// <summary>
@@ -458,7 +500,7 @@ namespace MantoxWebApp.Controllers
             }
 
         }
-        
+
 
     }
 }
