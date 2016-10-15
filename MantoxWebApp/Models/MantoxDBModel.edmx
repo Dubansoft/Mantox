@@ -89,8 +89,8 @@
           <Property Name="Piezas_Retiradas" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Observaciones" Type="varchar" MaxLength="1000" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inventarioHardware.dbo.Marcas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'inventarioHardware.dbo.Marcas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Marcas">
           <Key>
             <PropertyRef Name="id" />
@@ -213,8 +213,8 @@ advertencia 6002: La tabla o vista 'inventarioHardware.dbo.Marcas' no tiene defi
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Areas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'inventarioHardware.dbo.V_Areas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_Areas">
           <Key>
             <PropertyRef Name="Id" />
@@ -243,8 +243,8 @@ advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Areas' no tiene def
           <Property Name="Id_Empresa" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Edificios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'inventarioHardware.dbo.V_Edificios' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_Edificios">
           <Key>
             <PropertyRef Name="Id" />
@@ -269,8 +269,8 @@ advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Edificios' no tiene
           <Property Name="Id_Empresa" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Empresas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'inventarioHardware.dbo.V_Empresas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_Empresas">
           <Key>
             <PropertyRef Name="Id" />
@@ -283,8 +283,8 @@ advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Empresas' no tiene 
           <Property Name="Id_Estado" Type="int" Nullable="false" />
           <Property Name="Estado" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Equipos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'inventarioHardware.dbo.V_Equipos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_Equipos">
           <Key>
             <PropertyRef Name="Id" />
@@ -334,8 +334,8 @@ advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Equipos' no tiene d
           <Property Name="Version de Office" Type="varchar" MaxLength="50" />
           <Property Name="Estado" Type="varchar" MaxLength="50" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Modelos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'inventarioHardware.dbo.V_Modelos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_Modelos">
           <Key>
             <PropertyRef Name="Id" />
@@ -356,8 +356,8 @@ advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Modelos' no tiene d
           <Property Name="Id_Tipo_Equipo" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Sedes' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'inventarioHardware.dbo.V_Sedes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_Sedes">
           <Key>
             <PropertyRef Name="Id" />
@@ -378,8 +378,8 @@ advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Sedes' no tiene def
           <Property Name="Id_Empresa" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inventarioHardware.dbo.V_Usuarios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_Usuarios">
           <Key>
             <PropertyRef Name="Id" />

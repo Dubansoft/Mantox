@@ -222,36 +222,14 @@ namespace MantoxWebApp.Controllers
                 Usuario nuevoUsuario = new Usuario();
                 nuevoUsuario = (Usuario)usuariovm;
 
-                if (usuariovm.Id <= 0)
+                if(nuevoUsuario.Duplicado("V_Usuarios", new string[,] { { "Email", nuevoUsuario.Email } }))
                 {
-                    //Como no es inicio de sesion sino registro de nuevo usuario, validamos que el email no exista.
-                    if (nuevoUsuario.Duplicado("V_Usuarios", new string[,] { { "Email", nuevoUsuario.Email } }))
-                    {
-                        ModelState.AddModelError("Email", "El email que ha ingresado ya existe en la base de datos.");
-                    }
-                }else
-                {
-                    //Como es edicion de usuario existente, no usuario nuevo , validamos si el email enviado es diferente del existente, si lo es, validamos que no exista:
-
-                    //Validamos si el email es diferente del que hay en la base de datos
-                    string emailActualEnBaseDatos = bdMantox.Usuarios.Find(nuevoUsuario.Id).Email;
-                    if (emailActualEnBaseDatos != usuariovm.Email)
-                    {
-                        //Como como el usuario modificó el email, validamos que el email no exista.
-                        if (nuevoUsuario.Duplicado("V_Usuarios", new string[,] { { "Email", nuevoUsuario.Email } }))
-                        {
-                            ModelState.AddModelError("Email", "El email que ha ingresado ya existe en la base de datos.");
-                        }
-                    }
 
                 }
 
-                    
-                
-
                 if (ModelState.IsValid)
                 {
-                    //Como no es inicio de sesion sino registro de nuevo usuario, validamos que el email no exista.
+                    // No id so we add it to database
                     if (usuariovm.Id <= 0)
                     {
                         bdMantox.Usuarios.Add(nuevoUsuario);
@@ -372,9 +350,9 @@ namespace MantoxWebApp.Controllers
                         MantoxSqlServerConnectionHelper myMantoxSqlServerConnectionHelper = new MantoxSqlServerConnectionHelper();
 
                         SqlParameter[] myParams = new SqlParameter[] {
-                            new SqlParameter("@email", usuario.Email),
-                            new SqlParameter("@contrasena", usuario.Contrasena)
-                         };
+                        new SqlParameter("@email", usuario.Email),
+                        new SqlParameter("@contrasena", usuario.Contrasena)
+                    };
 
 
                         DataSet resDs = myMantoxSqlServerConnectionHelper.ConsultarQuery("paIniciarSesion", CommandType.StoredProcedure, myParams);

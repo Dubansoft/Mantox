@@ -14,23 +14,20 @@ namespace MantoxWebApp.Models
             MantoxSqlServerConnectionHelper sqlHelper = new MantoxSqlServerConnectionHelper();
 
             StringBuilder query = new StringBuilder();
-            query.Append("SELECT COUNT(*) FROM " + tableName + " WHERE ");
+                query.Append ("SELECT COUNT(*) FROM " + tableName + " WHERE ");
 
-
-            for (int i = 0; i < (criteria.Length/2); i++)
+            foreach(object _condition in criteria)
             {
-                string columnName = criteria[i,0].ToString();
-                string columnValue = criteria[i, 1].ToString();
-
-                query.Append(tableName + "." + columnName + "='" + columnValue + "' AND ");
-
+                string[] condition = (string[])_condition;
+                query.Append(tableName + "." + condition[0] + "='" + condition[1] + "' AND ");
+                
             }
-            
+
             query.Remove(query.Length - 4, 4);
 
             int rowCount = sqlHelper.ObtenerConteo(query.ToString(), System.Data.CommandType.Text, null);
 
-            if (rowCount > 0)
+            if(rowCount > 0)
             {
                 return true;
             }

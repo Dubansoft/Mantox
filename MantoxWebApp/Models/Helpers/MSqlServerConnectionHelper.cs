@@ -11,10 +11,9 @@ namespace MantoxWebApp.Models
 
         public MantoxSqlServerConnectionHelper(
             string connectionString = @"
-                    Server=PC-1803\mantox;
+                    Server=(local);
                     Database=inventarioHardware;
-                    User Id=sa;
-                    Password=CES5767366;")
+                    Integrated Security=SSPI;")
             : base(connectionString)
         {
             //Vacío

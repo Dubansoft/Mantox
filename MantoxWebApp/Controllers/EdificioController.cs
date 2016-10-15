@@ -8,8 +8,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MantoxWebApp.Models;
-using FileHelper;
-using System.Reflection;
 
 namespace MantoxWebApp.Controllers
 {
@@ -159,20 +157,12 @@ namespace MantoxWebApp.Controllers
         /// <returns>PartialView</returns>
         public PartialViewResult FiltrarEdificios(string idSede = "1")
         {
-            try
-            {
-                var id = int.Parse(idSede);
-                List<Edificio> sedes = bdMantox.Edificios.Where(s => s.Id_Sede == id).ToList();
+            var id = int.Parse(idSede);
+            List<Edificio> sedes = bdMantox.Edificios.Where(s => s.Id_Sede == id).ToList();
 
-                ViewBag.Edificios = new MultiSelectList(sedes, "Id", "Nombre");
+            ViewBag.Edificios = new MultiSelectList(sedes, "Id", "Nombre");
 
-                return PartialView("_VistaParcial_FiltrarEdificios");
-            }
-            catch (Exception e)
-            {
-                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
-                return null;
-            }
+            return PartialView("_VistaParcial_FiltrarEdificios");
         }
     }
 }

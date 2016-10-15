@@ -43,7 +43,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Email)
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
             <!-- /.form-group -->
@@ -245,17 +245,4 @@
 		    });
 	    });
     </script>
-    
-    @*@if (vu.Id > 0)
-    {
-        <script>
-            //Esto evita que el email sea cambiado cuando se está editando un usuario
-            var email = $("#Email").val();
-
-            $("#Email").attr('readonly', 'readonly');
-            $("#Email").on("change keyup mouseup",function () {
-                $("#Email").val([email]);
-            })
-        </script>
-    }*@
 }

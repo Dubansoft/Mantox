@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateHelper", "DateHelper\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileHelper", "FileHelper\FileHelper.csproj", "{C4995535-BA1A-45B2-B831-DE1C7C70B12D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{7FACABBD-742A-4144-8AD0-0704973FEA7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C4995535-BA1A-45B2-B831-DE1C7C70B12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4995535-BA1A-45B2-B831-DE1C7C70B12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4995535-BA1A-45B2-B831-DE1C7C70B12D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FACABBD-742A-4144-8AD0-0704973FEA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FACABBD-742A-4144-8AD0-0704973FEA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FACABBD-742A-4144-8AD0-0704973FEA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FACABBD-742A-4144-8AD0-0704973FEA7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
