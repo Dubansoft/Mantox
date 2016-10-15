@@ -39,13 +39,13 @@ namespace MantoxWebApp.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Login", "Usuario");
+                    return RedirectToAction("IniciarSesion", "Usuario");
                 }
             }
             catch (Exception)
             {
                 EliminarSesion();
-                return RedirectToAction("Login", "Usuario");
+                return RedirectToAction("IniciarSesion", "Usuario");
             }
 
         }

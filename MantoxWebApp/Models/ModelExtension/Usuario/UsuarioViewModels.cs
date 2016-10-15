@@ -38,7 +38,7 @@ namespace MantoxWebApp.Models
         public int Id_Estado { get; set; }
     }
 
-    public class LoginViewModel
+    public class IniciarSesionViewModel
     {
         [Required]
         [Display(Name = "Email")]
@@ -49,7 +49,7 @@ namespace MantoxWebApp.Models
         [Display(Name = "Contraseña")]
         public string Contrasena { get; set; }
     }
-    
+
 
     public partial class Usuario : MantoxModel
     {
@@ -77,7 +77,7 @@ namespace MantoxWebApp.Models
         /// Opeerador específico que convierte un objeto de clase UsuarViewModel en uno de clase Usuario
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator Usuario(LoginViewModel v)
+        public static explicit operator Usuario(IniciarSesionViewModel v)
         {
             Usuario u = new Usuario();
 
@@ -103,23 +103,16 @@ namespace MantoxWebApp.Models
         {
             try
             {
-                MantoxSqlServerConnectionHelper myMantoxSqlServerConnectionHelper = new MantoxSqlServerConnectionHelper();
-                
-                SqlParameter[] misParametros = new SqlParameter[] {
-                    new SqlParameter("@email", email),
-                    new SqlParameter("@contrasena", contrasena)
-                };
+                //Instancia de conexión por framework a base de datos
+                MantoxDBEntities bdMantox = new MantoxDBEntities();
 
-                int cuentaUsuarios = myMantoxSqlServerConnectionHelper.ObtenerConteo("paUsuarioExiste", CommandType.StoredProcedure, misParametros);
+                Usuario usuarioQueSeAutentica = bdMantox.Usuarios
+                    .Where(u => u.Email == email)
+                    .Where(u => u.Contrasena == contrasena)
+                    .FirstOrDefault();
 
-                if (cuentaUsuarios == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return usuarioQueSeAutentica != null;
+
             }
             catch (Exception e)
             {
@@ -128,6 +121,35 @@ namespace MantoxWebApp.Models
             }
 
         }
+
+        ///// <summary>
+        ///// Selecciona un usuario por medio del email y lo devuelve
+        ///// </summary>
+        ///// <param name="email">Email del usuario</param>
+        ///// <returns></returns>
+        //public V_Usuarios ObtenerVistaUsuario(string email)
+        //{
+        //    try
+        //    {
+        //        //Instancia de conexión por framework a base de datos
+        //        MantoxDBEntities bdMantox = new MantoxDBEntities();
+
+        //        //Selecciona la vista de usuario usando el email
+        //        V_Usuarios vu = bdMantox.V_Usuarios
+        //            .Where(u => u.Email == email)
+        //            .FirstOrDefault();
+
+        //        //Devuelve la vista de usuario
+        //        return vu;
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        EventLogger.LogEvent(this, e.Message.ToString(), e);
+        //        return null;
+        //    }
+        //}
+
     }
 
 

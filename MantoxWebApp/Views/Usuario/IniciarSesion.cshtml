@@ -1,4 +1,4 @@
-﻿@model MantoxWebApp.Models.LoginViewModel
+﻿@model MantoxWebApp.Models.IniciarSesionViewModel
 @{
     ViewBag.Title = "IniciarSesion";
     Layout = "~/Views/Shared/_PlantillaIniciarSesion.cshtml";
@@ -6,7 +6,7 @@
 
     <p class="login-box-msg">Con&eacute;ctese para ingresar al sistema</p>
 
-    @using (Html.BeginForm("Login", "Usuario", FormMethod.Post, new { @id = "formulario_inicio_sesion" }))
+    @using (Html.BeginForm("IniciarSesion", "Usuario", FormMethod.Post, new { @id = "formulario_inicio_sesion" }))
     {
         if (!ViewData.ModelState.IsValidField("submit"))
         {

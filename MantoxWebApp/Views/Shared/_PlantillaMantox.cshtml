@@ -2,7 +2,7 @@
 
 @*@{
     var json = new JavaScriptSerializer().Serialize(Session);
-    
+
 }
 
 
@@ -26,7 +26,7 @@
 
 //THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-//    
+//
 
 -->
 
@@ -218,7 +218,7 @@
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            @(Html.ActionLink("Cerrar sesión", "Logout", new { controller = "Usuario" }, new { @class = "btn btn-default btn-flat" }))
+                                            @(Html.ActionLink("Cerrar sesión", "CerrarSesion", new { controller = "Usuario" }, new { @class = "btn btn-default btn-flat" }))
                                         </div>
                                     </li>
                                 </ul>
@@ -772,7 +772,7 @@
     </div>
 
     <!--/Modals-->
-    
+
     @if (ViewBag.Plantilla == null)
     {
         <!-- Remove iframes -->
@@ -783,7 +783,7 @@
         </script>
     <!-- /End remove iframes -->
     }
-        
+
 </body>
 
 </html>

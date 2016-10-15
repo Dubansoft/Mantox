@@ -17,7 +17,7 @@ namespace MantoxWebApp.Controllers
 {
     public class UsuarioController : MantoxController
     {
-        //Instancia de conexión por framework a base de datos
+        ///Instancia de conexión por framework a la base de datos
         private MantoxDBEntities bdMantox = new MantoxDBEntities();
         public string NombreContexto = "Usuarios";
         public string NombreObjeto = "Usuario";
@@ -43,7 +43,7 @@ namespace MantoxWebApp.Controllers
         IEnumerable empresas; //Almacenará la lista de empresas
 
         /// <summary>
-        /// Index modificado,redirige Ver()
+        /// Index modificado,redirige a Ver()
         /// </summary>
         /// <returns>View</returns>
         public ActionResult Index()
@@ -75,7 +75,6 @@ namespace MantoxWebApp.Controllers
                 ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
                 return View("Error500");
             }
-
         }
 
         /// <summary>
@@ -138,7 +137,6 @@ namespace MantoxWebApp.Controllers
             }
 
         }
-
 
         /// <summary>
         /// Devuelve un formulario de edición del usuario especificado por medio del Id
@@ -211,6 +209,7 @@ namespace MantoxWebApp.Controllers
 
         /// <summary>
         /// Recibe los datos del formulario de creación de usuarios, los valida y los inserta a la base de datos.
+        /// Este método también es usado para actualizar un usuario existente.
         /// </summary>
         /// <param name="usuariovm">UsuarioViewModel</param>
         /// <returns></returns>
@@ -242,8 +241,8 @@ namespace MantoxWebApp.Controllers
                     //Comparamos este emaiil con el que se envió desde el formulario
                     if (emailUsuarioSeleccionado != nuevoUsuario.Email)
                     {
-                        //Si es diferente, validamos que no exista en la bd.
-                        if (nuevoUsuario.Duplicado("V_Usuarios", criteria))
+                        //Si es diferente, validamos que el email del usuario no exista en la bd.
+                        if(bdMantox.V_Usuarios.FirstOrDefault(u => u.Email == nuevoUsuario.Email) != null)
                         {
                             //Si existe, se añade error al modelo.
                             ModelState.AddModelError("Email", "El email ingresado ya existe.");
@@ -253,7 +252,7 @@ namespace MantoxWebApp.Controllers
                 else
                 {
                     //Si el usuario es nuevo (id  = 0), validamos que el email no exista.
-                    if (nuevoUsuario.Duplicado("V_Usuarios", criteria))
+                    if (bdMantox.V_Usuarios.FirstOrDefault(u => u.Email == nuevoUsuario.Email) != null)
                     {
                         //Si existe, se añade error al modelo
                         ModelState.AddModelError("Email", "El email ingresado ya existe.");
@@ -308,56 +307,44 @@ namespace MantoxWebApp.Controllers
         }
 
 
-        // POST: Usuario/Editar/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Editar([Bind(Include = "Id,Nombre,Apellido,Email,Contrasena,Id_Rol,Id_Area,Id_Estado")] Usuario usuario)
-        {
-            llenarListasDesplegables();
-
-            ViewBag.Roles = new MultiSelectList(roles, "RolId", "RolNombre");
-            ViewBag.Areas = new MultiSelectList(areas, "AreaId", "AreaNombre");
-            ViewBag.Estados = new MultiSelectList(estados, "EstadoId", "EstadoNombre");
-            ViewBag.Empresas = new MultiSelectList(empresas, "EmpresaId", "EmpresaNombre");
-
-            ViewBag.Accion = "Editar";
-            ViewBag.Plantilla = "formTemplate";
-
-            ViewData.Add("NombreContexto", this.NombreContexto);
-            ViewData.Add("NombreObjeto", this.NombreObjeto);
-            ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
-
-            return View(usuario);
-        }
-
-        // GET: Usuario/Delete/5
+        /// <summary>
+        /// Elimina el usuario especificado por medio de la id
+        /// </summary>
+        /// <param name="id">Id del usuario que se va a eliminar</param>
+        /// <returns></returns>
         public async Task<ActionResult> Eliminar(int? id)
         {
-            //Se valida si el id es nulo
-            if (id == null)
+            try
             {
-                //Si es nulo se envía Error "Bad Request"
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //Se valida si el id es nulo
+                if (id == null)
+                {
+                    //Si es nulo se envía Error "Bad Request"
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                //Si no es nulo, se busca el id en la base de datos
+                Usuario usuario = await bdMantox.Usuarios.FindAsync(id);
+
+                //Se valida si se encontró o no
+                if (usuario == null)
+                {
+                    //Si no se encuentra, se devuelve error 404
+                    return HttpNotFound();
+                }
+
+                //Finalmente, si se encuentra el usuario, se elimina
+                bdMantox.Usuarios.Remove(usuario);
+                //Se guardan los cambios
+                await bdMantox.SaveChangesAsync();
+                //Se devuelve error 200 (ok)
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
-
-            //Si no es nulo, se busca el id en la base de datos
-            Usuario usuario = await bdMantox.Usuarios.FindAsync(id);
-
-            //Se valida si se encontró o no
-            if (usuario == null)
+            catch (Exception e)
             {
-                //Si no se encuentra, se devuelve error 404
-                return HttpNotFound();
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return View("Error500");
             }
-
-            //Finalmente, si se encuentra el usuario, se elimina
-            bdMantox.Usuarios.Remove(usuario);
-            //Se guardan los cambios
-            await bdMantox.SaveChangesAsync();
-            //Se devuelve error 200 (ok)
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
 
@@ -366,7 +353,7 @@ namespace MantoxWebApp.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult IniciarSesion()
         {
             return View();
         }
@@ -378,10 +365,12 @@ namespace MantoxWebApp.Controllers
         /// <param name="usuario">Models.Usuario: El usuario que inicia la sesión</param>
         /// <returns>ActionResult.</returns>
         [HttpPost]
-        public ActionResult Login(LoginViewModel usuarioQueSeAutentica)
+        public ActionResult IniciarSesion(IniciarSesionViewModel usuarioQueSeAutentica)
         {
             try
             {
+                //Instancia de conexión por framework a base de datos
+                MantoxDBEntities bdMantox = new MantoxDBEntities();
 
                 if (ModelState.IsValid)
                 {
@@ -392,9 +381,9 @@ namespace MantoxWebApp.Controllers
                         MantoxSqlServerConnectionHelper myMantoxSqlServerConnectionHelper = new MantoxSqlServerConnectionHelper();
 
                         SqlParameter[] myParams = new SqlParameter[] {
-                        new SqlParameter("@email", usuario.Email),
-                        new SqlParameter("@contrasena", usuario.Contrasena)
-                    };
+                            new SqlParameter("@email", usuario.Email),
+                            new SqlParameter("@contrasena", usuario.Contrasena)
+                        };
 
 
                         DataSet resDs = myMantoxSqlServerConnectionHelper.ConsultarQuery("paIniciarSesion", CommandType.StoredProcedure, myParams);
@@ -432,10 +421,10 @@ namespace MantoxWebApp.Controllers
         /// Cierra la sesión del usuario. Devuelve la vista de inicio de sesión.
         /// </summary>
         /// <returns>ActionResult</returns>
-        public ActionResult Logout()
+        public ActionResult CerrarSesion()
         {
             EliminarSesion();
-            return RedirectToAction("Login", "Usuario");
+            return RedirectToAction("IniciarSesion", "Usuario");
         }
 
         /// <summary>
@@ -500,7 +489,5 @@ namespace MantoxWebApp.Controllers
             }
 
         }
-
-
     }
 }
