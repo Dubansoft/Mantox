@@ -30,13 +30,13 @@ namespace MantoxWebApp.Models
             bool filtrarPorEmpresa = false;
 
             //El filtrado por empresa NO debe estar activado para usuarios no desarrolladores:
-            switch ((MantoxUserRole)HttpContext.Current.Session["Id_Rol"])
+            switch ((RoleDeUsuario)HttpContext.Current.Session["Id_Rol"])
                 {
-                    case MantoxUserRole.Desarrollador:
+                    case RoleDeUsuario.Desarrollador:
                         //No se añaden restricciones a las empresas que puede ver el desarrollador
                         break;
-                    case MantoxUserRole.Administrador:
-                    case MantoxUserRole.Reportes:
+                    case RoleDeUsuario.Administrador:
+                    case RoleDeUsuario.Reportes:
                     default:
                         filtrarPorEmpresa = true;
                         break;
@@ -80,10 +80,10 @@ namespace MantoxWebApp.Models
         }
 
         /// <summary>
-        /// Convierte un objeto de clase UsuarioViewModel en un objeto de clase V_Usuarios
+        /// Convierte un objeto de clase CrearEditarUsuarioViewModel en un objeto de clase V_Usuarios
         /// </summary>
-        /// <param name="usuariovm">UsuarioViewModel</param>
-        public static explicit operator V_Usuarios(UsuarioViewModel usuariovm)
+        /// <param name="usuariovm">CrearEditarUsuarioViewModel</param>
+        public static explicit operator V_Usuarios(CrearEditarUsuarioViewModel usuariovm)
         {
             V_Usuarios vu = new V_Usuarios();
 

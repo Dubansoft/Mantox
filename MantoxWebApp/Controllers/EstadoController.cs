@@ -29,7 +29,7 @@ namespace MantoxWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Estado estado = await db.Estados.FindAsync(id);
+            Models.Estado estado = await db.Estados.FindAsync(id);
             if (estado == null)
             {
                 return HttpNotFound();
@@ -51,7 +51,7 @@ namespace MantoxWebApp.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Nombre")] Estado estado)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Nombre")] Models.Estado estado)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace MantoxWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Estado estado = await db.Estados.FindAsync(id);
+            Models.Estado estado = await db.Estados.FindAsync(id);
             if (estado == null)
             {
                 return HttpNotFound();
@@ -83,7 +83,7 @@ namespace MantoxWebApp.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Nombre")] Estado estado)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Nombre")] Models.Estado estado)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace MantoxWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Estado estado = await db.Estados.FindAsync(id);
+            Models.Estado estado = await db.Estados.FindAsync(id);
             if (estado == null)
             {
                 return HttpNotFound();
@@ -114,7 +114,7 @@ namespace MantoxWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Estado estado = await db.Estados.FindAsync(id);
+            Models.Estado estado = await db.Estados.FindAsync(id);
             db.Estados.Remove(estado);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

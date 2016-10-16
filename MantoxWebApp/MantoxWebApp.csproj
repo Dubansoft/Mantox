@@ -269,6 +269,7 @@
     <Compile Include="Models\Marca.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelExtension\Enums\Enumeradores.cs" />
     <Compile Include="Models\ModelExtension\JSONSearchQuery.cs" />
     <Compile Include="Models\ModelExtension\Piso.cs" />
     <Compile Include="Models\ModelExtension\Usuario\UsuarioViewModels.cs" />

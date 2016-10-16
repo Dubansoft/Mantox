@@ -19,7 +19,7 @@ namespace MantoxWebApp.Controllers
         // GET: Edificio
         public async Task<ActionResult> Index()
         {
-            return VistaAutenticada(View(await bdMantox.Edificios.ToListAsync()), MantoxUserRole.Reportes);
+            return VistaAutenticada(View(await bdMantox.Edificios.ToListAsync()), RoleDeUsuario.Reportes);
         }
 
         // GET: Edificio/Details/5

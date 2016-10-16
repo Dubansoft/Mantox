@@ -13,13 +13,15 @@ namespace MantoxWebApp.Controllers
 {
     public class AreaController : MantoxController
     {
+        ///Instancia de conexión por framework a la base de datos
         private MantoxDBEntities bdMantox = new MantoxDBEntities();
-        public string NombreContexto = "Area";
+        public string NombreContexto = "Areas";
+        public string NombreObjeto = "Area";
 
         // GET: Area
         public async Task<ActionResult> Index()
         {
-            return VistaAutenticada(View(await bdMantox.Areas.ToListAsync()), MantoxUserRole.Reportes);
+            return VistaAutenticada(View(await bdMantox.Areas.ToListAsync()), RoleDeUsuario.Reportes);
         }
 
         // GET: Area/Details/5
@@ -78,7 +80,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Area/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -113,7 +115,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Area/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
