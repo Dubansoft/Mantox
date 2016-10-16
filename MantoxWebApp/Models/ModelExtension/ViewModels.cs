@@ -12,11 +12,11 @@ using System.Web.Script.Serialization;
 
 namespace MantoxWebApp.Models
 {
-    
+
     public class MantoxViewModel
     {
         /// <summary>
-        /// Diccionario que devuelve estos índices: TablaResultados, TotalFilas, FilasPorPagina, PaginaActual y TotalPaginas. TotalFilas contiene los datos que se mostrarán en la página y TotalResultados es un entero que representa la cantidad total de registros encontrados en la base de datos para los criterios de búsqueda enviados. Este entero se usa para mostrar la cantidad de páginas y el total de resultados en el paginador de la tabla dinámica de los indexes de cada controlador. 
+        /// Diccionario que devuelve estos índices: TablaResultados, TotalFilas, FilasPorPagina, PaginaActual y TotalPaginas. TotalFilas contiene los datos que se mostrarán en la página y TotalResultados es un entero que representa la cantidad total de registros encontrados en la base de datos para los criterios de búsqueda enviados. Este entero se usa para mostrar la cantidad de páginas y el total de resultados en el paginador de la tabla dinámica de los indexes de cada controlador.
         /// </summary>
         /// <param name="tabla">Tabla o vista que se usará para la consulta.</param>
         /// <param name="searchString">Texto buscado</param>
@@ -27,12 +27,12 @@ namespace MantoxWebApp.Models
         /// <param name="rows">Número de filas que se deben mostrar en la tabla</param>
         /// <param name="searchField">Nombre de la columma de búsqueda, por defecto ninguna.</param>
         /// <param name="filters">Cadena JSON con los filtros que se usarán para busquedas generales que involucrarán todas las columnas de la tabla.</param>
+        /// <param name="filtrarPorEmpresa">Activa el filtrado de datos por  medio de la comuna Id_Empresa. Solo se debe activar si la tabla consultada tiene tal columna, de lo contrario, se generará un error de lectura en la base de datos.</param>
         /// <returns></returns>
-        public Dictionary<string, object> ObtenerTablaVistaDinamica(string tabla, string searchString, int idEmpresa, string sidx, string sord, int page, int rows, string searchField, string filters)
+        public Dictionary<string, object> ObtenerTablaVistaDinamica(string tabla, string searchString, int idEmpresa, string sidx, string sord, int page, int rows, string searchField, string filters, bool filtrarPorEmpresa = false)
         {
             //Creamos nueva instancia del ayudante de base de datos
             MantoxSqlServerConnectionHelper myMantoxSqlServerConnectionHelper = new MantoxSqlServerConnectionHelper();
-
 
             //Definimos las variables a usar en la consulta
             string nombreTabla = tabla;
@@ -41,12 +41,12 @@ namespace MantoxWebApp.Models
             int id_empresa = idEmpresa;
             string columnaOrdenamiento = (sidx == null) ? "" : sidx;
             string tipoOrdenamiento = (sord == null) ? "" : sord;
-            string filtrosBusquedaGeneral = (filters == null) ? "" : filters;           
-            
+            string filtrosBusquedaGeneral = (filters == null) ? "" : filters;
+
             //Definimos entero para almacenar el conteo general de los resultados
             int totalFilas = 0;
 
-            //Definimos entero para almacenar la página actual solicitada. 
+            //Definimos entero para almacenar el numero de la página actual solicitada.
             int paginaActual = 0;
 
             //Creamos enteros para almacenar los diferentes valores requeridos por el paginador
@@ -59,7 +59,7 @@ namespace MantoxWebApp.Models
 
             #region Conteo de Registros y Paginación
 
-            //Segmento de query que permite retornar el conteo general de los resultados 
+            //Segmento de query que permite retornar el conteo general de los resultados
             //con los criterios de busqueda enviados, se contruye con un StringBuilder
             StringBuilder queryConteoGeneral = new StringBuilder();
 
@@ -68,18 +68,18 @@ namespace MantoxWebApp.Models
                 @", * FROM " + nombreTabla + " "
             );
 
-            //Si hay concepto de búsqueda, añadir cláusula WHERE
-            if (
-                conceptoBusqueda.Length > 0 
-                && columnaBusqueda.Length > 0
-                )
+            //Si hay concepto de búsqueda Y columna específica de busqueda,
+            //añadir cláusula WHERE con términos de busqueda
+            if (conceptoBusqueda.Length > 0 && columnaBusqueda.Length > 0)
             {
                 queryConteoGeneral.Append(
                     @" WHERE " + nombreTabla + "." + columnaBusqueda + @" LIKE '%" + conceptoBusqueda + @"%' "
                 );
             }else if(
-                conceptoBusqueda.Length == 0 
-                && columnaBusqueda.Length == 0
+                //Si hay concepto de busqueda Y no hay columna especifica,
+                //y hay filtros de busqueda general (en todas las columnas),
+                //añadismos la clausua WHERE con los terminos de busqueda.
+                conceptoBusqueda.Length == 0 && columnaBusqueda.Length == 0
                 && filtrosBusquedaGeneral.Length > 0
                 )
             {
@@ -119,11 +119,37 @@ namespace MantoxWebApp.Models
                         queryConteoGeneral.Append(
                             @"" + nombreTabla + "." + columnaBusqueda + @" LIKE '%" + conceptoBusqueda + @"%' OR "
                         );
-                        
                     }
                     //Eliminar el último OR
                     queryConteoGeneral = queryConteoGeneral.Remove(queryConteoGeneral.ToString().Length - 3, 3);
                 }
+            }
+
+            //Si está activado el filtrado de empresas, se añade la cláusula al query
+            if (filtrarPorEmpresa)
+            {
+                //Almacenar id de la empresa del usuario actual en variable int
+                int idEmpresaDeUsuarioActual = (int)System.Web.HttpContext.Current.Session["Id_Empresa"];
+
+                //Validamos que query no tenga no tenga una búsqueda activa que condicione
+                //los resultados. Si la hay, la query ya tiene un "WHERE",
+                //por tanto, solo se añade una clausula adicional empezando con AND
+                if (queryConteoGeneral.ToString().Contains("WHERE"))
+                {
+                    //Añadir las condiciones al query
+                    queryConteoGeneral.Append(
+                                @" AND Id_Empresa = " + idEmpresaDeUsuarioActual.ToString() + ""
+                            );
+                }else
+                {
+                    //Si lo anterior es falso, se añade la condicion completa, empezando con "WHERE"
+                    queryConteoGeneral.Append(
+                                @" WHERE Id_Empresa = " + idEmpresaDeUsuarioActual.ToString() + ""
+                            );
+                }
+
+
+
             }
 
             //Contamos las filas y añadimos el valor a totalFilas por medio de la consulta a la bd.
@@ -137,7 +163,7 @@ namespace MantoxWebApp.Models
             //mostrar la página solicitada de acuerdo al total de filas encontradas
             if (page <= 0) {
                 //Si la pagina solicitada no fue definida, se asigna 1 a paginaActual
-                paginaActual = 1; 
+                paginaActual = 1;
             }else if (page > totalPaginas)
             {
                 //Si la página solicitada es mayor a la cantidad total de ppáginas se asigna el total de paginas a
@@ -171,7 +197,7 @@ namespace MantoxWebApp.Models
                 WHERE NumeroFila BETWEEN " + desdeFila + @" AND " + hastaFila
                 );
 
-            
+
             //Creamos nuevo dataset para los resultados de la consulta
             DataSet resultadosDataset = new DataSet();
 
@@ -180,7 +206,7 @@ namespace MantoxWebApp.Models
 
             //Creamos datatable para almacenar la tabla de resultados
             DataTable UsuariosDt = new DataTable();
-            
+
             //Asignamos el valor a UsuariosDt tomando la primera tabla del Dataset
             UsuariosDt = resultadosDataset.Tables[0];
 

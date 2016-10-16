@@ -1,10 +1,8 @@
-﻿using FileHelper;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using static MantoxWebApp.Controllers.MantoxController;
 
 namespace MantoxWebApp.Models
 {
@@ -28,8 +26,24 @@ namespace MantoxWebApp.Models
         /// <returns>Dictionary de string,object</returns>
         public Dictionary<string,object> BuscarUsuarios(string searchString, int idEmpresa, string sidx, string sord, int page, int rows, string searchField, string filters)
         {
+            //Definimos variable para almacener el True o el False que activará o no el filtrado
+            bool filtrarPorEmpresa = false;
+
+            //El filtrado por empresa NO debe estar activado para usuarios no desarrolladores:
+            switch ((MantoxUserRole)HttpContext.Current.Session["Id_Rol"])
+                {
+                    case MantoxUserRole.Desarrollador:
+                        //No se añaden restricciones a las empresas que puede ver el desarrollador
+                        break;
+                    case MantoxUserRole.Administrador:
+                    case MantoxUserRole.Reportes:
+                    default:
+                        filtrarPorEmpresa = true;
+                        break;
+                }
+
             //Devolvemos el resultado de la consulta genérica ObtenerTablaVistaDinamica
-            return ObtenerTablaVistaDinamica("V_Usuarios", searchString, idEmpresa, sidx, sord, page, rows, searchField, filters);
+            return ObtenerTablaVistaDinamica("V_Usuarios", searchString, idEmpresa, sidx, sord, page, rows, searchField, filters, filtrarPorEmpresa);
         }
 
         /// <summary>
@@ -98,7 +112,7 @@ namespace MantoxWebApp.Models
         }
 
 
-        
+
     }
 
 }

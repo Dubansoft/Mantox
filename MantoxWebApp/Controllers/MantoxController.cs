@@ -15,6 +15,8 @@
 using FileHelper;
 using System;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,18 +35,35 @@ namespace MantoxWebApp.Controllers
         /// </summary>
         /// <param name="defaultView">La vista que se mostrará si hay una sesión de usuario activa.</param>
         /// <returns>View()</returns>
-        public ActionResult VistaAutenticada(ActionResult defaultView, MantoxUserRoles rolPermitido)
+        public ActionResult VistaAutenticada(ActionResult defaultView, MantoxUserRole rolPermitido)
         {
             try
             {
                 //Si hay sesión se valida si tiene acceso
                 //Si no hay sesión,se envía a iniciar sesón
                 //Si no tiene acceso se muestra 401: No autorizado
-                return (
-                    HaySesion())?
-                        TieneAcceso(defaultView, rolPermitido) :
-                    RedirectToAction("IniciarSesion", "Usuario"
-                    );
+
+
+                if (HaySesion())
+                {
+                    //El siguiente proceso encripta el id del rol para usarlo en JavaScript
+                    MD5 md5 = new MD5CryptoServiceProvider();
+                    byte[] originalBytes = ASCIIEncoding.Default.GetBytes(System.Web.HttpContext.Current.Session["Id_Rol"].ToString());
+                    byte[] encodedBytes = md5.ComputeHash(originalBytes);
+
+                    //Creamos una variable en la sesión con la clave Id_Rol_Encriptado.
+                    System.Web.HttpContext.Current.Session["Id_Rol_Encriptado"] = BitConverter.ToString(encodedBytes).Replace("-", "").ToLower();
+
+                    //Eliminamos la clave Contrasena de la sesion
+                    System.Web.HttpContext.Current.Session["Contrasena"] = "";
+
+                    return TieneAcceso(defaultView, rolPermitido);
+
+                }else
+                {
+                    return RedirectToAction("IniciarSesion", "Usuario");
+                }
+
 
             }
             catch (Exception e)
@@ -61,7 +80,7 @@ namespace MantoxWebApp.Controllers
         /// </summary>
         /// <param name="defaultPartialView">La vista parcial que se mostrará si hay una sesión de usuario activa.</param>
         /// <returns>View()</returns>
-        public PartialViewResult VistaAutenticada(PartialViewResult defaultPartialView, MantoxUserRoles rolPermitido)
+        public PartialViewResult VistaAutenticada(PartialViewResult defaultPartialView, MantoxUserRole rolPermitido)
         {
             try
             {
@@ -90,7 +109,7 @@ namespace MantoxWebApp.Controllers
         /// <param name="defaultView">La vista que se mostrará si tiene acceso</param>
         /// <param name="role">El rol máximo permitido para acceder a esta vista.</param>
         /// <returns></returns>
-        public ActionResult TieneAcceso(ActionResult defaultView, MantoxUserRoles role)
+        public ActionResult TieneAcceso(ActionResult defaultView, MantoxUserRole role)
         {
             try
             {
@@ -122,7 +141,7 @@ namespace MantoxWebApp.Controllers
         /// <param name="defaultView">La vista que se mostrará si tiene acceso</param>
         /// <param name="role">El rol máximo permitido para acceder a esta vista.</param>
         /// <returns></returns>
-        public PartialViewResult TieneAcceso(PartialViewResult defaultView, MantoxUserRoles role)
+        public PartialViewResult TieneAcceso(PartialViewResult defaultView, MantoxUserRole role)
         {
             try
             {
@@ -151,7 +170,7 @@ namespace MantoxWebApp.Controllers
         /// Rol de usuario que tiene acceso al método
         /// </summary>
         /// <param name="role"></param>
-        public bool TieneAcceso(MantoxUserRoles role)
+        public bool TieneAcceso(MantoxUserRole role)
         {
             try
             {
@@ -211,12 +230,26 @@ namespace MantoxWebApp.Controllers
         /// <summary>
         /// Listado de roles de usuario, deben concordar con la tabla dbo.Roles de la base de datos.
         /// </summary>
-        public enum MantoxUserRoles
+        public enum MantoxUserRole
         {
             Desarrollador = 1,
             Administrador = 2,
             Reportes = 3
 
+        }
+
+        /// <summary>
+        /// Listado de estados, deben concordar con la tabla dbo.Estados de la base de datos.
+        /// </summary>
+        public enum MantoxStatusOption
+        {
+            Activo = 1,
+            Inactivo = 2,
+            Mantenimiento = 3,
+            Reparación = 4,
+            Garantía = 5,
+            Baja = 6,
+            Contingencia = 7
         }
 
     }

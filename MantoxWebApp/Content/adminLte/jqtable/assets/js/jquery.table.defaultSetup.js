@@ -2,8 +2,7 @@ jQuery(function ($) {
             var grid_selector = "#grid-table";
             var pager_selector = "#grid-pager";
             var modal_iframe = $("#modalPrincipal");
-            var modal_confirmacion = $("#modalConfirmacion");   
-            //var parent_column = $(grid_selector).closest('[class*="col-"]');
+            var modal_confirmacion = $("#modalConfirmacion");
             var parent_column = $(grid_selector).closest('[class*="box-body"]');
 
             //resize to fit page size
@@ -45,12 +44,12 @@ jQuery(function ($) {
                   }, 500);
               }
             })
-            
+
             //Configuración de la tabla
             jQuery(grid_selector).jqGrid({
                 url: grid_data_url,
                 mtype: method_type,
-    			datatype: data_type,  
+    			datatype: data_type,
 
     			subGrid: show_subgrid,
                 loadonce: load_once,
@@ -68,7 +67,7 @@ jQuery(function ($) {
                 height: grid_height,
                 colNames: column_names,
                 colModel: column_model ,
-                
+
                 viewrecords: true,
 
                 rowNum: row_number_width,
@@ -91,7 +90,6 @@ jQuery(function ($) {
                     }, 0);
                 },
 
-                editurl: edit_url,
                 caption: grid_caption,
                 grouping: grid_grouping,
                 groupingView : {
@@ -108,7 +106,7 @@ jQuery(function ($) {
                 }
 
             });
-            
+
             var timer;
             //Esta función recarga la tabla con los resultados iniciales cuando se limpia el formulario de búsqueda
             $('#search_cells_form').on('reset', function (e) {
@@ -118,7 +116,7 @@ jQuery(function ($) {
                     $(grid_selector).jqGrid('setGridParam', { search: false, postData: { "filters": "" } }).trigger("reloadGrid");
                 },400);
             });
-            
+
             //Esta función recarga la tabla con los resultados de búsqueda ingresados en la casilla de búsqueda, si no hay texto en la casilla, recarga la tabla con los resultados iniciales.
             $("#search_cells").on("keyup", function () {
                 var searchTerm = $("#search_cells").val().trim();
@@ -138,7 +136,7 @@ jQuery(function ($) {
                 },400);
             });
 
-            //Esta función abre una ventana modal para editar 
+            //Esta función abre una ventana modal para editar
             $('#search_cells_form').on('submit', function (e) {
                 if (timer) { clearTimeout(timer); }
                 timer = setTimeout(function () {
@@ -146,7 +144,7 @@ jQuery(function ($) {
                 }, 0);
             });
 
-				
+
             $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
             //navButtons
@@ -223,7 +221,7 @@ jQuery(function ($) {
                     //multipleSearch: true
                     //multipleGroup:true,
                     //showQuery: true
-                    
+
                 },
                 {
                     //view record form
@@ -381,73 +379,84 @@ jQuery(function ($) {
                     crearConfirmacionModal("Error", "Debe seleccionar un elemento antes de continuar", "modalOk");
                     return false;
                 }
-            }     
+            }
 
-    //Custom icon for * Delete
-            $(grid_selector).navButtonAdd(pager_selector, {
-                caption: '',
-                title: "Eliminar",
-                buttonicon: "ace-icon fa fa-trash-o red",
-                onClickButton: function () {
-                    if (idSeleccionado() == false) { return; }
+            var dpe = "c4ca4238a0b923820dcc509a6f75849b";
+            var ape = "c81e728d9d4c2f636f067f89cc14862c";
+            var dpei = 1;
+            var apei = 2;
 
-                    $("#modalResponseSi").bind("click", function () {
 
-                        var newUrl = base_url + grid_controller + '/Eliminar/' + idSeleccionado();
+    //Validamos los permisos de usuario
+            if ((pex == dpe && pexi == dpei) || (pex == ape && pexi == apei)) {
 
-                        $.ajax({
-                            url: newUrl,
-                            fail: function (result) {
-                                setTimeout(function () {
-                                    crearConfirmacionModal("Fall&oacute; la eliminaci&oacute;n", "No se ha eliminado el elemento", "modalOk");
-                                }, 500);
-                            },
-                            statusCode: {
-                                404: function () {
+                //Custom icon for * Delete
+                $(grid_selector).navButtonAdd(pager_selector, {
+                    caption: '',
+                    title: "Eliminar",
+                    buttonicon: "ace-icon fa fa-trash-o red",
+                    onClickButton: function () {
+                        if (idSeleccionado() == false) { return; }
+
+                        $("#modalResponseSi").bind("click", function () {
+
+                            var newUrl = base_url + grid_controller + '/Eliminar/' + idSeleccionado();
+
+                            $.ajax({
+                                url: newUrl,
+                                fail: function (result) {
                                     setTimeout(function () {
-                                        crearConfirmacionModal("Error 404", "No se ha encontrado la p&aacute;gina", "modalOk");
+                                        crearConfirmacionModal("Fall&oacute; la eliminaci&oacute;n", "No se ha eliminado el elemento", "modalOk");
                                     }, 500);
                                 },
-                                200: function () {
-                                    $(grid_selector).trigger('reloadGrid');
+                                statusCode: {
+                                    404: function () {
+                                        setTimeout(function () {
+                                            crearConfirmacionModal("Error 404", "No se ha encontrado la p&aacute;gina", "modalOk");
+                                        }, 500);
+                                    },
+                                    200: function () {
+                                        $(grid_selector).trigger('reloadGrid');
+                                    }
                                 }
-                            }
+                            });
+
+                            $("#modalResponseSi").unbind("click");
+
                         });
 
-                        $("#modalResponseSi").unbind("click");
+                        crearConfirmacionModal("Eliminar " + grid_controller, "&iquest;Confirma que desea eliminar este/a " + grid_controller + "?", "modalSiNo");
+                    },
+                    position: "first"
+                });
 
-                    });
 
-                    crearConfirmacionModal("Eliminar " + grid_controller, "&iquest;Confirma que desea eliminar este/a " + grid_controller + "?", "modalSiNo");
-                },
-                position: "first"
-            });
 
-   
+                //Custom icon for Edit Action
+                $(grid_selector).navButtonAdd(pager_selector, {
+                    caption: '',
+                    title: "Editar",
+                    buttonicon: "ui-icon ace-icon fa fa-pencil blue",
+                    onClickButton: function () {
+                        if (idSeleccionado() == false) { return; }
+                        var newUrl = base_url + '/' + grid_controller + '/Editar/' + idSeleccionado();
+                        crearIframeModal(newUrl);
+                    },
+                    position: "first"
+                });
+                //Custom icon for Add Action
+                $(grid_selector).navButtonAdd(pager_selector, {
+                    caption: '',
+                    title: "Nuevo",
+                    buttonicon: "ui-icon ace-icon fa fa-plus-circle purple",
+                    onClickButton: function () {
+                        var newUrl = base_url + '/' + grid_controller + '/Crear';
+                        crearIframeModal(newUrl);
+                    },
+                    position: "first"
+                });
+            }
 
-    //Custom icon for Edit Action
-            $(grid_selector).navButtonAdd(pager_selector, {
-                caption: '',
-                title: "Editar",
-                buttonicon: "ui-icon ace-icon fa fa-pencil blue",
-                onClickButton: function () {
-                    if (idSeleccionado() == false) { return; }
-                    var newUrl = base_url + '/' + grid_controller + '/Editar/' + idSeleccionado();
-                    crearIframeModal(newUrl);
-                },
-                position: "first"
-            });
-    //Custom icon for Add Action
-            $(grid_selector).navButtonAdd(pager_selector, {
-                caption: '',
-                title: "Nuevo",
-                buttonicon: "ui-icon ace-icon fa fa-plus-circle purple",
-                onClickButton: function () {
-                    var newUrl = base_url + '/' + grid_controller + '/Crear';
-                    crearIframeModal(newUrl);
-                },
-                position: "first"
-            });
 
             function crearIframeModal(urlString) {
                 var modalHeight = $(modal_iframe).height();
@@ -464,7 +473,7 @@ jQuery(function ($) {
                 $("#modalOk").hide();
 
                 var modalHeight = $(modal_confirmacion).height();
-                
+
                 modal_confirmacion.find('#tituloPregunta').html(titulo);
                 modal_confirmacion.find('#cuerpoPregunta').html(pregunta);
 

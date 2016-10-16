@@ -407,8 +407,6 @@
     <Content Include="Views\Edificio\Index.cshtml" />
     <Content Include="Views\Usuario\Crear.cshtml" />
     <Content Include="Views\Usuario\Eliminar.cshtml" />
-    <Content Include="Views\Usuario\Details.cshtml" />
-    <Content Include="Views\Usuario\_Editar.cshtml" />
     <Content Include="Views\Parte\Create.cshtml" />
     <Content Include="Views\Parte\Delete.cshtml" />
     <Content Include="Views\Parte\Details.cshtml" />

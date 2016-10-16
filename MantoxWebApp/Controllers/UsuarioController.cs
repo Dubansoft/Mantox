@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Collections;
 using FileHelper;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace MantoxWebApp.Controllers
 {
@@ -67,7 +68,7 @@ namespace MantoxWebApp.Controllers
 
                 ViewData.Add("UrlBase",this.BaseUrl);
 
-                return VistaAutenticada(View(await bdMantox.V_Usuarios.ToListAsync()), MantoxUserRoles.Reportes);
+                return VistaAutenticada(View(await bdMantox.V_Usuarios.ToListAsync()), MantoxUserRole.Reportes);
 
             }
             catch (Exception e)
@@ -92,7 +93,7 @@ namespace MantoxWebApp.Controllers
         public PartialViewResult BuscarUsuarios(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
         {
             //Validar acceso
-            if (!TieneAcceso(MantoxUserRoles.Reportes)){return PartialView("Error401");}
+            if (!TieneAcceso(MantoxUserRole.Reportes)){return PartialView("Error401");}
 
             try
             {
@@ -131,7 +132,7 @@ namespace MantoxWebApp.Controllers
                 ViewBag.TotalPaginas = totalPaginas;
 
                 //Devolvemos la vista
-                return VistaAutenticada(PartialView("_VistaParcial_BuscarUsuarios"),MantoxUserRoles.Reportes);
+                return VistaAutenticada(PartialView("_VistaParcial_BuscarUsuarios"),MantoxUserRole.Reportes);
             }
             catch (Exception e)
             {
@@ -150,7 +151,7 @@ namespace MantoxWebApp.Controllers
         public ActionResult Editar(int? id)
         {
             //Validar acceso
-            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return PartialView("Error401"); }
+            if (!TieneAcceso(MantoxUserRole.Administrador)) { return PartialView("Error401"); }
 
             llenarListasDesplegables();
 
@@ -172,7 +173,7 @@ namespace MantoxWebApp.Controllers
                 ViewData.Add("UsuarioActual", bdMantox.V_Usuarios.FirstOrDefault(u => u.Id == id));
 
                 //Se devuelve el formulario de creación de usuario con un objeto de tipo V_Usuarios con los datos del usuario que se está editando
-                return VistaAutenticada(View("Crear", (V_Usuarios)bdMantox.Usuarios.Find(id)), MantoxUserRoles.Administrador);
+                return VistaAutenticada(View("Crear", (V_Usuarios)bdMantox.Usuarios.Find(id)), MantoxUserRole.Administrador);
             }
             catch (Exception e)
             {
@@ -188,7 +189,7 @@ namespace MantoxWebApp.Controllers
         public ActionResult Crear()
         {
             //Validar acceso
-            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return PartialView("Error401"); }
+            if (!TieneAcceso(MantoxUserRole.Administrador)) { return PartialView("Error401"); }
 
             llenarListasDesplegables();
 
@@ -207,7 +208,7 @@ namespace MantoxWebApp.Controllers
                 ViewData.Add("NombreObjeto", this.NombreObjeto);
                 ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
 
-                return VistaAutenticada(View("Crear", new V_Usuarios()), MantoxUserRoles.Administrador);
+                return VistaAutenticada(View("Crear", new V_Usuarios()), MantoxUserRole.Administrador);
             }
             catch (Exception e)
             {
@@ -228,7 +229,7 @@ namespace MantoxWebApp.Controllers
         public async Task<ActionResult> Crear([Bind(Include = "Id,Nombre,Apellido,Email,Contrasena,Id_Rol,Id_Area,Id_Estado,Id_Empresa,Id_Sede,Id_Edificio,Piso,Id_Area")] UsuarioViewModel usuariovm)
         {
             //Validar acceso
-            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return PartialView("Error401"); }
+            if (!TieneAcceso(MantoxUserRole.Administrador)) { return PartialView("Error401"); }
 
             try
             {
@@ -310,7 +311,7 @@ namespace MantoxWebApp.Controllers
 
                 ViewData.Add("UsuarioActual", (V_Usuarios)usuariovm);
 
-                return VistaAutenticada(View((V_Usuarios)nuevoUsuario), MantoxUserRoles.Administrador);
+                return VistaAutenticada(View((V_Usuarios)nuevoUsuario), MantoxUserRole.Administrador);
             }
             catch (Exception e)
             {
@@ -328,7 +329,7 @@ namespace MantoxWebApp.Controllers
         public async Task<ActionResult> Eliminar(int? id)
         {
             //Validar acceso
-            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return PartialView("Error401"); }
+            if (!TieneAcceso(MantoxUserRole.Administrador)) { return PartialView("Error401"); }
 
             try
             {
@@ -460,16 +461,9 @@ namespace MantoxWebApp.Controllers
         private void llenarListasDesplegables()
         {
             //Validar acceso
-            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return;  }
+            if (!TieneAcceso(MantoxUserRole.Administrador)) { return;  }
             try
             {
-
-                //Llenar lista de Roles
-                roles = bdMantox.Roles.Select(rol => new
-                {
-                    RolId = rol.Id,
-                    RolNombre = rol.Nombre
-                }).ToList();
 
                 //Llenar lista de Areas
                 areas = bdMantox.Areas.Select(area => new
@@ -487,12 +481,56 @@ namespace MantoxWebApp.Controllers
                 }).Where(e => e.EstadoTipo == "General").ToList();
 
 
-                //Llenar lista de Empresas
-                empresas = bdMantox.Empresas.Select(empresa => new
+                //El filtrado por empresa NO debe estar activado para usuarios no desarrolladores:
+                switch ((MantoxUserRole)System.Web.HttpContext.Current.Session["Id_Rol"])
                 {
-                    EmpresaId = empresa.Id,
-                    EmpresaNombre = empresa.Nombre
-                }).ToList();
+                    case MantoxUserRole.Desarrollador:
+                        //No se añaden restricciones a las listas que puede ver el desarrollador
+
+                        //Llenar lista de Roles
+                        roles = bdMantox.Roles.Select(rol => new
+                        {
+                            RolId = rol.Id,
+                            RolNombre = rol.Nombre
+                        }).ToList();
+
+                        //Llenar lista de Empresas
+                        empresas = bdMantox.Empresas.Select(empresa => new
+                        {
+                            EmpresaId = empresa.Id,
+                            EmpresaNombre = empresa.Nombre
+                        }).ToList();
+                        break;
+                    case MantoxUserRole.Administrador:
+                    default:
+                        //Almacenar id del rol del usuario actual en variable int
+                        int idRolDeUsuarioActual = (int)Session["Id_Rol"];
+
+                        //Llenar lista de Roles
+                        roles = bdMantox.Roles.Select(rol => new
+                        {
+                            RolId = rol.Id,
+                            RolNombre = rol.Nombre
+                        })
+                        .Where //Se añade condición de manera que solo pueda crear usuarios con el mismo rol o con rol más restringido
+                            (r => (int)r.RolId >= idRolDeUsuarioActual)
+                        .ToList();
+
+                        //Almacenar id de la empresa del usuario actual en variable int
+                        int idEmpresaDeUsuarioActual = (int)Session["Id_Empresa"];
+
+                        //Llenar lista de Empresas
+                        empresas = bdMantox.Empresas.Select(empresa => new
+                        {
+                            EmpresaId = empresa.Id,
+                            EmpresaNombre = empresa.Nombre
+                        })
+                        .Where //Se añade condición de manera que solo pueda ver la empresa propia
+                            (e => (int)e.EmpresaId == idEmpresaDeUsuarioActual ||
+                            (int)e.EmpresaId == 1)
+                        .ToList();
+                        break;
+                }
             }
 
             catch (Exception e)

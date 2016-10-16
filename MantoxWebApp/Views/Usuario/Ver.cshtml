@@ -17,21 +17,6 @@
 
 }
 
-<style type="text/css">
-    /* set the size of the datepicker search control for Order Date*/
-    #ui-datepicker-div {
-        font-size: 11px;
-    }
-
-    /* set the size of the autocomplete search control*/
-    .ui-menu-item {
-    }
-
-    .ui-autocomplete {
-        font-size: 11px;
-    }
-</style>
-
 <!-- Tabla dinámica en JQGrid -->
 
 @Html.Partial("~/Views/Shared/_PlantillaTablaDinamica.cshtml")
@@ -43,14 +28,8 @@
 
    <!-- inline scripts related to this page -->
     <script type="text/javascript">
-        var column_model__ = [
-                    { label: 'OrderID', name: 'OrderID', key: true, width: 75 },
-                    { label: 'Customer ID', name: 'CustomerID', width: 150 },
-                    { label: 'Order Date', name: 'OrderDate', width: 150 },
-                    { label: 'Freight', name: 'Freight', width: 150 },
-                    { label: 'Ship Name', name: 'ShipName', width: 150 }
-        ];
 
+        //Las columnas de la tabla y sus atributos
         var column_model = [
 
                     {
@@ -153,6 +132,7 @@
                     }
         ];
 
+        //Los nombres de las columnas de la tabla.
         var column_names = [
                     'Id',
                     'Nombre',
@@ -169,31 +149,47 @@
                     'Area'
         ];
 
-        var edit_url = "/dummyr.html";
+        //Titulo de la lista
         var grid_caption = "Lista de @ViewData["NombreContexto"].ToString()";
 
+        //Nombre del controlador
         var grid_controller = "@ViewData["NombreControlador"].ToString()";
 
+        //Url base, dejar como está
         var base_url = "@ViewData["UrlBase"].ToString()";
 
-        var grid_data_url = "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/BuscarUsuarios?")"
+        //Url de búsqueda de los datos de la tabla.
+        var grid_data_url = "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/Buscar", ViewData["NombreContexto"].ToString(),"?")"
 
-
+        //Agrupar?
         var grid_grouping = false;
+
+        //Agrupar cuales campos?
         var grid_group_fields = ['Empresa', 'Sede', 'Edificio', 'Piso', 'Area'];
 
+        //Ancho de la primera columna
         var row_number_width = 20;
+
+        //Altura de la tabla
         var grid_height = 'auto';
+
+        //Seleccionar varios?
         var multi_select = false;
+
+        //Poner paginador superior?
         var top_pager = true;
 
+        //Mostrar subgrid?
         var show_subgrid = false;
 
+        //Modelo del subgrid
         var subgrid_model =
+
             [
                 { name: ['No', 'Item Name', 'Qty'], width: [55, 200, 80] }
             ];
 
+        //Datos del subgrid
         var subgrid_data =
         [
 
@@ -201,13 +197,12 @@
             { id: "2", name: "sub grid item 2", qty: 3 }
         ];
 
-
-
+        //Lo que se ejecuta cuando se expande el subgrid
         var subGridRow_Expanded = function (subgridDivId, rowId) {
             var subgridTableId = subgridDivId + "_t";
             $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
             $("#" + subgridTableId).jqGrid({
-                datatype: 'local',
+            datatype: 'local',
                 data: subgrid_data,
                 colNames: ['No', 'Item Name', 'Qty'],
                 colModel: [
@@ -219,9 +214,13 @@
             });
         };
 
+        //Tipo de datos
         var data_type = "json";
+
+        //Método de obtención de datos
         var method_type = "GET";
 
+        //Cargar todo de una sola vez?
         var load_once = false;
      </script>
 
