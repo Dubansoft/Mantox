@@ -65,6 +65,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tipo" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Licencias">
           <Key>
@@ -622,13 +623,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <Property Name="Id_Version_Office" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="Estado">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
         <EntityType Name="Licencia">
           <Key>
             <PropertyRef Name="Id" />
@@ -767,7 +761,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySet Name="Edificios" EntityType="Mantox.Models.Edificio" />
           <EntitySet Name="Empresas" EntityType="Mantox.Models.Empresa" />
           <EntitySet Name="Equipos" EntityType="Mantox.Models.Equipo" />
-          <EntitySet Name="Estados" EntityType="Mantox.Models.Estado" />
           <EntitySet Name="Licencias" EntityType="Mantox.Models.Licencia" />
           <EntitySet Name="Mantenimientos" EntityType="Mantox.Models.Mantenimiento" />
           <EntitySet Name="Modelos" EntityType="Mantox.Models.Modelo" />
@@ -791,6 +784,7 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySet Name="V_Sedes" EntityType="Mantox.Models.V_Sedes" />
           <EntitySet Name="V_Usuarios" EntityType="Mantox.Models.V_Usuarios" />
           <EntitySet Name="Usuarios" EntityType="Mantox.Models.Usuario" />
+          <EntitySet Name="Estados" EntityType="Mantox.Models.Estado" />
         </EntityContainer>
         <EntityType Name="V_Areas">
           <Key>
@@ -990,6 +984,14 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <Property Name="Id_Area" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1052,14 +1054,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
                 <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
                 <ScalarProperty Name="Id_Version_Office" ColumnName="Id_Version_Office" />
                 <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Estados">
-            <EntityTypeMapping TypeName="Mantox.Models.Estado">
-              <MappingFragment StoreEntitySet="Estados">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1353,6 +1347,15 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
                 <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estados">
+            <EntityTypeMapping TypeName="Mantox.Models.Estado">
+              <MappingFragment StoreEntitySet="Estados">
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

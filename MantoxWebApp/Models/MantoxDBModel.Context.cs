@@ -30,7 +30,6 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Edificio> Edificios { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<Equipo> Equipos { get; set; }
-        public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<Licencia> Licencias { get; set; }
         public virtual DbSet<Mantenimiento> Mantenimientos { get; set; }
         public virtual DbSet<Modelo> Modelos { get; set; }
@@ -54,5 +53,6 @@ namespace MantoxWebApp.Models
         public virtual DbSet<V_Sedes> V_Sedes { get; set; }
         public virtual DbSet<V_Usuarios> V_Usuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<Estado> Estados { get; set; }
     }
 }

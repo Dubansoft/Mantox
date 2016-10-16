@@ -67,7 +67,7 @@ namespace MantoxWebApp.Controllers
 
                 ViewData.Add("UrlBase",this.BaseUrl);
 
-                return VistaAutenticada(View(await bdMantox.V_Usuarios.ToListAsync()));
+                return VistaAutenticada(View(await bdMantox.V_Usuarios.ToListAsync()), MantoxUserRoles.Reportes);
 
             }
             catch (Exception e)
@@ -91,6 +91,9 @@ namespace MantoxWebApp.Controllers
         /// <returns>PartialView</returns>
         public PartialViewResult BuscarUsuarios(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
         {
+            //Validar acceso
+            if (!TieneAcceso(MantoxUserRoles.Reportes)){return PartialView("Error401");}
+
             try
             {
                 //Creamos nueva instanacia de la clase parcial "vista_usuarios"
@@ -128,12 +131,13 @@ namespace MantoxWebApp.Controllers
                 ViewBag.TotalPaginas = totalPaginas;
 
                 //Devolvemos la vista
-                return PartialView("_VistaParcial_BuscarUsuarios");
+                return VistaAutenticada(PartialView("_VistaParcial_BuscarUsuarios"),MantoxUserRoles.Reportes);
             }
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
-                return null;
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return PartialView("Error500");
             }
 
         }
@@ -145,6 +149,9 @@ namespace MantoxWebApp.Controllers
         /// <returns></returns>
         public ActionResult Editar(int? id)
         {
+            //Validar acceso
+            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return PartialView("Error401"); }
+
             llenarListasDesplegables();
 
             try
@@ -165,7 +172,7 @@ namespace MantoxWebApp.Controllers
                 ViewData.Add("UsuarioActual", bdMantox.V_Usuarios.FirstOrDefault(u => u.Id == id));
 
                 //Se devuelve el formulario de creación de usuario con un objeto de tipo V_Usuarios con los datos del usuario que se está editando
-                return VistaAutenticada(View("Crear", (V_Usuarios)bdMantox.Usuarios.Find(id)));
+                return VistaAutenticada(View("Crear", (V_Usuarios)bdMantox.Usuarios.Find(id)), MantoxUserRoles.Administrador);
             }
             catch (Exception e)
             {
@@ -180,6 +187,9 @@ namespace MantoxWebApp.Controllers
         /// <returns></returns>
         public ActionResult Crear()
         {
+            //Validar acceso
+            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return PartialView("Error401"); }
+
             llenarListasDesplegables();
 
             try
@@ -197,7 +207,7 @@ namespace MantoxWebApp.Controllers
                 ViewData.Add("NombreObjeto", this.NombreObjeto);
                 ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
 
-                return VistaAutenticada(View("Crear", new V_Usuarios()));
+                return VistaAutenticada(View("Crear", new V_Usuarios()), MantoxUserRoles.Administrador);
             }
             catch (Exception e)
             {
@@ -217,6 +227,9 @@ namespace MantoxWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Crear([Bind(Include = "Id,Nombre,Apellido,Email,Contrasena,Id_Rol,Id_Area,Id_Estado,Id_Empresa,Id_Sede,Id_Edificio,Piso,Id_Area")] UsuarioViewModel usuariovm)
         {
+            //Validar acceso
+            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return PartialView("Error401"); }
+
             try
             {
                 //Creamos una instancia de usuario con los datos que recibimos del formulario
@@ -297,7 +310,7 @@ namespace MantoxWebApp.Controllers
 
                 ViewData.Add("UsuarioActual", (V_Usuarios)usuariovm);
 
-                return VistaAutenticada(View((V_Usuarios)nuevoUsuario));
+                return VistaAutenticada(View((V_Usuarios)nuevoUsuario), MantoxUserRoles.Administrador);
             }
             catch (Exception e)
             {
@@ -314,6 +327,9 @@ namespace MantoxWebApp.Controllers
         /// <returns></returns>
         public async Task<ActionResult> Eliminar(int? id)
         {
+            //Validar acceso
+            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return PartialView("Error401"); }
+
             try
             {
                 //Se valida si el id es nulo
@@ -343,7 +359,7 @@ namespace MantoxWebApp.Controllers
             catch (Exception e)
             {
                 ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
-                return View("Error500");
+                return View("ErrorInterno","Error");
             }
         }
 
@@ -374,15 +390,13 @@ namespace MantoxWebApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    Usuario usuario = (Usuario)usuarioQueSeAutentica;
-
-                    if (usuario.Existe(usuarioQueSeAutentica.Email, usuario.Contrasena))
+                    if (((Usuario)usuarioQueSeAutentica).Existe(usuarioQueSeAutentica.Email, usuarioQueSeAutentica.Contrasena))
                     {
                         MantoxSqlServerConnectionHelper myMantoxSqlServerConnectionHelper = new MantoxSqlServerConnectionHelper();
 
                         SqlParameter[] myParams = new SqlParameter[] {
-                            new SqlParameter("@email", usuario.Email),
-                            new SqlParameter("@contrasena", usuario.Contrasena)
+                            new SqlParameter("@email", usuarioQueSeAutentica.Email),
+                            new SqlParameter("@contrasena", usuarioQueSeAutentica.Contrasena)
                         };
 
 
@@ -399,7 +413,6 @@ namespace MantoxWebApp.Controllers
                                 Session[column.ColumnName] = resDt.Rows[0][column.ColumnName];
                             }
                         }
-
                         return RedirectToAction("Index", "Usuario");
                     }
                     else
@@ -446,6 +459,8 @@ namespace MantoxWebApp.Controllers
         /// </summary>
         private void llenarListasDesplegables()
         {
+            //Validar acceso
+            if (!TieneAcceso(MantoxUserRoles.Administrador)) { return;  }
             try
             {
 
@@ -464,16 +479,13 @@ namespace MantoxWebApp.Controllers
                 }).ToList();
 
                 //Llenar lista de Estados en variable temporal
-                var listaEstados = bdMantox.Estados.Select(estado => new
+                estados = bdMantox.Estados.Select(estado => new
                 {
                     EstadoId = estado.Id,
-                    EstadoNombre = estado.Nombre
-                }).ToList();
+                    EstadoNombre = estado.Nombre,
+                    EstadoTipo = estado.Tipo
+                }).Where(e => e.EstadoTipo == "General").ToList();
 
-                //Eliminar los estados no apropiados/requeridos
-                listaEstados.RemoveRange(2, 5);
-                //Asignar valor al IEnumerable
-                estados = listaEstados;
 
                 //Llenar lista de Empresas
                 empresas = bdMantox.Empresas.Select(empresa => new

@@ -7,10 +7,12 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using MantoxWebApp.Models;
 using System.Web;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MantoxWebApp
 {
     public partial class Startup
     {
+
     }
 }

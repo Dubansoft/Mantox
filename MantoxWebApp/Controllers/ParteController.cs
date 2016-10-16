@@ -19,7 +19,7 @@ namespace MantoxWebApp.Controllers
         // GET: Parte
         public async Task<ActionResult> Index()
         {
-            return VistaAutenticada(View(await bdMantox.Partes.ToListAsync()));
+            return VistaAutenticada(View(await bdMantox.Partes.ToListAsync()), MantoxUserRoles.Reportes);
         }
 
         // GET: Parte/Details/5
@@ -55,7 +55,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Parte/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,7 +87,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Parte/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -12,7 +12,10 @@
 
 // *@
 
+using FileHelper;
 using System;
+using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MantoxWebApp.Controllers
@@ -25,28 +28,149 @@ namespace MantoxWebApp.Controllers
         public string BaseUrl{get{return  "http://localhost:50029/";}}
 
         /// <summary>
-        /// Este método recibe una vista estándar y devuelve la misma vista si el usuario está autenticado, de lo contrario, devuelve la vista de inicio de sesión.
+        /// Este método recibe una vista estándar y devuelve la misma vista si el usuario está autenticado
+        /// y tiene acceso a la vista.
         /// </summary>
         /// <param name="defaultView">La vista que se mostrará si hay una sesión de usuario activa.</param>
         /// <returns>View()</returns>
-        public ActionResult VistaAutenticada(ActionResult defaultView)
+        public ActionResult VistaAutenticada(ActionResult defaultView, MantoxUserRoles rolPermitido)
         {
             try
             {
-                if (HaySesion())
-                {
-                    return defaultView;
-                }
-                else
-                {
-                    return RedirectToAction("IniciarSesion", "Usuario");
-                }
+                //Si hay sesión se valida si tiene acceso
+                //Si no hay sesión,se envía a iniciar sesón
+                //Si no tiene acceso se muestra 401: No autorizado
+                return (
+                    HaySesion())?
+                        TieneAcceso(defaultView, rolPermitido) :
+                    RedirectToAction("IniciarSesion", "Usuario"
+                    );
+
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 EliminarSesion();
-                return RedirectToAction("IniciarSesion", "Usuario");
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return View("Error500");
             }
+
+        }
+
+        /// <summary>
+        /// Este método recibe una vista parcial y devuelve la misma vista si el usuario está autenticado y tiene acceso a la vista.
+        /// </summary>
+        /// <param name="defaultPartialView">La vista parcial que se mostrará si hay una sesión de usuario activa.</param>
+        /// <returns>View()</returns>
+        public PartialViewResult VistaAutenticada(PartialViewResult defaultPartialView, MantoxUserRoles rolPermitido)
+        {
+            try
+            {
+                //Si hay sesión se valida si tiene acceso
+                //Si no hay sesión,se envía a iniciar sesón
+                //Si no tiene acceso se muestra 401: No autorizado
+                return (
+                    HaySesion()) ?
+                        TieneAcceso(defaultPartialView, rolPermitido) :
+                    PartialView("Error401");
+
+            }
+            catch (Exception e)
+            {
+                EliminarSesion();
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return PartialView("Error500");
+            }
+
+        }
+
+        /// <summary>
+        /// Devuelve la vista enviada si tiene acceso a la misma, de lo contrario,
+        /// devuelve la vida de acceso denegado (HTTP: 401).
+        /// </summary>
+        /// <param name="defaultView">La vista que se mostrará si tiene acceso</param>
+        /// <param name="role">El rol máximo permitido para acceder a esta vista.</param>
+        /// <returns></returns>
+        public ActionResult TieneAcceso(ActionResult defaultView, MantoxUserRoles role)
+        {
+            try
+            {
+                //El rol maximo permitido
+                int rolPermitido = (int)role;
+
+                //El rol del usuario actual
+                int idRolUsuarioActual = (int)System.Web.HttpContext.Current.Session["Id_Rol"];
+
+                //Validamos si el usuario tiene permiso de acceder
+                //Devolvemos la página de desautorización o
+                //La vista solicitada
+                return (idRolUsuarioActual <= rolPermitido) ? defaultView : View("Error401");
+            }
+            catch (Exception e)
+            {
+                EliminarSesion();
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return View("Error500");
+            }
+
+
+        }
+
+        /// <summary>
+        /// Devuelve la vista enviada si tiene acceso a la misma, de lo contrario,
+        /// devuelve la vida de acceso denegado (HTTP: 401).
+        /// </summary>
+        /// <param name="defaultView">La vista que se mostrará si tiene acceso</param>
+        /// <param name="role">El rol máximo permitido para acceder a esta vista.</param>
+        /// <returns></returns>
+        public PartialViewResult TieneAcceso(PartialViewResult defaultView, MantoxUserRoles role)
+        {
+            try
+            {
+                //El rol máximo permitido
+                int rolPermitido = (int)role;
+
+                //El rol del usuario actual
+                int idRolUsuarioActual = (int)System.Web.HttpContext.Current.Session["Id_Rol"];
+
+                //Validamos si el usuario tiene permiso de acceder
+                //Devolvemos la página de desautorización o
+                //La vista solicitada
+                return (idRolUsuarioActual <= rolPermitido) ? defaultView : PartialView("Error401");
+
+            }
+            catch (Exception e)
+            {
+                EliminarSesion();
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return PartialView("Error500");
+            }
+
+        }
+
+        /// <summary>
+        /// Rol de usuario que tiene acceso al método
+        /// </summary>
+        /// <param name="role"></param>
+        public bool TieneAcceso(MantoxUserRoles role)
+        {
+            try
+            {
+                //El rol maximo permitido
+                int rolPermitido = (int)role;
+
+                //El rol del usuario actual
+                int idRolUsuarioActual = (int)System.Web.HttpContext.Current.Session["Id_Rol"];
+
+                //Validamos si el usuario tiene permiso de acceder
+                return (idRolUsuarioActual <= rolPermitido);
+            }
+            catch (Exception e)
+            {
+                EliminarSesion();
+                EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return false;
+            }
+
 
         }
 
@@ -75,7 +199,7 @@ namespace MantoxWebApp.Controllers
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Elimina la sesión actual y crea una sesión vacía con el parámetro "session" en False (Session["session"] = false;).
         /// </summary>
         public void EliminarSesion()
@@ -84,5 +208,18 @@ namespace MantoxWebApp.Controllers
             Session["session"] = false;
         }
 
+        /// <summary>
+        /// Listado de roles de usuario, deben concordar con la tabla dbo.Roles de la base de datos.
+        /// </summary>
+        public enum MantoxUserRoles
+        {
+            Desarrollador = 1,
+            Administrador = 2,
+            Reportes = 3
+
+        }
+
     }
+
+
 }
