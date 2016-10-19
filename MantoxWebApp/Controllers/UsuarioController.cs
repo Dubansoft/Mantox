@@ -5,14 +5,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using MantoxWebApp.Models;
 using System.Data.SqlClient;
 using System.Collections;
 using FileHelper;
 using System.Reflection;
-using System.Linq.Expressions;
 
 namespace MantoxWebApp.Controllers
 {
@@ -68,7 +66,7 @@ namespace MantoxWebApp.Controllers
 
                 ViewData.Add("UrlBase",this.BaseUrl);
 
-                return VistaAutenticada(View(await bdMantox.V_Usuarios.ToListAsync()), RoleDeUsuario.Reportes);
+                return VistaAutenticada(View(await bdMantox.V_Usuarios.ToListAsync()), RolDeUsuario.Reportes);
 
             }
             catch (Exception e)
@@ -93,11 +91,11 @@ namespace MantoxWebApp.Controllers
         public PartialViewResult BuscarUsuarios(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
         {
             //Validar acceso
-            if (!TieneAcceso(RoleDeUsuario.Reportes)){return PartialView("Error401");}
+            if (!TieneAcceso(RolDeUsuario.Reportes)){return PartialView("Error401");}
 
             try
             {
-                //Creamos nueva instanacia de la clase parcial "vista_usuarios"
+                //Creamos nueva instanacia de la clase parcial "v_usuarios"
                 V_Usuarios miVistaUsuarios = new V_Usuarios();
 
                 //Creamos un diccionario para almacener los resultados devueltos por la consulta
@@ -132,7 +130,7 @@ namespace MantoxWebApp.Controllers
                 ViewBag.TotalPaginas = totalPaginas;
 
                 //Devolvemos la vista
-                return VistaAutenticada(PartialView("_VistaParcial_BuscarUsuarios"),RoleDeUsuario.Reportes);
+                return VistaAutenticada(PartialView("_VistaParcial_BuscarUsuarios"),RolDeUsuario.Reportes);
             }
             catch (Exception e)
             {
@@ -151,7 +149,7 @@ namespace MantoxWebApp.Controllers
         public ActionResult Editar(int? id)
         {
             //Validar acceso
-            if (!TieneAcceso(RoleDeUsuario.Administrador)) { return PartialView("Error401"); }
+            if (!TieneAcceso(RolDeUsuario.Administrador)) { return PartialView("Error401"); }
 
             llenarListasDesplegables();
 
@@ -173,7 +171,7 @@ namespace MantoxWebApp.Controllers
                 ViewData.Add("UsuarioActual", bdMantox.V_Usuarios.FirstOrDefault(u => u.Id == id));
 
                 //Se devuelve el formulario de creación de usuario con un objeto de tipo V_Usuarios con los datos del usuario que se está editando
-                return VistaAutenticada(View("Crear", (V_Usuarios)bdMantox.Usuarios.Find(id)), RoleDeUsuario.Administrador);
+                return VistaAutenticada(View("Crear", (V_Usuarios)bdMantox.Usuarios.Find(id)), RolDeUsuario.Administrador);
             }
             catch (Exception e)
             {
@@ -189,7 +187,7 @@ namespace MantoxWebApp.Controllers
         public ActionResult Crear()
         {
             //Validar acceso
-            if (!TieneAcceso(RoleDeUsuario.Administrador)) { return PartialView("Error401"); }
+            if (!TieneAcceso(RolDeUsuario.Administrador)) { return PartialView("Error401"); }
 
             llenarListasDesplegables();
 
@@ -208,7 +206,7 @@ namespace MantoxWebApp.Controllers
                 ViewData.Add("NombreObjeto", this.NombreObjeto);
                 ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
 
-                return VistaAutenticada(View("Crear", new V_Usuarios()), RoleDeUsuario.Administrador);
+                return VistaAutenticada(View("Crear", new V_Usuarios()), RolDeUsuario.Administrador);
             }
             catch (Exception e)
             {
@@ -229,34 +227,30 @@ namespace MantoxWebApp.Controllers
         public async Task<ActionResult> Crear([Bind(Include = "Id,Nombre,Apellido,Email,Contrasena,Id_Rol,Id_Area,Id_Estado,Id_Empresa,Id_Sede,Id_Edificio,Piso,Id_Area")] CrearEditarUsuarioViewModel usuariovm)
         {
             //Validar acceso
-            if (!TieneAcceso(RoleDeUsuario.Administrador)) { return PartialView("Error401"); }
+            if (!TieneAcceso(RolDeUsuario.Administrador)) { return PartialView("Error401"); }
 
             try
             {
                 //Creamos una instancia de usuario con los datos que recibimos del formulario
-                Usuario nuevoUsuario = new Usuario();
-                nuevoUsuario = (Usuario)usuariovm;
-
-                //Creamos un diccionario con el email del usuario nuevo, para validar si ya existe
-                Dictionary<string, string> criteria = new Dictionary<string, string>();
-                criteria.Add("Email", nuevoUsuario.Email);
+                Usuario usuarioRecibido = new Usuario();
+                usuarioRecibido = (Usuario)usuariovm;
 
                 //Si el usuario no es nuevo (el id > 0) entonces validamos primero si ha cambiado el email
                 //Para ello consultamos a la bd y vemos el email actual y lo comparamos con el
                 //email enviado.
-                if (nuevoUsuario.Id > 0)
+                if (usuarioRecibido.Id > 0)
                 {
                     //Seleccionamos el usuario por medio del id
-                    V_Usuarios usuarioSeleccionado = bdMantox.V_Usuarios.FirstOrDefault(u => u.Id == nuevoUsuario.Id);
+                    V_Usuarios usuarioSeleccionado = bdMantox.V_Usuarios.FirstOrDefault(u => u.Id == usuarioRecibido.Id);
 
                     //Almacenamos el email en un string
                     string emailUsuarioSeleccionado = usuarioSeleccionado.Email;
 
                     //Comparamos este emaiil con el que se envió desde el formulario
-                    if (emailUsuarioSeleccionado != nuevoUsuario.Email)
+                    if (emailUsuarioSeleccionado != usuarioRecibido.Email)
                     {
                         //Si es diferente, validamos que el email del usuario no exista en la bd.
-                        if(bdMantox.V_Usuarios.FirstOrDefault(u => u.Email == nuevoUsuario.Email) != null)
+                        if(bdMantox.V_Usuarios.FirstOrDefault(u => u.Email == usuarioRecibido.Email) != null)
                         {
                             //Si existe, se añade error al modelo.
                             ModelState.AddModelError("Email", "El email ingresado ya existe.");
@@ -266,7 +260,7 @@ namespace MantoxWebApp.Controllers
                 else
                 {
                     //Si el usuario es nuevo (id  = 0), validamos que el email no exista.
-                    if (bdMantox.V_Usuarios.FirstOrDefault(u => u.Email == nuevoUsuario.Email) != null)
+                    if (bdMantox.V_Usuarios.FirstOrDefault(u => u.Email == usuarioRecibido.Email) != null)
                     {
                         //Si existe, se añade error al modelo
                         ModelState.AddModelError("Email", "El email ingresado ya existe.");
@@ -280,12 +274,12 @@ namespace MantoxWebApp.Controllers
                     if (usuariovm.Id <= 0)
                     {
                         //Lo añadirmos a la base de datos
-                        bdMantox.Usuarios.Add(nuevoUsuario);
+                        bdMantox.Usuarios.Add(usuarioRecibido);
                     }
                     else //Si es usuario existente (id > 0)
                     {
                         //Lo ponemos en estado modificado
-                        bdMantox.Entry(nuevoUsuario).State = EntityState.Modified;
+                        bdMantox.Entry(usuarioRecibido).State = EntityState.Modified;
                     }
 
                     //Enviamos los cambios a la base de datos
@@ -294,6 +288,9 @@ namespace MantoxWebApp.Controllers
                     //Redirigimos a la página de creación de usuario.
                     return RedirectToAction("Crear");
                 }
+
+                //Si el modelo tiene errores de validación, se crea nuevamente el
+                //formulario y se muestra con los errores
 
                 llenarListasDesplegables();
 
@@ -311,7 +308,7 @@ namespace MantoxWebApp.Controllers
 
                 ViewData.Add("UsuarioActual", (V_Usuarios)usuariovm);
 
-                return VistaAutenticada(View((V_Usuarios)nuevoUsuario), RoleDeUsuario.Administrador);
+                return VistaAutenticada(View((V_Usuarios)usuarioRecibido), RolDeUsuario.Administrador);
             }
             catch (Exception e)
             {
@@ -329,7 +326,7 @@ namespace MantoxWebApp.Controllers
         public async Task<ActionResult> Eliminar(int? id)
         {
             //Validar acceso
-            if (!TieneAcceso(RoleDeUsuario.Administrador)) { return PartialView("Error401"); }
+            if (!TieneAcceso(RolDeUsuario.Administrador)) { return PartialView("Error401"); }
 
             try
             {
@@ -363,7 +360,6 @@ namespace MantoxWebApp.Controllers
                 return View("ErrorInterno","Error");
             }
         }
-
 
         /// <summary>
         /// Vista inicial de inicio de sesión.
@@ -467,7 +463,7 @@ namespace MantoxWebApp.Controllers
         private void llenarListasDesplegables()
         {
             //Validar acceso
-            if (!TieneAcceso(RoleDeUsuario.Administrador)) { return;  }
+            if (!TieneAcceso(RolDeUsuario.Administrador)) { return;  }
             try
             {
 
@@ -475,10 +471,14 @@ namespace MantoxWebApp.Controllers
                 areas = bdMantox.Areas.Select(area => new
                 {
                     AreaId = area.Id,
-                    AreaNombre = area.Nombre
-                }).ToList();
+                    AreaNombre = area.Nombre,
+                    EstadoId = area.Id_Estado
+                })
+                .Where //Se añade condición para mostrar sólo áreas activas
+                    (a => (int)a.EstadoId == (int)EstadoMantox.Activo)
+                .ToList();
 
-                //Llenar lista de Estados en variable temporal
+                //Llenar lista de Estados
                 estados = bdMantox.Estados.Select(estado => new
                 {
                     EstadoId = estado.Id,
@@ -488,9 +488,9 @@ namespace MantoxWebApp.Controllers
 
 
                 //El filtrado por empresa NO debe estar activado para usuarios no desarrolladores:
-                switch ((RoleDeUsuario)System.Web.HttpContext.Current.Session["Id_Rol"])
+                switch ((RolDeUsuario)System.Web.HttpContext.Current.Session["Id_Rol"])
                 {
-                    case RoleDeUsuario.Desarrollador:
+                    case RolDeUsuario.Desarrollador:
                         //No se añaden restricciones a las listas que puede ver el desarrollador
 
                         //Llenar lista de Roles
@@ -504,10 +504,14 @@ namespace MantoxWebApp.Controllers
                         empresas = bdMantox.Empresas.Select(empresa => new
                         {
                             EmpresaId = empresa.Id,
-                            EmpresaNombre = empresa.Nombre
-                        }).ToList();
+                            EmpresaNombre = empresa.Nombre,
+                            EstadoId = empresa.Id_Estado
+                        })
+                        .Where //Se añade condición para mostrar sólo empreas activas
+                            (e => (int)e.EstadoId == (int)EstadoMantox.Activo)
+                        .ToList();
                         break;
-                    case RoleDeUsuario.Administrador:
+                    case RolDeUsuario.Administrador:
                     default:
                         //Almacenar id del rol del usuario actual en variable int
                         int idRolDeUsuarioActual = (int)Session["Id_Rol"];
@@ -529,11 +533,13 @@ namespace MantoxWebApp.Controllers
                         empresas = bdMantox.Empresas.Select(empresa => new
                         {
                             EmpresaId = empresa.Id,
-                            EmpresaNombre = empresa.Nombre
+                            EmpresaNombre = empresa.Nombre,
+                            EstadoId = empresa.Id_Estado
                         })
+                        .Where //Se añade condición para elegir solo empresas activas
+                            (e => (int)e.EstadoId == (int)EstadoMantox.Activo)
                         .Where //Se añade condición de manera que solo pueda ver la empresa propia
-                            (e => (int)e.EmpresaId == idEmpresaDeUsuarioActual ||
-                            (int)e.EmpresaId == 1)
+                            (e => (int)e.EmpresaId == idEmpresaDeUsuarioActual || (int)e.EmpresaId == 1)
                         .ToList();
                         break;
                 }

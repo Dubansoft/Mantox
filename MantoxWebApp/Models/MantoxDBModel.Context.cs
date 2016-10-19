@@ -45,14 +45,14 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Tipo_Mantenimiento> Tipos_Mantenimiento { get; set; }
         public virtual DbSet<Version_Office> Versiones_Office { get; set; }
         public virtual DbSet<Marca> Marcas { get; set; }
-        public virtual DbSet<V_Areas> V_Areas { get; set; }
         public virtual DbSet<V_Edificios> V_Edificios { get; set; }
-        public virtual DbSet<V_Empresas> V_Empresas { get; set; }
         public virtual DbSet<V_Equipos> V_Equipos { get; set; }
         public virtual DbSet<V_Modelos> V_Modelos { get; set; }
         public virtual DbSet<V_Sedes> V_Sedes { get; set; }
         public virtual DbSet<V_Usuarios> V_Usuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Estado> Estados { get; set; }
+        public virtual DbSet<V_Areas> V_Areas { get; set; }
+        public virtual DbSet<V_Empresas> V_Empresas { get; set; }
     }
 }

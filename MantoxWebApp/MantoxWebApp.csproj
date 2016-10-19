@@ -269,10 +269,16 @@
     <Compile Include="Models\Marca.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelExtension\Empresa\EmpresaModels.cs" />
+    <Compile Include="Models\ModelExtension\Empresa\EmpresaViewModels.cs" />
     <Compile Include="Models\ModelExtension\Enums\Enumeradores.cs" />
     <Compile Include="Models\ModelExtension\JSONSearchQuery.cs" />
-    <Compile Include="Models\ModelExtension\Piso.cs" />
+    <Compile Include="Models\ModelExtension\Piso\PisoModel.cs" />
+    <Compile Include="Models\ModelExtension\Area\AreaModels.cs" />
+    <Compile Include="Models\ModelExtension\Area\AreaViewModels.cs" />
     <Compile Include="Models\ModelExtension\Usuario\UsuarioViewModels.cs" />
+    <Compile Include="Models\ModelExtension\V_Empresas\V_EmpresasViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Areas\V_AreasViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Usuarios\V_UsuariosViewModel.cs" />
     <Compile Include="Models\ModelExtension\ViewModels.cs" />
     <Compile Include="Models\Modelo.cs">
@@ -396,11 +402,11 @@
     <Content Include="Views\Sede\_VistaParcial_FiltrarSedes.cshtml" />
     <Content Include="Views\Edificio\_VistaParcial_FiltrarEdificios.cshtml" />
     <Content Include="Views\Piso\_VistaParcial_FiltrarPisos.cshtml" />
-    <Content Include="Views\Area\Create.cshtml" />
+    <Content Include="Views\Area\Crear.cshtml" />
     <Content Include="Views\Area\Delete.cshtml" />
     <Content Include="Views\Area\Details.cshtml" />
     <Content Include="Views\Area\Edit.cshtml" />
-    <Content Include="Views\Area\Index.cshtml" />
+    <Content Include="Views\Area\Ver.cshtml" />
     <Content Include="Views\Edificio\Create.cshtml" />
     <Content Include="Views\Edificio\Delete.cshtml" />
     <Content Include="Views\Edificio\Details.cshtml" />
@@ -439,11 +445,10 @@
     <Content Include="Views\Estado\Details.cshtml" />
     <Content Include="Views\Estado\Edit.cshtml" />
     <Content Include="Views\Estado\Index.cshtml" />
-    <Content Include="Views\Empresa\Create.cshtml" />
+    <Content Include="Views\Empresa\Crear.cshtml" />
     <Content Include="Views\Empresa\Delete.cshtml" />
     <Content Include="Views\Empresa\Details.cshtml" />
     <Content Include="Views\Empresa\Edit.cshtml" />
-    <Content Include="Views\Empresa\Index.cshtml" />
     <Content Include="Views\Licencia\Create.cshtml" />
     <Content Include="Views\Licencia\Delete.cshtml" />
     <Content Include="Views\Licencia\Details.cshtml" />
@@ -512,6 +517,9 @@
     <Content Include="Views\Shared\Error400.cshtml" />
     <Content Include="Views\Shared\Error404.cshtml" />
     <Content Include="Views\Shared\Error401.cshtml" />
+    <Content Include="Views\Area\_VistaParcial_BuscarAreas.cshtml" />
+    <Content Include="Views\Empresa\Ver.cshtml" />
+    <Content Include="Views\Empresa\_VistaParcial_BuscarEmpresas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

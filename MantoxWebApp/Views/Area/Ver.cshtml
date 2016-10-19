@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MantoxWebApp.Models.V_Usuarios>
+﻿@model IEnumerable<MantoxWebApp.Models.V_Areas>
 
 @{
     Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
@@ -26,7 +26,7 @@
 @section ScriptsPieDePagina {
 
 
-   <!-- inline scripts related to this page -->
+    <!-- inline scripts related to this page -->
     <script type="text/javascript">
 
         //Las columnas de la tabla y sus atributos
@@ -48,33 +48,6 @@
                         sorttype: "text"
                     },
                     {
-                        name: 'Apellido',
-                        index: 'Apellido',
-                        width: 80,
-                        sortable: true,
-                        sorttype: "text"
-                    },
-                    {
-                        name: 'Email',
-                        index: 'Email',
-                        width: 80,
-                        sortable: true,
-                        sorttype: "text"
-                    },
-                    {
-                        name: 'Estado',
-                        index: 'Estado',
-                        width: 50,
-                        sortable: true,
-                        sorttype: "text"
-                    },
-                    {
-                        name: 'Rol',
-                        index: 'Rol',
-                        width: 80,
-                        sortable: true
-                    },
-                    {
                         name: 'Empresa',
                         index: 'Empresa',
                         width: 80,
@@ -83,16 +56,16 @@
                         editable: false
                     },
                     {
-                        name: 'Departamento',
-                        index: 'Departamento',
+                        name: 'Ciudad',
+                        index: 'Ciudad',
                         width: 80,
                         sortable: true,
                         sorttype: "text",
                         editable: false
                     },
                     {
-                        name: 'Ciudad',
-                        index: 'Ciudad',
+                        name: 'Departamento',
+                        index: 'Departamento',
                         width: 80,
                         sortable: true,
                         sorttype: "text",
@@ -123,30 +96,26 @@
                         editable: false
                     },
                     {
-                        name: 'Area',
-                        index: 'Area',
-                        width: 80,
+                        name: 'Estado',
+                        index: 'Estado',
+                        width: 50,
                         sortable: true,
-                        sorttype: "text",
-                        editable: true
+                        sorttype: "text"
                     }
+
         ];
 
         //Los nombres de las columnas de la tabla.
         var column_names = [
                     'Id',
                     'Nombre',
-                    'Apellido',
-                    'Email',
-                    'Estado',
-                    'Rol',
                     'Empresa',
-                    'Departamento',
                     'Ciudad',
+                    'Departamento',
                     'Sede',
                     'Edificio',
                     'Piso',
-                    'Area'
+                    'Estado'
         ];
 
         //Titulo de la lista
@@ -165,7 +134,7 @@
         var grid_grouping = false;
 
         //Agrupar cuales campos?
-        var grid_group_fields = ['Empresa', 'Sede', 'Edificio', 'Piso', 'Area'];
+        var grid_group_fields = ['Empresa', 'Sede', 'Edificio', 'Piso'];
 
         //Ancho de la primera columna
         var row_number_width = 20;
@@ -183,36 +152,13 @@
         var show_subgrid = false;
 
         //Modelo del subgrid
-        var subgrid_model =
-
-            [
-                { name: ['No', 'Item Name', 'Qty'], width: [55, 200, 80] }
-            ];
+        var subgrid_model = [];
 
         //Datos del subgrid
-        var subgrid_data =
-        [
-
-            //{ id: "1", name: "sub grid item 1", qty: 11 },
-            //{ id: "2", name: "sub grid item 2", qty: 3 }
-        ];
+        var subgrid_data = [];
 
         //Lo que se ejecuta cuando se expande el subgrid
-        var subGridRow_Expanded = function (subgridDivId, rowId) {
-            //var subgridTableId = subgridDivId + "_t";
-            //$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
-            //$("#" + subgridTableId).jqGrid({
-            //datatype: 'local',
-            //    data: subgrid_data,
-            //    colNames: ['No', 'Item Name', 'Qty'],
-            //    colModel: [
-
-            //        { name: 'id', width: 50 },
-            //        { name: 'name', width: 150 },
-            //        { name: 'qty', width: 50 }
-            //    ]
-            //});
-        };
+        var subGridRow_Expanded = function (subgridDivId, rowId) {};
 
         //Tipo de datos
         var data_type = "json";
@@ -222,10 +168,10 @@
 
         //Cargar todo de una sola vez?
         var load_once = false;
-     </script>
+    </script>
 
-     <!-- page specific plugin scripts -->
-@Scripts.Render("~/adminLte/js/jqGrid/");
+    <!-- page specific plugin scripts -->
+    @Scripts.Render("~/adminLte/js/jqGrid/");
 
 
 }
