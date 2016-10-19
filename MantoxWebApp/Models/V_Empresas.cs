@@ -15,7 +15,7 @@ namespace MantoxWebApp.Models
     public partial class V_Empresas
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }
+        public string Empresa { get; set; }
         public int Id_Estado { get; set; }
         public string Estado { get; set; }
     }
