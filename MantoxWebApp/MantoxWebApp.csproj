@@ -403,8 +403,6 @@
     <Content Include="Views\Edificio\_VistaParcial_FiltrarEdificios.cshtml" />
     <Content Include="Views\Piso\_VistaParcial_FiltrarPisos.cshtml" />
     <Content Include="Views\Area\Crear.cshtml" />
-    <Content Include="Views\Area\Delete.cshtml" />
-    <Content Include="Views\Area\Details.cshtml" />
     <Content Include="Views\Area\Edit.cshtml" />
     <Content Include="Views\Area\Ver.cshtml" />
     <Content Include="Views\Edificio\Create.cshtml" />
@@ -413,7 +411,6 @@
     <Content Include="Views\Edificio\Edit.cshtml" />
     <Content Include="Views\Edificio\Index.cshtml" />
     <Content Include="Views\Usuario\Crear.cshtml" />
-    <Content Include="Views\Usuario\Eliminar.cshtml" />
     <Content Include="Views\Parte\Create.cshtml" />
     <Content Include="Views\Parte\Delete.cshtml" />
     <Content Include="Views\Parte\Details.cshtml" />
@@ -446,9 +443,6 @@
     <Content Include="Views\Estado\Edit.cshtml" />
     <Content Include="Views\Estado\Index.cshtml" />
     <Content Include="Views\Empresa\Crear.cshtml" />
-    <Content Include="Views\Empresa\Delete.cshtml" />
-    <Content Include="Views\Empresa\Details.cshtml" />
-    <Content Include="Views\Empresa\Edit.cshtml" />
     <Content Include="Views\Licencia\Create.cshtml" />
     <Content Include="Views\Licencia\Delete.cshtml" />
     <Content Include="Views\Licencia\Details.cshtml" />
