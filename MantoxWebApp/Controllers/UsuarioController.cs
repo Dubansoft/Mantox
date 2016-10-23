@@ -317,7 +317,6 @@ namespace MantoxWebApp.Controllers
             }
         }
 
-
         /// <summary>
         /// Elimina el usuario especificado por medio de la id
         /// </summary>
