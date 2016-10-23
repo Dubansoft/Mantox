@@ -98,7 +98,37 @@
         var show_subgrid = false;
 
         //Lo que se ejecuta cuando se expande el subgrid
-        var subGridRow_Expanded = function (subgridDivId, rowId) {};
+        var subGridRow_Expanded = function (subgridDivId, rowId) {
+            var subgridTableId = subgridDivId + "_t";
+            $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+
+            //$("#" + subgridTableId).jqGrid({
+            //    mtype: "GET",
+            //    datatype: "json",
+            //    url: grid_data_url,
+            //    colNames: ['Id', 'Empresa', 'Piso'],
+            //    colModel: [
+
+            //        { name: 'Id', width: 50 },
+            //        { name: 'Empresa', width: 150 },
+            //        { name: 'Piso', width: 50 }
+            //    ],
+            //    loadonce: true
+            //});
+
+            //$.ajax({
+            //    url: grid_data_url,
+            //    type: "GET",
+            //    success: function (html) {
+            //        $("#" + subgridTableId).append(html);
+            //        alert(1);
+            //    },
+            //    fail: function (html) {
+            //        $("#" + subgridTableId).append("Fail");
+            //        alert(0);
+            //    }
+            //});
+        };
 
         //Tipo de datos
         var data_type = "json";

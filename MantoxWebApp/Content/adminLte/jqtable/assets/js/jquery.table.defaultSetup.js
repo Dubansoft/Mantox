@@ -53,7 +53,6 @@ jQuery(function ($) {
 
     			subGrid: show_subgrid,
                 loadonce: load_once,
-                subGridModel: subgrid_model,
 
                 subGridOptions: {
                     plusicon: "ace-icon fa fa-plus center bigger-110 blue",
