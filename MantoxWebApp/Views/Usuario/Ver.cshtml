@@ -182,37 +182,36 @@
         //Mostrar subgrid?
         var show_subgrid = false;
 
+        //Modelo del subgrid
+        var subgrid_model =
+
+            [
+                { name: ['No', 'Item Name', 'Qty'], width: [55, 200, 80] }
+            ];
+
+        //Datos del subgrid
+        var subgrid_data =
+        [
+
+            { id: "1", name: "sub grid item 1", qty: 11 },
+            { id: "2", name: "sub grid item 2", qty: 3 }
+        ];
+
         //Lo que se ejecuta cuando se expande el subgrid
         var subGridRow_Expanded = function (subgridDivId, rowId) {
             var subgridTableId = subgridDivId + "_t";
             $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+            $("#" + subgridTableId).jqGrid({
+            datatype: 'local',
+                data: subgrid_data,
+                colNames: ['No', 'Item Name', 'Qty'],
+                colModel: [
 
-            //$("#" + subgridTableId).jqGrid({
-            //    mtype: "GET",
-            //    datatype: "json",
-            //    url: grid_data_url,
-            //    colNames: ['Id', 'Empresa', 'Piso'],
-            //    colModel: [
-
-            //        { name: 'Id', width: 50 },
-            //        { name: 'Empresa', width: 150 },
-            //        { name: 'Piso', width: 50 }
-            //    ],
-            //    loadonce: true
-            //});
-
-            //$.ajax({
-            //    url: grid_data_url,
-            //    type: "GET",
-            //    success: function (html) {
-            //        $("#" + subgridTableId).append(html);
-            //        alert(1);
-            //    },
-            //    fail: function (html) {
-            //        $("#" + subgridTableId).append("Fail");
-            //        alert(0);
-            //    }
-            //});
+                    { name: 'id', width: 50 },
+                    { name: 'name', width: 150 },
+                    { name: 'qty', width: 50 }
+                ]
+            });
         };
 
         //Tipo de datos
