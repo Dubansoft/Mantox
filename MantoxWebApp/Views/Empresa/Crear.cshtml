@@ -1,33 +1,46 @@
-﻿@model MantoxWebApp.Models.Empresa
-
+﻿@using MantoxWebApp.Models
+@model V_Empresas
 @{
+    //Se valida si se va a editar una empresa, en ese caso, se almacena la empresa en un
+    //objeto de tipo V_Empresas. Con estos datos el formulario de edición
+    V_Empresas ve = new V_Empresas();
+
+    if (ViewBag.Accion == "Editar")
+    {
+        ve = (V_Empresas)ViewData["EmpresaActual"];
+    }
+
+    //Se asigna la plantilla de la vista actual
     Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
 }
 
 @section EstilosEncabezado {
 
+    @*Añadimos estilos propios de esta página*@
     @Styles.Render("~/adminLte/css/select2/")
 
 }
 
-@using (Html.BeginForm("Create", "Empresa", FormMethod.Post, new { @id = "formulario_crear_Empresa" }))
+@using (Html.BeginForm("Crear", "Empresa", FormMethod.Post, new { @id = "formulario_crear_empresa" }))
 {
 
+    //La variable HiddenFor se usa para cargar los datos en el formulario cuando se está editando un registro exitente
+    @Html.HiddenFor(model => model.Id)
     @Html.AntiForgeryToken()
-
     <!-- Nuevo layout -->
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6">
             <div class="form-group">
-
                 @Html.LabelFor(model => model.Nombre, "Nombre")
                 @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
             </div>
             <!-- /.form-group -->
+        </div>
+        <div class="col-md-6 col-sm-6">
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Id_Estado, "Estado")
@@ -35,27 +48,6 @@
                 @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
             </div>
             <!-- /.form-group -->
-
-
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <div id="divResultadoSedes"></div>
-                </div>
-                <div class="col-md-6 col-sm-1">
-                    <div id="divResultadoEdificios"></div>
-                </div>
-            </div>
-            <!-- /row -->
-
-            <div class="row">
-                <div class="col-md-6 col-sm-1">
-                    <div id="divResultadoPisos"></div>
-                </div>
-                <div class="col-md-6 col-sm-1">
-                    <div id="divResultadoAreas"></div>
-                </div>
-            </div>
-            <!-- /row -->
         </div>
         <!-- /.col -->
     </div>
@@ -72,45 +64,39 @@
 
 }
 
-<div>
-    @Html.ActionLink("Volver a la lista", "Index")
-</div>
-
-
 @section ScriptsPieDePagina {
 
     <!-- Select2 -->
     @Scripts.Render("~/adminLte/js/select2/")
 
     <script>
-      $(function () {
-        //Initialize Select2 Elements
-        $(".select2").select2();
-      });
+        $(function () {
+            //Initialize Select2 Elements
+            $(".select2").select2();
+        });
     </script>
 
     <!-- Ajax -->
     @Scripts.Render("~/adminLte/js/msAjax/")
 
-   
+
     <!-- Validate .js-->
     @Scripts.Render("~/adminLte/js/validate/")
 
     <script>
-	    $().ready(function() {
-	    // validate signup form on keyup and submit
+        $().ready(function () {
+            // validate signup form on keyup and submit
 
-	        $("#formulario_crear_Empresa").validate({
-		        rules: {
-		            Nombre: "required",
-		            Id_Estado: {
-		                required: true,
-		                min: 1
-		            }
-		 
-		        }
-		    });
-	    });
+            $("#formulario_crear_empresa").validate({
+                rules: {
+                    Nombre: "required",
+                    Id_Estado: {
+                        required: true,
+                        min: 1
+                    }
+                }
+            });
+        });
     </script>
 }
 

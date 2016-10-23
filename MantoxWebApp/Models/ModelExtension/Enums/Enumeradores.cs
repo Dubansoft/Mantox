@@ -9,7 +9,7 @@ namespace MantoxWebApp
     /// <summary>
     /// Listado de roles de usuario, deben concordar con la tabla dbo.Roles de la base de datos.
     /// </summary>
-    public enum RoleDeUsuario
+    public enum RolDeUsuario
     {
         Desarrollador = 1,
         Administrador = 2,

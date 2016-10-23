@@ -16,6 +16,7 @@
         $("#Id_Edificio").change(function () {
             $('.nivel4').empty();
             var idEdificio = $("#Id_Edificio").val();
+            $("#divResultadoPisos").html(animacionCargaDeSelect);
             $("#divResultadoPisos").load('@(Url.Action("FiltrarPisos", "Piso",null, Request.Url.Scheme))?idEdificio=' + idEdificio);
         });
 

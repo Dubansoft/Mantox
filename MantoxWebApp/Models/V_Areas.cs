@@ -17,10 +17,11 @@ namespace MantoxWebApp.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Empresa { get; set; }
-        public string Sede { get; set; }
         public string Ciudad { get; set; }
         public string Departamento { get; set; }
+        public string Sede { get; set; }
         public string Edificio { get; set; }
+        public int Piso { get; set; }
         public string Estado { get; set; }
         public int Id_Edificio { get; set; }
         public int Id_Sede { get; set; }

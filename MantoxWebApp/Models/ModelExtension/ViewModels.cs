@@ -1,13 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Web;
 using System.Web.Script.Serialization;
 
 namespace MantoxWebApp.Models
@@ -233,16 +227,3 @@ namespace MantoxWebApp.Models
     }
 
 }
-
-#region
-//SqlParameter[] myParams = new SqlParameter[] { };
-//string storedProcedureName = string.Empty;
-
-//myParams = new SqlParameter[] {
-//            new SqlParameter("@conceptoBusqueda", conceptoBusqueda),
-//            new SqlParameter("@id_empresa", id_empresa),
-//            new SqlParameter("@index_ordenamiento", sidx),
-//            new SqlParameter("@ordenamiento", sord)
-//        };
-//storedProcedureName = "paObtenerUsuarios";
-#endregion

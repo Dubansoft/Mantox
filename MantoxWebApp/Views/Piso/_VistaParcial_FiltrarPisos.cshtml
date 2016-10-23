@@ -18,7 +18,7 @@
 
             var id_edificio = $("#Id_Edificio").val();
             var numPiso = $("#Piso").val();
-
+            $("#divResultadoAreas").html(animacionCargaDeSelect);
             $("#divResultadoAreas").load('@(Url.Action("FiltrarAreas", "Area", null, Request.Url.Scheme))?idEdificio=' + id_edificio + '&numPiso=' + numPiso);
         });
 

@@ -15,27 +15,40 @@ namespace MantoxWebApp.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "El campo Nombre es obligatorio")]
         public string Nombre { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "El campo Apellido es obligatorio")]
         public string Apellido { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "El campo Email es obligatorio")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "El campo Contraseña es obligatorio")]
         [MinLength(10, ErrorMessage = "La contraseña es muy corta")]
         public string Contrasena { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "El campo Rol es obligatorio")]
         public int Id_Rol { get; set; }
 
+        [Required(ErrorMessage = "El campo Empresa es obligatorio")]
         public int Id_Empresa { get; set; }
+
+        [Required(ErrorMessage = "El campo Sede es obligatorio")]
         public int Id_Sede { get; set; }
+
+        [Required(ErrorMessage = "El campo Edificio es obligatorio")]
         public int Id_Edificio { get; set; }
+
+        [Required(ErrorMessage = "El campo Piso es obligatorio")]
         public int Piso { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo Area es obligatorio")]
         public int Id_Area { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "El campo Estado es obligatorio")]
         public int Id_Estado { get; set; }
     }
 

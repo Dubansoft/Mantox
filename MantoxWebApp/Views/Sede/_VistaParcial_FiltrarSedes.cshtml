@@ -16,6 +16,7 @@
         $("#Id_Sede").on("blur mouseup change", (function () {
             $('.nivel3').empty();
             var idSede = $("#Id_Sede").val();
+            $("#divResultadoEdificios").html(animacionCargaDeSelect);
             $("#divResultadoEdificios").load('@(Url.Action("FiltrarEdificios", "Edificio",null, Request.Url.Scheme))?idSede=' + idSede);
         }));
 

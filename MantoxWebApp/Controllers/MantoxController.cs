@@ -35,7 +35,7 @@ namespace MantoxWebApp.Controllers
         /// </summary>
         /// <param name="defaultView">La vista que se mostrará si hay una sesión de usuario activa.</param>
         /// <returns>View()</returns>
-        public ActionResult VistaAutenticada(ActionResult defaultView, RoleDeUsuario rolPermitido)
+        public ActionResult VistaAutenticada(ActionResult defaultView, RolDeUsuario rolPermitido)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace MantoxWebApp.Controllers
         /// </summary>
         /// <param name="defaultPartialView">La vista parcial que se mostrará si hay una sesión de usuario activa.</param>
         /// <returns>View()</returns>
-        public PartialViewResult VistaAutenticada(PartialViewResult defaultPartialView, RoleDeUsuario rolPermitido)
+        public PartialViewResult VistaAutenticada(PartialViewResult defaultPartialView, RolDeUsuario rolPermitido)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace MantoxWebApp.Controllers
         /// <param name="defaultView">La vista que se mostrará si tiene acceso</param>
         /// <param name="role">El rol máximo permitido para acceder a esta vista.</param>
         /// <returns></returns>
-        public ActionResult TieneAcceso(ActionResult defaultView, RoleDeUsuario role)
+        public ActionResult TieneAcceso(ActionResult defaultView, RolDeUsuario role)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace MantoxWebApp.Controllers
         /// <param name="defaultView">La vista que se mostrará si tiene acceso</param>
         /// <param name="role">El rol máximo permitido para acceder a esta vista.</param>
         /// <returns></returns>
-        public PartialViewResult TieneAcceso(PartialViewResult defaultView, RoleDeUsuario role)
+        public PartialViewResult TieneAcceso(PartialViewResult defaultView, RolDeUsuario role)
         {
             try
             {
@@ -170,7 +170,7 @@ namespace MantoxWebApp.Controllers
         /// Rol de usuario que tiene acceso al método
         /// </summary>
         /// <param name="role"></param>
-        public bool TieneAcceso(RoleDeUsuario role)
+        public bool TieneAcceso(RolDeUsuario role)
         {
             try
             {

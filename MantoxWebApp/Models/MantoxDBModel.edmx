@@ -221,10 +221,11 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Areas' does not have a pr
             <PropertyRef Name="Id" />
             <PropertyRef Name="Nombre" />
             <PropertyRef Name="Empresa" />
-            <PropertyRef Name="Sede" />
             <PropertyRef Name="Ciudad" />
             <PropertyRef Name="Departamento" />
+            <PropertyRef Name="Sede" />
             <PropertyRef Name="Edificio" />
+            <PropertyRef Name="Piso" />
             <PropertyRef Name="Estado" />
             <PropertyRef Name="Id_Edificio" />
             <PropertyRef Name="Id_Sede" />
@@ -234,10 +235,11 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Areas' does not have a pr
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Empresa" Type="varchar" MaxLength="1000" Nullable="false" />
-          <Property Name="Sede" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Ciudad" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Departamento" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sede" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Edificio" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Piso" Type="int" Nullable="false" />
           <Property Name="Estado" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Id_Edificio" Type="int" Nullable="false" />
           <Property Name="Id_Sede" Type="int" Nullable="false" />
@@ -275,12 +277,12 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Empresas' does not have a
         <EntityType Name="V_Empresas">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Empresa" />
+            <PropertyRef Name="Nombre" />
             <PropertyRef Name="Id_Estado" />
             <PropertyRef Name="Estado" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Empresa" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
           <Property Name="Estado" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
@@ -447,10 +449,11 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
     [V_Areas].[Id] AS [Id], 
     [V_Areas].[Nombre] AS [Nombre], 
     [V_Areas].[Empresa] AS [Empresa], 
-    [V_Areas].[Sede] AS [Sede], 
     [V_Areas].[Ciudad] AS [Ciudad], 
     [V_Areas].[Departamento] AS [Departamento], 
+    [V_Areas].[Sede] AS [Sede], 
     [V_Areas].[Edificio] AS [Edificio], 
+    [V_Areas].[Piso] AS [Piso], 
     [V_Areas].[Estado] AS [Estado], 
     [V_Areas].[Id_Edificio] AS [Id_Edificio], 
     [V_Areas].[Id_Sede] AS [Id_Sede], 
@@ -475,7 +478,7 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySet Name="V_Empresas" EntityType="Self.V_Empresas" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_Empresas].[Id] AS [Id], 
-    [V_Empresas].[Empresa] AS [Empresa], 
+    [V_Empresas].[Nombre] AS [Nombre], 
     [V_Empresas].[Id_Estado] AS [Id_Estado], 
     [V_Empresas].[Estado] AS [Estado]
     FROM [dbo].[V_Empresas] AS [V_Empresas]</DefiningQuery>
@@ -776,44 +779,16 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySet Name="Tipos_Mantenimiento" EntityType="Mantox.Models.Tipo_Mantenimiento" />
           <EntitySet Name="Versiones_Office" EntityType="Mantox.Models.Version_Office" />
           <EntitySet Name="Marcas" EntityType="Mantox.Models.Marca" />
-          <EntitySet Name="V_Areas" EntityType="Mantox.Models.V_Areas" />
           <EntitySet Name="V_Edificios" EntityType="Mantox.Models.V_Edificios" />
-          <EntitySet Name="V_Empresas" EntityType="Mantox.Models.V_Empresas" />
           <EntitySet Name="V_Equipos" EntityType="Mantox.Models.V_Equipos" />
           <EntitySet Name="V_Modelos" EntityType="Mantox.Models.V_Modelos" />
           <EntitySet Name="V_Sedes" EntityType="Mantox.Models.V_Sedes" />
           <EntitySet Name="V_Usuarios" EntityType="Mantox.Models.V_Usuarios" />
           <EntitySet Name="Usuarios" EntityType="Mantox.Models.Usuario" />
           <EntitySet Name="Estados" EntityType="Mantox.Models.Estado" />
+          <EntitySet Name="V_Areas" EntityType="Mantox.Models.V_Areas" />
+          <EntitySet Name="V_Empresas" EntityType="Mantox.Models.V_Empresas" />
         </EntityContainer>
-        <EntityType Name="V_Areas">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Nombre" />
-            <PropertyRef Name="Empresa" />
-            <PropertyRef Name="Sede" />
-            <PropertyRef Name="Ciudad" />
-            <PropertyRef Name="Departamento" />
-            <PropertyRef Name="Edificio" />
-            <PropertyRef Name="Estado" />
-            <PropertyRef Name="Id_Edificio" />
-            <PropertyRef Name="Id_Sede" />
-            <PropertyRef Name="Id_Empresa" />
-            <PropertyRef Name="Id_Estado" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Empresa" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="Sede" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Ciudad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Departamento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Edificio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Edificio" Type="Int32" Nullable="false" />
-          <Property Name="Id_Sede" Type="Int32" Nullable="false" />
-          <Property Name="Id_Empresa" Type="Int32" Nullable="false" />
-          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="V_Edificios">
           <Key>
             <PropertyRef Name="Id" />
@@ -837,18 +812,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <Property Name="Id_Sede" Type="Int32" Nullable="false" />
           <Property Name="Id_Empresa" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="V_Empresas">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Empresa" />
-            <PropertyRef Name="Id_Estado" />
-            <PropertyRef Name="Estado" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Empresa" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-          <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="V_Equipos">
           <Key>
@@ -991,6 +954,48 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Tipo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="V_Areas">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Nombre" />
+            <PropertyRef Name="Empresa" />
+            <PropertyRef Name="Ciudad" />
+            <PropertyRef Name="Departamento" />
+            <PropertyRef Name="Sede" />
+            <PropertyRef Name="Edificio" />
+            <PropertyRef Name="Piso" />
+            <PropertyRef Name="Estado" />
+            <PropertyRef Name="Id_Edificio" />
+            <PropertyRef Name="Id_Sede" />
+            <PropertyRef Name="Id_Empresa" />
+            <PropertyRef Name="Id_Estado" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Empresa" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Ciudad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Departamento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sede" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Edificio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Piso" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Edificio" Type="Int32" Nullable="false" />
+          <Property Name="Id_Sede" Type="Int32" Nullable="false" />
+          <Property Name="Id_Empresa" Type="Int32" Nullable="false" />
+          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_Empresas">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Nombre" />
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Estado" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1202,24 +1207,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="V_Areas">
-            <EntityTypeMapping TypeName="Mantox.Models.V_Areas">
-              <MappingFragment StoreEntitySet="V_Areas">
-                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
-                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
-                <ScalarProperty Name="Id_Sede" ColumnName="Id_Sede" />
-                <ScalarProperty Name="Id_Edificio" ColumnName="Id_Edificio" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Edificio" ColumnName="Edificio" />
-                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
-                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
-                <ScalarProperty Name="Sede" ColumnName="Sede" />
-                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="V_Edificios">
             <EntityTypeMapping TypeName="Mantox.Models.V_Edificios">
               <MappingFragment StoreEntitySet="V_Edificios">
@@ -1232,16 +1219,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
                 <ScalarProperty Name="Sede" ColumnName="Sede" />
                 <ScalarProperty Name="Empresa" ColumnName="Empresa" />
                 <ScalarProperty Name="Edificio" ColumnName="Edificio" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_Empresas">
-            <EntityTypeMapping TypeName="Mantox.Models.V_Empresas">
-              <MappingFragment StoreEntitySet="V_Empresas">
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
-                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1356,6 +1333,35 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
             <EntityTypeMapping TypeName="Mantox.Models.Estado">
               <MappingFragment StoreEntitySet="Estados">
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Areas">
+            <EntityTypeMapping TypeName="Mantox.Models.V_Areas">
+              <MappingFragment StoreEntitySet="V_Areas">
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+                <ScalarProperty Name="Id_Sede" ColumnName="Id_Sede" />
+                <ScalarProperty Name="Id_Edificio" ColumnName="Id_Edificio" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Piso" ColumnName="Piso" />
+                <ScalarProperty Name="Edificio" ColumnName="Edificio" />
+                <ScalarProperty Name="Sede" ColumnName="Sede" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Empresas">
+            <EntityTypeMapping TypeName="Mantox.Models.V_Empresas">
+              <MappingFragment StoreEntitySet="V_Empresas">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
