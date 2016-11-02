@@ -8,18 +8,29 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MantoxWebApp.Models;
+using System.Collections;
+using FileHelper;
+using System.Reflection;
 
 namespace MantoxWebApp.Controllers
 {
-    public class PropietarioController : Controller
+    public class PropietarioController : MantoxController
     {
-        private MantoxDBEntities db = new MantoxDBEntities();
-        public string NombreContexto = "propietarios";
+        ///Instancia de conexión por framework a la base de datos
+        private MantoxDBEntities bdMantox = new MantoxDBEntities();
+        public string NombreContexto = "Propietarios";
+        public string NombreObjeto = "Propietario";
+
+        /// <summary>
+        /// Lista de propietarios
+        /// </summary>
+        IEnumerable propietarios; //Almacenará la lista de usuarios que se asignarán como responsables de los equipos
+
 
         // GET: Propietario
         public async Task<ActionResult> Index()
         {
-            return View(await db.Propietarios.ToListAsync());
+            return View(await bdMantox.Propietarios.ToListAsync());
         }
 
         // GET: Propietario/Details/5
@@ -29,7 +40,7 @@ namespace MantoxWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Propietario propietario = await db.Propietarios.FindAsync(id);
+            Propietario propietario = await bdMantox.Propietarios.FindAsync(id);
             if (propietario == null)
             {
                 return HttpNotFound();
@@ -41,7 +52,7 @@ namespace MantoxWebApp.Controllers
         public ActionResult Create()
         {
             //Select para Empresa
-            var empresas = db.Empresas.Select(empresa => new
+            var empresas = bdMantox.Empresas.Select(empresa => new
             {
                 EmpresaId = empresa.Id,
                 EmpresaNombre = empresa.Nombre
@@ -50,7 +61,7 @@ namespace MantoxWebApp.Controllers
             ViewBag.Empresas = new MultiSelectList(empresas, "EmpresaId", "EmpresaNombre");
 
             ////Select para Estados
-            var estados = db.Estados.Select(estado => new
+            var estados = bdMantox.Estados.Select(estado => new
             {
                 EstadoId = estado.Id,
                 EstadoNombre = estado.Nombre
@@ -68,7 +79,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Propietario/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -76,8 +87,8 @@ namespace MantoxWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Propietarios.Add(propietario);
-                await db.SaveChangesAsync();
+                bdMantox.Propietarios.Add(propietario);
+                await bdMantox.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -91,7 +102,7 @@ namespace MantoxWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Propietario propietario = await db.Propietarios.FindAsync(id);
+            Propietario propietario = await bdMantox.Propietarios.FindAsync(id);
             if (propietario == null)
             {
                 return HttpNotFound();
@@ -100,7 +111,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Propietario/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -108,8 +119,8 @@ namespace MantoxWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(propietario).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                bdMantox.Entry(propietario).State = EntityState.Modified;
+                await bdMantox.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(propietario);
@@ -122,7 +133,7 @@ namespace MantoxWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Propietario propietario = await db.Propietarios.FindAsync(id);
+            Propietario propietario = await bdMantox.Propietarios.FindAsync(id);
             if (propietario == null)
             {
                 return HttpNotFound();
@@ -135,9 +146,9 @@ namespace MantoxWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Propietario propietario = await db.Propietarios.FindAsync(id);
-            db.Propietarios.Remove(propietario);
-            await db.SaveChangesAsync();
+            Propietario propietario = await bdMantox.Propietarios.FindAsync(id);
+            bdMantox.Propietarios.Remove(propietario);
+            await bdMantox.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -145,9 +156,47 @@ namespace MantoxWebApp.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                bdMantox.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Devuelve un PartialView que contiene un MultiSelect de los propietarios
+        /// filtrados por un id de empresa
+        /// </summary>
+        /// <param name="idEmpresa">Id de la empresa</param>
+        /// <returns>PartialView</returns>
+        public PartialViewResult FiltrarPropietarios(string idEmpresa = "1")
+        {
+            try
+            {
+                var id_empresa = int.Parse(idEmpresa);
+
+                //Select para Responsables
+                propietarios = bdMantox.Propietarios.Select(propietario => new
+                {
+                    PropietarioId = propietario.Id,
+                    PropietarioNombre = propietario.Nombre,
+                    EstadoId = propietario.Id_Estado,
+                    EmpresaId = propietario.Id_Empresa
+                })
+                .Where //Se añade condición para mostrar sólo propietarios activos
+                    (r => (int)r.EstadoId == (int)EstadoMantox.Activo)
+                .Where //Se añade condición para mostrar sólo usuarios de la empresa seleccionada
+                    (r => (int)r.EmpresaId == id_empresa)
+                .ToList();
+
+                ViewBag.Propietarios = new MultiSelectList(propietarios, "PropietarioId", "PropietarioNombre");
+
+                return VistaAutenticada(PartialView("_VistaParcial_FiltrarPropietarios"), RolDeUsuario.Administrador);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return PartialView("ErrorInterno", "Error");
+            }
         }
     }
 }

@@ -41,6 +41,12 @@ namespace MantoxWebApp.Controllers
         /// </summary>
         IEnumerable empresas; //Almacenará la lista de empresas
 
+
+        /// <summary>
+        /// Lista de responsables
+        /// </summary>
+        IEnumerable responsables; //Almacenará la lista de usuarios que se asignarán como responsables de los equipos
+
         /// <summary>
         /// Index modificado,redirige a Ver()
         /// </summary>
@@ -548,7 +554,44 @@ namespace MantoxWebApp.Controllers
             {
                 EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
             }
+        }
 
+        /// <summary>
+        /// Devuelve un PartialView que contiene un MultiSelect de los responsables
+        /// filtrados por un id de empresa
+        /// </summary>
+        /// <param name="idEmpresa">Id de la empresa</param>
+        /// <returns>PartialView</returns>
+        public PartialViewResult FiltrarResponsables(string idEmpresa = "1")
+        {
+            try
+            {
+                var id_empresa = int.Parse(idEmpresa);
+
+                //Select para Responsables
+                responsables = bdMantox.V_Usuarios.Select(responsable => new
+                {
+                    ResponsableId = responsable.Id,
+                    ResponsableNombre = responsable.Nombre + " " + responsable.Apellido,
+                    EstadoId = responsable.Id_Estado,
+                    EmpresaId = responsable.Id_Empresa
+                })
+                .Where //Se añade condición para mostrar sólo usuarios activos
+                    (r => (int)r.EstadoId == (int)EstadoMantox.Activo)
+                .Where //Se añade condición para mostrar sólo usuarios de la empresa seleccionada
+                    (r => (int)r.EmpresaId == id_empresa)
+                .ToList();
+
+                ViewBag.Responsables = new MultiSelectList(responsables, "ResponsableId", "ResponsableNombre");
+
+                return VistaAutenticada(PartialView("_VistaParcial_FiltrarResponsables"), RolDeUsuario.Administrador);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return PartialView("ErrorInterno", "Error");
+            }
         }
     }
 }

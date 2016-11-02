@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="Mantox.Models.Comentarios" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Mantox.Models.Edificio" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Mantox.Models.Empresa" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Mantox.Models.Equipo" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Mantox.Models.Licencia" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Mantox.Models.Mantenimiento" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Mantox.Models.Modelo" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
@@ -26,7 +25,6 @@
         <EntityTypeShape EntityType="Mantox.Models.Version_Office" Width="1.5" PointX="10.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Mantox.Models.Marca" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Mantox.Models.V_Edificios" Width="1.5" PointX="7.375" PointY="12.75" />
-        <EntityTypeShape EntityType="Mantox.Models.V_Equipos" Width="1.5" PointX="11.375" PointY="12.75" />
         <EntityTypeShape EntityType="Mantox.Models.V_Modelos" Width="1.5" PointX="13.375" PointY="0.75" />
         <EntityTypeShape EntityType="Mantox.Models.V_Sedes" Width="1.5" PointX="13.375" PointY="4.75" />
         <EntityTypeShape EntityType="Mantox.Models.V_Usuarios" Width="1.5" PointX="13.375" PointY="8.75" />
@@ -34,6 +32,8 @@
         <EntityTypeShape EntityType="Mantox.Models.Estado" Width="1.5" PointX="0.75" PointY="13.75" />
         <EntityTypeShape EntityType="Mantox.Models.V_Areas" Width="1.5" PointX="5.5" PointY="12.75" />
         <EntityTypeShape EntityType="Mantox.Models.V_Empresas" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Mantox.Models.Equipo" Width="1.5" PointX="5" PointY="0.875" />
+        <EntityTypeShape EntityType="Mantox.Models.V_Equipos" Width="1.5" PointX="9.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

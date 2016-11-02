@@ -269,6 +269,8 @@
     <Compile Include="Models\Marca.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelExtension\Equipo\EquipoModels.cs" />
+    <Compile Include="Models\ModelExtension\Equipo\EquipoViewModels.cs" />
     <Compile Include="Models\ModelExtension\Empresa\EmpresaModels.cs" />
     <Compile Include="Models\ModelExtension\Empresa\EmpresaViewModels.cs" />
     <Compile Include="Models\ModelExtension\Enums\Enumeradores.cs" />
@@ -277,6 +279,7 @@
     <Compile Include="Models\ModelExtension\Area\AreaModels.cs" />
     <Compile Include="Models\ModelExtension\Area\AreaViewModels.cs" />
     <Compile Include="Models\ModelExtension\Usuario\UsuarioViewModels.cs" />
+    <Compile Include="Models\ModelExtension\V_Equipos\V_EquiposViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Empresas\V_EmpresasViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Areas\V_AreasViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Usuarios\V_UsuariosViewModel.cs" />
@@ -403,7 +406,6 @@
     <Content Include="Views\Edificio\_VistaParcial_FiltrarEdificios.cshtml" />
     <Content Include="Views\Piso\_VistaParcial_FiltrarPisos.cshtml" />
     <Content Include="Views\Area\Crear.cshtml" />
-    <Content Include="Views\Area\Edit.cshtml" />
     <Content Include="Views\Area\Ver.cshtml" />
     <Content Include="Views\Edificio\Create.cshtml" />
     <Content Include="Views\Edificio\Delete.cshtml" />
@@ -422,11 +424,11 @@
     <Content Include="Views\Sede\Edit.cshtml" />
     <Content Include="Views\Sede\Index.cshtml" />
     <Content Include="Views\Area\_VistaParcial_FiltrarAreas.cshtml" />
-    <Content Include="Views\Equipo\Create.cshtml" />
+    <Content Include="Views\Equipo\Crear.cshtml" />
     <Content Include="Views\Equipo\Delete.cshtml" />
-    <Content Include="Views\Equipo\Details.cshtml" />
+    <Content Include="Views\Equipo\_VistaParcial_DetallesEquipo.cshtml" />
     <Content Include="Views\Equipo\Edit.cshtml" />
-    <Content Include="Views\Equipo\Index.cshtml" />
+    <Content Include="Views\Equipo\Ver.cshtml" />
     <Content Include="Views\Modelo\Create.cshtml" />
     <Content Include="Views\Modelo\Delete.cshtml" />
     <Content Include="Views\Modelo\Details.cshtml" />
@@ -514,6 +516,10 @@
     <Content Include="Views\Area\_VistaParcial_BuscarAreas.cshtml" />
     <Content Include="Views\Empresa\Ver.cshtml" />
     <Content Include="Views\Empresa\_VistaParcial_BuscarEmpresas.cshtml" />
+    <Content Include="Views\Equipo\_VistaParcial_BuscarEquipos.cshtml" />
+    <Content Include="Views\Shared\_PlantillaDetalles.cshtml" />
+    <Content Include="Views\Usuario\_VistaParcial_FiltrarResponsables.cshtml" />
+    <Content Include="Views\Propietario\_VistaParcial_FiltrarPropietarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

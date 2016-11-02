@@ -46,11 +46,11 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Activo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Serial" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Nombre_Equipo" Type="varchar" MaxLength="50" />
+          <Property Name="Nombre_Equipo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Ip" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Comentario" Type="varchar" MaxLength="500" />
-          <Property Name="Fecha_Ingreso" Type="bigint" Nullable="false" />
-          <Property Name="Fecha_Fin_Garantia" Type="bigint" Nullable="false" />
+          <Property Name="Fecha_Ingreso" Type="date" Nullable="false" />
+          <Property Name="Fecha_Fin_Garantia" Type="date" Nullable="false" />
           <Property Name="Id_Responsable" Type="int" Nullable="false" />
           <Property Name="Id_Area" Type="int" Nullable="false" />
           <Property Name="Id_Modelo" Type="int" Nullable="false" />
@@ -293,49 +293,54 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Equipos' does not have a 
             <PropertyRef Name="Id" />
             <PropertyRef Name="Activo" />
             <PropertyRef Name="Serial" />
+            <PropertyRef Name="Nombre de Equipo" />
             <PropertyRef Name="Ip" />
             <PropertyRef Name="Fecha de Ingreso" />
             <PropertyRef Name="Fecha Fin de Garantia" />
-            <PropertyRef Name="Id_Area" />
-            <PropertyRef Name="Id_Propietario" />
-            <PropertyRef Name="Id_Estado" />
-            <PropertyRef Name="Id_Version_Office" />
-            <PropertyRef Name="Id_Responsable" />
             <PropertyRef Name="Id_Modelo" />
             <PropertyRef Name="Id_Sistema_Operativo" />
+            <PropertyRef Name="Id_Version_Office" />
+            <PropertyRef Name="Id_Area" />
+            <PropertyRef Name="Id_Responsable" />
+            <PropertyRef Name="Id_Propietario" />
+            <PropertyRef Name="Id_Estado" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Activo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Serial" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Nombre de Equipo" Type="varchar" MaxLength="50" />
+          <Property Name="Nombre de Equipo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Ip" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Fecha de Ingreso" Type="bigint" Nullable="false" />
-          <Property Name="Fecha Fin de Garantia" Type="bigint" Nullable="false" />
           <Property Name="Comentario" Type="varchar" MaxLength="500" />
-          <Property Name="Id_Area" Type="int" Nullable="false" />
-          <Property Name="Id_Propietario" Type="int" Nullable="false" />
-          <Property Name="Id_Estado" Type="int" Nullable="false" />
-          <Property Name="Id_Version_Office" Type="int" Nullable="false" />
           <Property Name="Nombre de Responsable" Type="varchar" MaxLength="50" />
           <Property Name="Apellido de Responsable" Type="varchar" MaxLength="50" />
           <Property Name="Email de Responsable" Type="varchar" MaxLength="50" />
-          <Property Name="Area de Responsable" Type="varchar" MaxLength="50" />
           <Property Name="Edificio de Responsable" Type="varchar" MaxLength="50" />
           <Property Name="Sede de Responsable" Type="varchar" MaxLength="50" />
           <Property Name="Empresa de Responsable" Type="varchar" MaxLength="1000" />
-          <Property Name="Id_Responsable" Type="int" Nullable="false" />
           <Property Name="Area" Type="varchar" MaxLength="50" />
           <Property Name="Ciudad" Type="varchar" MaxLength="50" />
           <Property Name="Departamento" Type="varchar" MaxLength="50" />
           <Property Name="Modelo" Type="varchar" MaxLength="50" />
-          <Property Name="Id_Tipo_Equipo" Type="int" />
-          <Property Name="Id_Modelo" Type="int" Nullable="false" />
-          <Property Name="Id_Marca" Type="int" />
           <Property Name="Sistema Operativo" Type="varchar" MaxLength="50" />
-          <Property Name="Id_Sistema_Operativo" Type="int" Nullable="false" />
           <Property Name="Propietario" Type="varchar" MaxLength="50" />
           <Property Name="Version de Office" Type="varchar" MaxLength="50" />
           <Property Name="Estado" Type="varchar" MaxLength="50" />
+          <Property Name="Empresa" Type="varchar" MaxLength="1000" />
+          <Property Name="Sede" Type="varchar" MaxLength="50" />
+          <Property Name="Edificio" Type="varchar" MaxLength="50" />
+          <Property Name="Piso" Type="int" />
+          <Property Name="Area de Responsable" Type="varchar" MaxLength="50" />
+          <Property Name="Fecha de Ingreso" Type="date" Nullable="false" />
+          <Property Name="Fecha Fin de Garantia" Type="date" Nullable="false" />
+          <Property Name="Id_Tipo_Equipo" Type="int" />
+          <Property Name="Id_Marca" Type="int" />
+          <Property Name="Id_Modelo" Type="int" Nullable="false" />
+          <Property Name="Id_Sistema_Operativo" Type="int" Nullable="false" />
+          <Property Name="Id_Version_Office" Type="int" Nullable="false" />
+          <Property Name="Id_Area" Type="int" Nullable="false" />
+          <Property Name="Id_Responsable" Type="int" Nullable="false" />
+          <Property Name="Id_Propietario" Type="int" Nullable="false" />
+          <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'inventarioHardware.dbo.V_Modelos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -490,33 +495,37 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
     [V_Equipos].[Serial] AS [Serial], 
     [V_Equipos].[Nombre de Equipo] AS [Nombre de Equipo], 
     [V_Equipos].[Ip] AS [Ip], 
-    [V_Equipos].[Fecha de Ingreso] AS [Fecha de Ingreso], 
-    [V_Equipos].[Fecha Fin de Garantia] AS [Fecha Fin de Garantia], 
     [V_Equipos].[Comentario] AS [Comentario], 
-    [V_Equipos].[Id_Area] AS [Id_Area], 
-    [V_Equipos].[Id_Propietario] AS [Id_Propietario], 
-    [V_Equipos].[Id_Estado] AS [Id_Estado], 
-    [V_Equipos].[Id_Version_Office] AS [Id_Version_Office], 
     [V_Equipos].[Nombre de Responsable] AS [Nombre de Responsable], 
     [V_Equipos].[Apellido de Responsable] AS [Apellido de Responsable], 
     [V_Equipos].[Email de Responsable] AS [Email de Responsable], 
-    [V_Equipos].[Area de Responsable] AS [Area de Responsable], 
     [V_Equipos].[Edificio de Responsable] AS [Edificio de Responsable], 
     [V_Equipos].[Sede de Responsable] AS [Sede de Responsable], 
     [V_Equipos].[Empresa de Responsable] AS [Empresa de Responsable], 
-    [V_Equipos].[Id_Responsable] AS [Id_Responsable], 
     [V_Equipos].[Area] AS [Area], 
     [V_Equipos].[Ciudad] AS [Ciudad], 
     [V_Equipos].[Departamento] AS [Departamento], 
     [V_Equipos].[Modelo] AS [Modelo], 
-    [V_Equipos].[Id_Tipo_Equipo] AS [Id_Tipo_Equipo], 
-    [V_Equipos].[Id_Modelo] AS [Id_Modelo], 
-    [V_Equipos].[Id_Marca] AS [Id_Marca], 
     [V_Equipos].[Sistema Operativo] AS [Sistema Operativo], 
-    [V_Equipos].[Id_Sistema_Operativo] AS [Id_Sistema_Operativo], 
     [V_Equipos].[Propietario] AS [Propietario], 
     [V_Equipos].[Version de Office] AS [Version de Office], 
-    [V_Equipos].[Estado] AS [Estado]
+    [V_Equipos].[Estado] AS [Estado], 
+    [V_Equipos].[Empresa] AS [Empresa], 
+    [V_Equipos].[Sede] AS [Sede], 
+    [V_Equipos].[Edificio] AS [Edificio], 
+    [V_Equipos].[Piso] AS [Piso], 
+    [V_Equipos].[Area de Responsable] AS [Area de Responsable], 
+    [V_Equipos].[Fecha de Ingreso] AS [Fecha de Ingreso], 
+    [V_Equipos].[Fecha Fin de Garantia] AS [Fecha Fin de Garantia], 
+    [V_Equipos].[Id_Tipo_Equipo] AS [Id_Tipo_Equipo], 
+    [V_Equipos].[Id_Marca] AS [Id_Marca], 
+    [V_Equipos].[Id_Modelo] AS [Id_Modelo], 
+    [V_Equipos].[Id_Sistema_Operativo] AS [Id_Sistema_Operativo], 
+    [V_Equipos].[Id_Version_Office] AS [Id_Version_Office], 
+    [V_Equipos].[Id_Area] AS [Id_Area], 
+    [V_Equipos].[Id_Responsable] AS [Id_Responsable], 
+    [V_Equipos].[Id_Propietario] AS [Id_Propietario], 
+    [V_Equipos].[Id_Estado] AS [Id_Estado]
     FROM [dbo].[V_Equipos] AS [V_Equipos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Modelos" EntityType="Self.V_Modelos" store:Type="Views" store:Schema="dbo">
@@ -604,26 +613,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Equipo">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Activo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Serial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nombre_Equipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Ip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Fecha_Ingreso" Type="Int64" Nullable="false" />
-          <Property Name="Fecha_Fin_Garantia" Type="Int64" Nullable="false" />
-          <Property Name="Id_Responsable" Type="Int32" Nullable="false" />
-          <Property Name="Id_Area" Type="Int32" Nullable="false" />
-          <Property Name="Id_Modelo" Type="Int32" Nullable="false" />
-          <Property Name="Id_Sistema_Operativo" Type="Int32" Nullable="false" />
-          <Property Name="Id_Propietario" Type="Int32" Nullable="false" />
-          <Property Name="Id_Version_Office" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Licencia">
@@ -763,7 +752,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySet Name="Comentarios" EntityType="Self.Comentarios" />
           <EntitySet Name="Edificios" EntityType="Mantox.Models.Edificio" />
           <EntitySet Name="Empresas" EntityType="Mantox.Models.Empresa" />
-          <EntitySet Name="Equipos" EntityType="Mantox.Models.Equipo" />
           <EntitySet Name="Licencias" EntityType="Mantox.Models.Licencia" />
           <EntitySet Name="Mantenimientos" EntityType="Mantox.Models.Mantenimiento" />
           <EntitySet Name="Modelos" EntityType="Mantox.Models.Modelo" />
@@ -780,7 +768,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySet Name="Versiones_Office" EntityType="Mantox.Models.Version_Office" />
           <EntitySet Name="Marcas" EntityType="Mantox.Models.Marca" />
           <EntitySet Name="V_Edificios" EntityType="Mantox.Models.V_Edificios" />
-          <EntitySet Name="V_Equipos" EntityType="Mantox.Models.V_Equipos" />
           <EntitySet Name="V_Modelos" EntityType="Mantox.Models.V_Modelos" />
           <EntitySet Name="V_Sedes" EntityType="Mantox.Models.V_Sedes" />
           <EntitySet Name="V_Usuarios" EntityType="Mantox.Models.V_Usuarios" />
@@ -788,6 +775,8 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySet Name="Estados" EntityType="Mantox.Models.Estado" />
           <EntitySet Name="V_Areas" EntityType="Mantox.Models.V_Areas" />
           <EntitySet Name="V_Empresas" EntityType="Mantox.Models.V_Empresas" />
+          <EntitySet Name="Equipos" EntityType="Mantox.Models.Equipo" />
+          <EntitySet Name="V_Equipos" EntityType="Mantox.Models.V_Equipos" />
         </EntityContainer>
         <EntityType Name="V_Edificios">
           <Key>
@@ -812,55 +801,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <Property Name="Id_Sede" Type="Int32" Nullable="false" />
           <Property Name="Id_Empresa" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="V_Equipos">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Activo" />
-            <PropertyRef Name="Serial" />
-            <PropertyRef Name="Ip" />
-            <PropertyRef Name="Fecha_de_Ingreso" />
-            <PropertyRef Name="Fecha_Fin_de_Garantia" />
-            <PropertyRef Name="Id_Area" />
-            <PropertyRef Name="Id_Propietario" />
-            <PropertyRef Name="Id_Estado" />
-            <PropertyRef Name="Id_Version_Office" />
-            <PropertyRef Name="Id_Responsable" />
-            <PropertyRef Name="Id_Modelo" />
-            <PropertyRef Name="Id_Sistema_Operativo" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Activo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Serial" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Nombre_de_Equipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Ip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Fecha_de_Ingreso" Type="Int64" Nullable="false" />
-          <Property Name="Fecha_Fin_de_Garantia" Type="Int64" Nullable="false" />
-          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Area" Type="Int32" Nullable="false" />
-          <Property Name="Id_Propietario" Type="Int32" Nullable="false" />
-          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-          <Property Name="Id_Version_Office" Type="Int32" Nullable="false" />
-          <Property Name="Nombre_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Apellido_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Area_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Edificio_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Sede_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Empresa_de_Responsable" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Responsable" Type="Int32" Nullable="false" />
-          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Tipo_Equipo" Type="Int32" />
-          <Property Name="Id_Modelo" Type="Int32" Nullable="false" />
-          <Property Name="Id_Marca" Type="Int32" />
-          <Property Name="Sistema_Operativo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Sistema_Operativo" Type="Int32" Nullable="false" />
-          <Property Name="Propietario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Version_de_Office" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="V_Modelos">
           <Key>
@@ -997,6 +937,80 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Equipo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Activo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Serial" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre_Equipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Ingreso" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Fecha_Fin_Garantia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id_Responsable" Type="Int32" Nullable="false" />
+          <Property Name="Id_Area" Type="Int32" Nullable="false" />
+          <Property Name="Id_Modelo" Type="Int32" Nullable="false" />
+          <Property Name="Id_Sistema_Operativo" Type="Int32" Nullable="false" />
+          <Property Name="Id_Propietario" Type="Int32" Nullable="false" />
+          <Property Name="Id_Version_Office" Type="Int32" Nullable="false" />
+          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_Equipos">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Activo" />
+            <PropertyRef Name="Serial" />
+            <PropertyRef Name="Nombre_de_Equipo" />
+            <PropertyRef Name="Ip" />
+            <PropertyRef Name="Fecha_de_Ingreso" />
+            <PropertyRef Name="Fecha_Fin_de_Garantia" />
+            <PropertyRef Name="Id_Modelo" />
+            <PropertyRef Name="Id_Sistema_Operativo" />
+            <PropertyRef Name="Id_Version_Office" />
+            <PropertyRef Name="Id_Area" />
+            <PropertyRef Name="Id_Responsable" />
+            <PropertyRef Name="Id_Propietario" />
+            <PropertyRef Name="Id_Estado" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Activo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Serial" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre_de_Equipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Edificio_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sede_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Empresa_de_Responsable" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sistema_Operativo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Propietario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Version_de_Office" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Empresa" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Sede" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Edificio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Piso" Type="Int32" />
+          <Property Name="Area_de_Responsable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_de_Ingreso" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Fecha_Fin_de_Garantia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Id_Tipo_Equipo" Type="Int32" />
+          <Property Name="Id_Marca" Type="Int32" />
+          <Property Name="Id_Modelo" Type="Int32" Nullable="false" />
+          <Property Name="Id_Sistema_Operativo" Type="Int32" Nullable="false" />
+          <Property Name="Id_Version_Office" Type="Int32" Nullable="false" />
+          <Property Name="Id_Area" Type="Int32" Nullable="false" />
+          <Property Name="Id_Responsable" Type="Int32" Nullable="false" />
+          <Property Name="Id_Propietario" Type="Int32" Nullable="false" />
+          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1037,27 +1051,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
               <MappingFragment StoreEntitySet="Empresas">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Equipos">
-            <EntityTypeMapping TypeName="Mantox.Models.Equipo">
-              <MappingFragment StoreEntitySet="Equipos">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-                <ScalarProperty Name="Serial" ColumnName="Serial" />
-                <ScalarProperty Name="Nombre_Equipo" ColumnName="Nombre_Equipo" />
-                <ScalarProperty Name="Ip" ColumnName="Ip" />
-                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-                <ScalarProperty Name="Fecha_Ingreso" ColumnName="Fecha_Ingreso" />
-                <ScalarProperty Name="Fecha_Fin_Garantia" ColumnName="Fecha_Fin_Garantia" />
-                <ScalarProperty Name="Id_Responsable" ColumnName="Id_Responsable" />
-                <ScalarProperty Name="Id_Area" ColumnName="Id_Area" />
-                <ScalarProperty Name="Id_Modelo" ColumnName="Id_Modelo" />
-                <ScalarProperty Name="Id_Sistema_Operativo" ColumnName="Id_Sistema_Operativo" />
-                <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
-                <ScalarProperty Name="Id_Version_Office" ColumnName="Id_Version_Office" />
                 <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1223,44 +1216,6 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="V_Equipos">
-            <EntityTypeMapping TypeName="Mantox.Models.V_Equipos">
-              <MappingFragment StoreEntitySet="V_Equipos">
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Version_de_Office" ColumnName="Version de Office" />
-                <ScalarProperty Name="Propietario" ColumnName="Propietario" />
-                <ScalarProperty Name="Id_Sistema_Operativo" ColumnName="Id_Sistema_Operativo" />
-                <ScalarProperty Name="Sistema_Operativo" ColumnName="Sistema Operativo" />
-                <ScalarProperty Name="Id_Marca" ColumnName="Id_Marca" />
-                <ScalarProperty Name="Id_Modelo" ColumnName="Id_Modelo" />
-                <ScalarProperty Name="Id_Tipo_Equipo" ColumnName="Id_Tipo_Equipo" />
-                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
-                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
-                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="Id_Responsable" ColumnName="Id_Responsable" />
-                <ScalarProperty Name="Empresa_de_Responsable" ColumnName="Empresa de Responsable" />
-                <ScalarProperty Name="Sede_de_Responsable" ColumnName="Sede de Responsable" />
-                <ScalarProperty Name="Edificio_de_Responsable" ColumnName="Edificio de Responsable" />
-                <ScalarProperty Name="Area_de_Responsable" ColumnName="Area de Responsable" />
-                <ScalarProperty Name="Email_de_Responsable" ColumnName="Email de Responsable" />
-                <ScalarProperty Name="Apellido_de_Responsable" ColumnName="Apellido de Responsable" />
-                <ScalarProperty Name="Nombre_de_Responsable" ColumnName="Nombre de Responsable" />
-                <ScalarProperty Name="Id_Version_Office" ColumnName="Id_Version_Office" />
-                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
-                <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
-                <ScalarProperty Name="Id_Area" ColumnName="Id_Area" />
-                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-                <ScalarProperty Name="Fecha_Fin_de_Garantia" ColumnName="Fecha Fin de Garantia" />
-                <ScalarProperty Name="Fecha_de_Ingreso" ColumnName="Fecha de Ingreso" />
-                <ScalarProperty Name="Ip" ColumnName="Ip" />
-                <ScalarProperty Name="Nombre_de_Equipo" ColumnName="Nombre de Equipo" />
-                <ScalarProperty Name="Serial" ColumnName="Serial" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="V_Modelos">
             <EntityTypeMapping TypeName="Mantox.Models.V_Modelos">
               <MappingFragment StoreEntitySet="V_Modelos">
@@ -1363,6 +1318,69 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipos">
+            <EntityTypeMapping TypeName="Mantox.Models.Equipo">
+              <MappingFragment StoreEntitySet="Equipos">
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+                <ScalarProperty Name="Id_Version_Office" ColumnName="Id_Version_Office" />
+                <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
+                <ScalarProperty Name="Id_Sistema_Operativo" ColumnName="Id_Sistema_Operativo" />
+                <ScalarProperty Name="Id_Modelo" ColumnName="Id_Modelo" />
+                <ScalarProperty Name="Id_Area" ColumnName="Id_Area" />
+                <ScalarProperty Name="Id_Responsable" ColumnName="Id_Responsable" />
+                <ScalarProperty Name="Fecha_Fin_Garantia" ColumnName="Fecha_Fin_Garantia" />
+                <ScalarProperty Name="Fecha_Ingreso" ColumnName="Fecha_Ingreso" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Ip" ColumnName="Ip" />
+                <ScalarProperty Name="Nombre_Equipo" ColumnName="Nombre_Equipo" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Equipos">
+            <EntityTypeMapping TypeName="Mantox.Models.V_Equipos">
+              <MappingFragment StoreEntitySet="V_Equipos">
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+                <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
+                <ScalarProperty Name="Id_Responsable" ColumnName="Id_Responsable" />
+                <ScalarProperty Name="Id_Area" ColumnName="Id_Area" />
+                <ScalarProperty Name="Id_Version_Office" ColumnName="Id_Version_Office" />
+                <ScalarProperty Name="Id_Sistema_Operativo" ColumnName="Id_Sistema_Operativo" />
+                <ScalarProperty Name="Id_Modelo" ColumnName="Id_Modelo" />
+                <ScalarProperty Name="Id_Marca" ColumnName="Id_Marca" />
+                <ScalarProperty Name="Id_Tipo_Equipo" ColumnName="Id_Tipo_Equipo" />
+                <ScalarProperty Name="Fecha_Fin_de_Garantia" ColumnName="Fecha Fin de Garantia" />
+                <ScalarProperty Name="Fecha_de_Ingreso" ColumnName="Fecha de Ingreso" />
+                <ScalarProperty Name="Area_de_Responsable" ColumnName="Area de Responsable" />
+                <ScalarProperty Name="Piso" ColumnName="Piso" />
+                <ScalarProperty Name="Edificio" ColumnName="Edificio" />
+                <ScalarProperty Name="Sede" ColumnName="Sede" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Version_de_Office" ColumnName="Version de Office" />
+                <ScalarProperty Name="Propietario" ColumnName="Propietario" />
+                <ScalarProperty Name="Sistema_Operativo" ColumnName="Sistema Operativo" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Empresa_de_Responsable" ColumnName="Empresa de Responsable" />
+                <ScalarProperty Name="Sede_de_Responsable" ColumnName="Sede de Responsable" />
+                <ScalarProperty Name="Edificio_de_Responsable" ColumnName="Edificio de Responsable" />
+                <ScalarProperty Name="Email_de_Responsable" ColumnName="Email de Responsable" />
+                <ScalarProperty Name="Apellido_de_Responsable" ColumnName="Apellido de Responsable" />
+                <ScalarProperty Name="Nombre_de_Responsable" ColumnName="Nombre de Responsable" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Ip" ColumnName="Ip" />
+                <ScalarProperty Name="Nombre_de_Equipo" ColumnName="Nombre de Equipo" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

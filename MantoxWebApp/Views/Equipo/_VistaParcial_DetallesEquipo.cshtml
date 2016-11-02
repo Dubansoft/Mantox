@@ -1,0 +1,52 @@
+﻿@using System.Data
+
+
+@{
+    DataTable tablaEquipo = (DataTable)ViewBag.TablaDetallesEquipo;
+
+}
+
+
+@*@foreach (DataColumn column in tablaEquipo.Columns)
+{
+    <tr>
+        <td>@column.ColumnName</td>
+        <td>@tablaEquipo.Rows[0][column.ColumnName]</td>
+    </tr>
+}*@
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div>&nbsp;</div>
+        <div class="box box-primary">
+            <div class="box-header text-center">
+                <h3 class="box-title">Detalles del equipo</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover text-center">
+                    <tr>
+                        <th><h4>Clave</h4></th>
+                        <th><h4>Valor</h4></th>
+                        <th><h4>Clave</h4></th>
+                        <th><h4>Valor</h4></th>
+                    </tr>
+                    @for (int i = 0; i < tablaEquipo.Columns.Count; i = i + 2)
+                    {
+                        <tr>
+                            <td style="font-weight:bold;">@tablaEquipo.Columns[i].ColumnName</td>
+                            <td>@tablaEquipo.Rows[0][i]</td>
+
+                            <td style="font-weight:bold;">@tablaEquipo.Columns[i + 1].ColumnName</td>
+                            <td>@tablaEquipo.Rows[0][i + 1]</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>

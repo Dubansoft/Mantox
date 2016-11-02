@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MantoxWebApp", "MantoxWebApp\MantoxWebApp.csproj", "{E0F30F54-1B58-4AC1-B411-34222984F5DB}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileHelper", "FileHelper\FileHelper.csproj", "{C4995535-BA1A-45B2-B831-DE1C7C70B12D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{7FACABBD-742A-4144-8AD0-0704973FEA7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MantoxInventoryAgent", "MantoxInventoryAgent\MantoxInventoryAgent.csproj", "{575A51D0-46E5-4026-BA98-261F479324AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryAgent", "InventoryAgent\InventoryAgent.csproj", "{2BFBFFAE-0D2B-4F7D-95BB-476EE1D8C226}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{7FACABBD-742A-4144-8AD0-0704973FEA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FACABBD-742A-4144-8AD0-0704973FEA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FACABBD-742A-4144-8AD0-0704973FEA7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{575A51D0-46E5-4026-BA98-261F479324AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{575A51D0-46E5-4026-BA98-261F479324AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{575A51D0-46E5-4026-BA98-261F479324AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{575A51D0-46E5-4026-BA98-261F479324AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BFBFFAE-0D2B-4F7D-95BB-476EE1D8C226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BFBFFAE-0D2B-4F7D-95BB-476EE1D8C226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BFBFFAE-0D2B-4F7D-95BB-476EE1D8C226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BFBFFAE-0D2B-4F7D-95BB-476EE1D8C226}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

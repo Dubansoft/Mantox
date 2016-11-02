@@ -19,32 +19,36 @@ namespace MantoxWebApp.Models
         public string Serial { get; set; }
         public string Nombre_de_Equipo { get; set; }
         public string Ip { get; set; }
-        public long Fecha_de_Ingreso { get; set; }
-        public long Fecha_Fin_de_Garantia { get; set; }
         public string Comentario { get; set; }
-        public int Id_Area { get; set; }
-        public int Id_Propietario { get; set; }
-        public int Id_Estado { get; set; }
-        public int Id_Version_Office { get; set; }
         public string Nombre_de_Responsable { get; set; }
         public string Apellido_de_Responsable { get; set; }
         public string Email_de_Responsable { get; set; }
-        public string Area_de_Responsable { get; set; }
         public string Edificio_de_Responsable { get; set; }
         public string Sede_de_Responsable { get; set; }
         public string Empresa_de_Responsable { get; set; }
-        public int Id_Responsable { get; set; }
         public string Area { get; set; }
         public string Ciudad { get; set; }
         public string Departamento { get; set; }
         public string Modelo { get; set; }
-        public Nullable<int> Id_Tipo_Equipo { get; set; }
-        public int Id_Modelo { get; set; }
-        public Nullable<int> Id_Marca { get; set; }
         public string Sistema_Operativo { get; set; }
-        public int Id_Sistema_Operativo { get; set; }
         public string Propietario { get; set; }
         public string Version_de_Office { get; set; }
         public string Estado { get; set; }
+        public string Empresa { get; set; }
+        public string Sede { get; set; }
+        public string Edificio { get; set; }
+        public Nullable<int> Piso { get; set; }
+        public string Area_de_Responsable { get; set; }
+        public System.DateTime Fecha_de_Ingreso { get; set; }
+        public System.DateTime Fecha_Fin_de_Garantia { get; set; }
+        public Nullable<int> Id_Tipo_Equipo { get; set; }
+        public Nullable<int> Id_Marca { get; set; }
+        public int Id_Modelo { get; set; }
+        public int Id_Sistema_Operativo { get; set; }
+        public int Id_Version_Office { get; set; }
+        public int Id_Area { get; set; }
+        public int Id_Responsable { get; set; }
+        public int Id_Propietario { get; set; }
+        public int Id_Estado { get; set; }
     }
 }

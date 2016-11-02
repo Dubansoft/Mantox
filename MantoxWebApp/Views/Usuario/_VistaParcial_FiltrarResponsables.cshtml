@@ -1,0 +1,7 @@
+﻿@model IEnumerable<MantoxWebApp.Models.V_Usuarios>
+
+<div class="form-group">
+    <label>Responsable del equipo</label>
+    @Html.DropDownList("Id_Responsable", (MultiSelectList)ViewBag.Responsables, new { @class = "select2 form-control nivel2" })
+
+</div>

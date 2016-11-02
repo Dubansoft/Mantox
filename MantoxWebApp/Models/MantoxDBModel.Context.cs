@@ -29,7 +29,6 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Comentarios> Comentarios { get; set; }
         public virtual DbSet<Edificio> Edificios { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
-        public virtual DbSet<Equipo> Equipos { get; set; }
         public virtual DbSet<Licencia> Licencias { get; set; }
         public virtual DbSet<Mantenimiento> Mantenimientos { get; set; }
         public virtual DbSet<Modelo> Modelos { get; set; }
@@ -46,7 +45,6 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Version_Office> Versiones_Office { get; set; }
         public virtual DbSet<Marca> Marcas { get; set; }
         public virtual DbSet<V_Edificios> V_Edificios { get; set; }
-        public virtual DbSet<V_Equipos> V_Equipos { get; set; }
         public virtual DbSet<V_Modelos> V_Modelos { get; set; }
         public virtual DbSet<V_Sedes> V_Sedes { get; set; }
         public virtual DbSet<V_Usuarios> V_Usuarios { get; set; }
@@ -54,5 +52,7 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<V_Areas> V_Areas { get; set; }
         public virtual DbSet<V_Empresas> V_Empresas { get; set; }
+        public virtual DbSet<Equipo> Equipos { get; set; }
+        public virtual DbSet<V_Equipos> V_Equipos { get; set; }
     }
 }

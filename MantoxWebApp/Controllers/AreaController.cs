@@ -448,18 +448,25 @@ namespace MantoxWebApp.Controllers
         /// <returns>PartialView</returns>
         public PartialViewResult FiltrarAreas(string idEdificio = "1",  string numPiso = "0")
         {
-            var id_edificio = int.Parse(idEdificio);
-            var num_piso = int.Parse(numPiso);
+            try {
+                var id_edificio = int.Parse(idEdificio);
+                var num_piso = int.Parse(numPiso);
 
-            List<Area> areas = (from a in bdMantox.Areas
-                               where a.Id_Edificio  == id_edificio
-                               where a.Piso == num_piso
-                               select a).ToList();
+                List<Area> areas = (from a in bdMantox.Areas
+                                   where a.Id_Edificio  == id_edificio
+                                   where a.Piso == num_piso
+                                   select a).ToList();
 
-            ViewBag.Areas = new MultiSelectList(areas, "Id", "Nombre");
+                ViewBag.Areas = new MultiSelectList(areas, "Id", "Nombre");
 
-            return PartialView("_VistaParcial_FiltrarAreas");
+                return PartialView("_VistaParcial_FiltrarAreas");
 
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return PartialView("ErrorInterno", "Error");
+            }
         }
     }
 }
