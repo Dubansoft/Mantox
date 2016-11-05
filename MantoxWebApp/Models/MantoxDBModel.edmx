@@ -48,9 +48,9 @@
           <Property Name="Serial" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Nombre_Equipo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Ip" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Comentario" Type="varchar" MaxLength="500" />
           <Property Name="Fecha_Ingreso" Type="date" Nullable="false" />
           <Property Name="Fecha_Fin_Garantia" Type="date" Nullable="false" />
+          <Property Name="Comentario" Type="varchar" MaxLength="500" />
           <Property Name="Id_Responsable" Type="int" Nullable="false" />
           <Property Name="Id_Area" Type="int" Nullable="false" />
           <Property Name="Id_Modelo" Type="int" Nullable="false" />
@@ -172,6 +172,7 @@ warning 6002: The table/view 'inventarioHardware.dbo.Marcas' does not have a pri
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tipo_Equipo" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Tipos_Equipo">
           <Key>
@@ -341,6 +342,9 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Equipos' does not have a 
           <Property Name="Id_Responsable" Type="int" Nullable="false" />
           <Property Name="Id_Propietario" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
+          <Property Name="Id_Edificio" Type="int" />
+          <Property Name="Id_Sede" Type="int" />
+          <Property Name="Id_Empresa" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'inventarioHardware.dbo.V_Modelos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -525,7 +529,10 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
     [V_Equipos].[Id_Area] AS [Id_Area], 
     [V_Equipos].[Id_Responsable] AS [Id_Responsable], 
     [V_Equipos].[Id_Propietario] AS [Id_Propietario], 
-    [V_Equipos].[Id_Estado] AS [Id_Estado]
+    [V_Equipos].[Id_Estado] AS [Id_Estado], 
+    [V_Equipos].[Id_Edificio] AS [Id_Edificio], 
+    [V_Equipos].[Id_Sede] AS [Id_Sede], 
+    [V_Equipos].[Id_Empresa] AS [Id_Empresa]
     FROM [dbo].[V_Equipos] AS [V_Equipos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Modelos" EntityType="Self.V_Modelos" store:Type="Views" store:Schema="dbo">
@@ -708,6 +715,7 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tipo_Equipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Tipo_Equipo">
           <Key>
@@ -1010,6 +1018,9 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <Property Name="Id_Responsable" Type="Int32" Nullable="false" />
           <Property Name="Id_Propietario" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+          <Property Name="Id_Edificio" Type="Int32" />
+          <Property Name="Id_Sede" Type="Int32" />
+          <Property Name="Id_Empresa" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1154,6 +1165,7 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySetMapping Name="Sistemas_Operativos">
             <EntityTypeMapping TypeName="Mantox.Models.Sistema_Operativo">
               <MappingFragment StoreEntitySet="Sistemas_Operativos">
+                <ScalarProperty Name="Tipo_Equipo" ColumnName="Tipo_Equipo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
               </MappingFragment>
@@ -1346,6 +1358,9 @@ warning 6002: The table/view 'inventarioHardware.dbo.V_Usuarios' does not have a
           <EntitySetMapping Name="V_Equipos">
             <EntityTypeMapping TypeName="Mantox.Models.V_Equipos">
               <MappingFragment StoreEntitySet="V_Equipos">
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+                <ScalarProperty Name="Id_Sede" ColumnName="Id_Sede" />
+                <ScalarProperty Name="Id_Edificio" ColumnName="Id_Edificio" />
                 <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
                 <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
                 <ScalarProperty Name="Id_Responsable" ColumnName="Id_Responsable" />

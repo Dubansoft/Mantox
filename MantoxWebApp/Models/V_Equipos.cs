@@ -50,5 +50,8 @@ namespace MantoxWebApp.Models
         public int Id_Responsable { get; set; }
         public int Id_Propietario { get; set; }
         public int Id_Estado { get; set; }
+        public Nullable<int> Id_Edificio { get; set; }
+        public Nullable<int> Id_Sede { get; set; }
+        public Nullable<int> Id_Empresa { get; set; }
     }
 }
