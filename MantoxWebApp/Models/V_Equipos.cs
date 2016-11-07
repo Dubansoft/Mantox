@@ -29,7 +29,9 @@ namespace MantoxWebApp.Models
         public string Area { get; set; }
         public string Ciudad { get; set; }
         public string Departamento { get; set; }
+        public string Marca { get; set; }
         public string Modelo { get; set; }
+        public string Tipo_de_Equipo { get; set; }
         public string Sistema_Operativo { get; set; }
         public string Propietario { get; set; }
         public string Version_de_Office { get; set; }
@@ -40,7 +42,8 @@ namespace MantoxWebApp.Models
         public Nullable<int> Piso { get; set; }
         public string Area_de_Responsable { get; set; }
         public System.DateTime Fecha_de_Ingreso { get; set; }
-        public System.DateTime Fecha_Fin_de_Garantia { get; set; }
+        public int Meses_de_Garantia { get; set; }
+        public Nullable<System.DateTime> Fecha_Fin_de_Garantia { get; set; }
         public Nullable<int> Id_Tipo_Equipo { get; set; }
         public Nullable<int> Id_Marca { get; set; }
         public int Id_Modelo { get; set; }

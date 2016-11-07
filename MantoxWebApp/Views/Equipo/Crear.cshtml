@@ -19,8 +19,11 @@
     @*Añadimos estilos propios de esta página*@
     @Styles.Render("~/adminLte/css/select2/")
 
-    <!-- Data picker -->
+    <!-- Date picker -->
     @Styles.Render("~/adminLte/css/Datepicker/")
+
+    <!-- Validate js tooltip style -->
+    @Styles.Render("~/adminLte/css/ValidateJsTooltips/")
 
 }
 
@@ -37,6 +40,13 @@
     <div class="row">
         <div class="col-md-6 col-sm-6">
             <div class="form-group">
+                @Html.LabelFor(model => model.Nombre_de_Equipo, "Nombre del equipo")
+                @Html.EditorFor(model => model.Nombre_de_Equipo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre_de_Equipo, "", new { @class = "text-danger" })
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
                 @Html.LabelFor(model => model.Activo)
                 @Html.EditorFor(model => model.Activo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
@@ -51,56 +61,35 @@
             <!-- /.form-group -->
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Nombre_de_Equipo, "Nombre del equipo")
-                @Html.EditorFor(model => model.Nombre_de_Equipo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nombre_de_Equipo, "", new { @class = "text-danger" })
-            </div>
-            <!-- /.form-group -->
-
-            <div class="form-group">
                 @Html.LabelFor(model => model.Ip, "Dirección IPv4")
-                @Html.EditorFor(model => model.Ip, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Ip, new { htmlAttributes = new { @class = "form-control", @placeholder = "000.000.000.000" } })
                 @Html.ValidationMessageFor(model => model.Ip, "", new { @class = "text-danger" })
             </div>
             <!-- /.form-group -->
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Fecha_de_Ingreso, "Fecha ingreso")
-                @Html.EditorFor(model => model.Fecha_de_Ingreso, new { htmlAttributes = new { @class = "form-control", @type="text" } })
-                @Html.ValidationMessageFor(model => model.Fecha_de_Ingreso, "", new { @class = "text-danger" })
-            </div>
-            <!-- /.form-group -->
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Fecha_Fin_de_Garantia, "Fin de la garantía")
-                @Html.EditorFor(model => model.Fecha_Fin_de_Garantia, new { htmlAttributes = new { @class="form-control ", @type = "text" } })
-                @Html.ValidationMessageFor(model => model.Fecha_Fin_de_Garantia, "", new { @class = "text-danger" })
-            </div>
-            <!-- /.form-group -->
-
-            <div class="form-group">
                 @Html.LabelFor(model => model.Id_Modelo, "Modelo")
-                @Html.DropDownList("ModeloId", (MultiSelectList)ViewBag.Modelos, new { @class = "form-control select2" })
+                @Html.DropDownList("Id_Modelo", (MultiSelectList)ViewBag.Modelos, "--Sin asignar--", new { @class = "form-control select2" })
                 @Html.ValidationMessageFor(model => model.Id_Modelo, "", new { @class = "text-danger" })
             </div>
             <!-- /.form-group -->
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Id_Sistema_Operativo,"Sistemas operativo")
-                @Html.DropDownList("SistemaOperativoId", (MultiSelectList)ViewBag.SistemasOperativos, new { @class = "form-control select2" })
+                @Html.LabelFor(model => model.Id_Sistema_Operativo, "Sistema operativo")
+                @Html.DropDownList("Id_Sistema_Operativo", (MultiSelectList)ViewBag.SistemasOperativos, "--Sin asignar--", new { @class = "form-control select2" })
                 @Html.ValidationMessageFor(model => model.Id_Sistema_Operativo, "", new { @class = "text-danger" })
             </div>
             <!-- /.form-group -->
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Id_Version_Office,"Office")
+                @Html.LabelFor(model => model.Id_Version_Office, "Versión de Office Instalada")
                 @Html.DropDownList("Id_Version_Office", (MultiSelectList)ViewBag.VersionesOffice, "--Sin asignar--", new { @class = "form-control select2" })
                 @Html.ValidationMessageFor(model => model.Id_Version_Office, "", new { @class = "text-danger" })
             </div>
             <!-- /.form-group -->
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Id_Estado,"Estado")
+                @Html.LabelFor(model => model.Id_Estado, "Estado")
                 @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form-control select2" })
                 @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
             </div>
@@ -165,6 +154,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- row -->
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <!-- /.form-group -->
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Fecha_de_Ingreso, "Fecha ingreso")
+                        @Html.EditorFor(model => model.Fecha_de_Ingreso, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+                        @Html.ValidationMessageFor(model => model.Fecha_de_Ingreso, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <!-- /.form-group -->
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Meses_de_Garantia, "Meses de garantía")
+                        @Html.EditorFor(model => model.Meses_de_Garantia, new { htmlAttributes = new { @class = "form-control ", @type = "number", @id= "Meses_Garantia", @name= "Meses_Garantia" } })
+                        @Html.ValidationMessageFor(model => model.Meses_de_Garantia, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+            </div>
+            <!-- /row-->
+
             <!-- /.form-group -->
 
             <div class="form-group">
@@ -199,34 +215,32 @@
 
 }
 
-<div>
-    @Html.ActionLink("Volver a la lista", "Index")
-</div>
-
 
 @section ScriptsPieDePagina {
 
     <!-- Inicio datepicker -->
-
     <!-- Data picker -->
     @Scripts.Render("~/adminLte/js/Datepicker/")
+
+    <!-- Input Mask -->
+    @Scripts.Render("~/adminLte/js/JQueryInputMask/")
+    <!-- /Input Mask-->
 
     <script>
         $(function () {
 
             //Date picker
             $('#Fecha_de_Ingreso').datepicker({
-                autoclose: true
+                                autoclose: true
             });
 
             //Date picker
             $('#Fecha_Fin_de_Garantia').datepicker({
-                autoclose: true
+                                autoclose: true
             });
 
-        });
+                            });
     </script>
-
 
     <!-- Select2 -->
     @Scripts.Render("~/adminLte/js/select2/")
@@ -235,7 +249,7 @@
         $(function () {
             //Initialize Select2 Elements
             $(".select2").select2();
-        });
+                            });
     </script>
 
     <!-- Ajax -->
@@ -250,7 +264,7 @@
             //Carga asincrónica de las sedes al seleccionar la empresa
             $("#Id_Empresa").change(function () {
                 $('.nivel2').empty();
-                var idEmpresa = $("#Id_Empresa").val();
+                                    var idEmpresa = $("#Id_Empresa").val();
 
                 $("#divResultadoSedes").html(animacionCargaDeSelect);
                 $("#divResultadoSedes").load('@(Url.Action("FiltrarSedes", "Sede", null, Request.Url.Scheme))?idEmpresa=' + idEmpresa);
@@ -261,36 +275,69 @@
                 $("#divResultadoPropietarios").html(animacionCargaDeSelect);
                 $("#divResultadoPropietarios").load('@(Url.Action("FiltrarPropietarios", "Propietario", null, Request.Url.Scheme))?idEmpresa=' + idEmpresa);
 
-            });
+                                });
 
-        });
+                            });
     </script>
 
 
     <!-- Validate .js-->
     @Scripts.Render("~/adminLte/js/validate/")
 
+    <!-- Input Mask -->
+    @Scripts.Render("~/adminLte/js/InputMask/")
+
+    <!-- IPMask -->
+    @*@Scripts.Render("~/adminLte/js/IPMask/")*@
+
     <script>
-        $().ready(function () {
-            // validate signup form on keyup and submit
+        $('#Ip').mask('XZZ.XZZ.XZZ.XZZ', {
+            translation: {
+                'X': {
+                    pattern: /[0-2]/
+                },
+                'Z': {
+                    pattern: /[0-9]/
+                }
 
-            $("#formulario_crear_equipo").validate({
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            // initialize validate plugin on the form
+            $('#formulario_crear_equipo').validate({
+                errorPlacement: ValidatorErrorPlacement,
+                success: ValidatorSuccess,
                 rules: {
-                    Activo: "required",
-                    Serial: "required",
-                    Nombre_Equipo: "required",
-                    Ip: "required",
-                    Comentario: "required",
-                    Fecha_Ingreso: "required",
-                    Fecha_Fin_Garantia: "required",
-
-                    Id_Responsable: {
+                    Activo: {
                         required: true,
-                        min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+                        minlength: 4
                     },
-                    Id_Area: {
+                    Serial: {
                         required: true,
-                        min: 1
+                        minlength: 5
+                    },
+                    Nombre_de_Equipo: {
+                        required: true,
+                        host: true
+                    },
+                    Ip: {
+                        required: true,
+                        IPv4: true,
+                        minlength: 15,
+                        maxlength: 15
+                    },
+                    Fecha_Ingreso: {
+                        required: true,
+                        date: true
+                    },
+                    Meses_Garantia: {
+                        required: true,
+                        min: 0,
+                        number: true
                     },
                     Id_Modelo: {
                         required: true,
@@ -298,22 +345,54 @@
                     },
                     Id_Sistema_Operativo: {
                         required: true,
-                        min: 2
-                    },
-                    Id_Propietario: {
-                        required: true,
-                        min: 2
+                        min: 1
                     },
                     Id_Version_Office: {
-                        required: true
+                        required: true,
+                        min: 1
                     },
                     Id_Estado: {
+                        required: true,
+                        min: 1
+                    },
+                    Id_Responsable: {
+                        required: true,
+                        min: 1
+                    },
+                    Id_Empresa: {
+                        required: true,
+                        min: 1
+                    },
+                    Id_Sede: {
+                        required: true,
+                        min: 1
+                    },
+                    Id_Edificio: {
+                        required: true,
+                        min: 1
+                    },
+                    Piso: {
+                        required: true,
+                        number: true
+                    },
+                    Id_Area: {
+                        required: true,
+                        min: 1
+                    },
+                    Id_Responsable: {
+                        required: true,
+                        min: 1
+                    },
+                    Id_Propietario: {
                         required: true,
                         min: 1
                     }
                 }
             });
+
         });
+
+
     </script>
 }
 

@@ -19,6 +19,9 @@
     @*Añadimos estilos propios de esta página*@
     @Styles.Render("~/adminLte/css/select2/")
 
+    <!-- Validate js tooltip style -->
+    @Styles.Render("~/adminLte/css/ValidateJsTooltips/")
+
 }
 
 @using (Html.BeginForm("Crear", "Usuario", FormMethod.Post, new { @id = "formulario_crear_usuario" }))
@@ -224,6 +227,8 @@
             // validate signup form on keyup and submit
 
             $("#formulario_crear_usuario").validate({
+                errorPlacement: ValidatorErrorPlacement,
+                success: ValidatorSuccess,
                 rules: {
                     Nombre: "required",
                     Apellido: "required",

@@ -111,7 +111,7 @@ namespace MantoxWebApp.Controllers
 
             try
             {
-                //Creamos nueva instancia de la clase parcial "v_equipos"
+                //Creamos nuevo instancia de la clase parcial "v_equipos"
                 V_Equipos miVistaEquipos = new V_Equipos();
 
                 //Creamos un diccionario para almacener los resultados devueltos por la consulta
@@ -211,7 +211,7 @@ namespace MantoxWebApp.Controllers
         }
 
         /// <summary>
-        /// Muestra un formulario para crear un area nueva
+        /// Muestra un formulario para crear un equipo nuevo
         /// </summary>
         /// <returns></returns>
         public ActionResult Crear()
@@ -254,16 +254,93 @@ namespace MantoxWebApp.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Activo,Serial,Nombre_Equipo,Ip,Comentario,Fecha_Ingreso,Fecha_Fin_Garantia,Id_Responsable,Id_Area,Id_Modelo,Id_Sistema_Operativo,Id_Propietario,Id_Version_Office,Id_Estado")] Equipo equipo)
+        public async Task<ActionResult> Crear([Bind(Include = "Id,Activo,Serial,Nombre_de_Equipo,Ip,Comentario,Fecha_de_Ingreso,Meses_de_Garantia,Id_Responsable,Id_Area,Id_Modelo,Id_Sistema_Operativo,Id_Propietario,Id_Version_Office,Id_Estado")] CrearEditarEquipoViewModel equipovm)
         {
-            if (ModelState.IsValid)
+            //Validar acceso
+            if (!TieneAcceso(RolDeUsuario.Administrador)) { return PartialView("Error401"); }
+
+            try
             {
-                bdMantox.Equipos.Add(equipo);
-                await bdMantox.SaveChangesAsync();
-                return RedirectToAction("Index");
+                //Creamos una instancia de equipo con los datos que recibimos del formulario
+                Equipo equipoRecibido = new Equipo();
+                equipoRecibido = (Equipo)equipovm;
+
+
+                //Si el equipo no es nuevo (el id > 0) entonces validamos primero si ya existe un área
+                //con un id diferente pero con los mismos datos, esto identificaria un duplicado.
+                if (equipovm.Id > 0)
+                {
+                    //Buscamos un duplicado de la siguiente manera
+                    if (bdMantox.V_Equipos.FirstOrDefault(
+                        ve =>
+                            ve.Serial.Trim().ToString() == equipovm.Serial.Trim().ToString() &&
+                            (int)ve.Id != (int)equipovm.Id
+                        ) != null)
+                    {
+                        //Si existe, se añade error al modelo.
+                        ModelState.AddModelError("Serial", "El serial del equipo que intenta registrar ya registrado en el sistema.");
+                    }
+                }
+                else
+                {
+                    //Si el equipo es nuevo (id = 0), validamos que el no exista una con los mismos datos.
+                    if (bdMantox.V_Equipos.FirstOrDefault(
+                        va =>
+                            va.Serial.Trim().ToString() == equipovm.Serial.Trim().ToString()
+                        ) != null)
+                    {
+                        //Si existe, se añade error al modelo
+                        ModelState.AddModelError("Serial", "El serial del equipo que intenta registrar ya registrado en el sistema.");
+                    }
+                }
+
+                //Validamos que no haya errores en el modelo
+                if (ModelState.IsValid)
+                {
+                    //Si es equipo nuevo...
+                    if (equipovm.Id <= 0)
+                    {
+                        //La añadirmos a la base de datos
+                        bdMantox.Equipos.Add(equipoRecibido);
+                    }
+                    else //Si es equipo existente (id > 0)
+                    {
+                        //Lo ponemos en estado modificado
+                        bdMantox.Entry(equipoRecibido).State = EntityState.Modified;
+                    }
+
+                    //Enviamos los cambios a la base de datos
+                    await bdMantox.SaveChangesAsync();
+
+                    //Redirigimos a la página de creación de equipo.
+                    return RedirectToAction("Crear");
+                }
+
+                //Si el modelo tiene errores de validación, se crea nuevomente el
+                //formulario y se muestra con los errores
+
+                llenarListasDesplegables();
+
+                ViewBag.Estados = new MultiSelectList(estados, "EstadoId", "EstadoNombre");
+                ViewBag.Empresas = new MultiSelectList(empresas, "EmpresaId", "EmpresaNombre");
+
+                ViewBag.Accion = "Editar";
+                ViewBag.Plantilla = "formTemplate";
+
+                ViewData.Add("NombreContexto", this.NombreContexto);
+                ViewData.Add("NombreObjeto", this.NombreObjeto);
+                ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
+
+                ViewData.Add("EquipoActual", (V_Equipos)equipovm);
+
+                return VistaAutenticada(View((V_Equipos)equipoRecibido), RolDeUsuario.Administrador);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return View("Error500");
             }
 
-            return View(equipo);
         }
 
         // GET: Equipo/Edit/5

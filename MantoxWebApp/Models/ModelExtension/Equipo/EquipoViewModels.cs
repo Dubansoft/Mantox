@@ -18,7 +18,7 @@ namespace MantoxWebApp.Models
         public string Serial { get; set; }
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public string Nombre_Equipo { get; set; }
+        public string Nombre_de_Equipo { get; set; }
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
         public string Ip { get; set; }
@@ -27,10 +27,10 @@ namespace MantoxWebApp.Models
         public string Comentario { get; set; }
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public DateTime Fecha_Ingreso { get; set; }
+        public DateTime Fecha_de_Ingreso { get; set; }
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public DateTime Fecha_Fin_Garantia { get; set; }
+        public int Meses_de_Garantia { get; set; }
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
         public int Id_Responsable { get; set; }
@@ -67,11 +67,11 @@ namespace MantoxWebApp.Models
                 Id = v.Id,
                 Activo = v.Activo,
                 Serial = v.Serial,
-                Nombre_Equipo = v.Nombre_Equipo,
+                Nombre_Equipo = v.Nombre_de_Equipo,
                 Ip = v.Ip,
                 Comentario = v.Comentario,
-                Fecha_Ingreso = v.Fecha_Ingreso,
-                Fecha_Fin_Garantia = v.Fecha_Fin_Garantia,
+                Fecha_Ingreso = v.Fecha_de_Ingreso,
+                Meses_Garantia = v.Meses_de_Garantia,
                 Id_Responsable = v.Id_Responsable,
                 Id_Area = v.Id_Area,
                 Id_Modelo = v.Id_Modelo,
@@ -84,33 +84,5 @@ namespace MantoxWebApp.Models
             return e;
         }
 
-        ///// <summary>
-        ///// Verifica si existe el equipo
-        ///// </summary>
-        ///// <param name="nombre">Nombre del área</param>
-        ///// <param name="id_edificio">Id del edificio</param>
-        ///// <returns>True si el usuario existe en el edificio enviado</returns>
-        //public bool Existe(string nombre, int id_edificio)
-        //{
-        //    try
-        //    {
-        //        //Instancia de conexión por framework a base de datos
-        //        MantoxDBEntities bdMantox = new MantoxDBEntities();
-
-        //        Area areaQueSeVerifica = bdMantox.Areas
-        //            .Where(a => a.Nombre.ToLower().Trim() == nombre.ToLower().Trim())
-        //            .Where(a => a.Id_Edificio == id_edificio)
-        //            .FirstOrDefault();
-
-        //        return areaQueSeVerifica != null;
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        EventLogger.LogEvent(this, e.Message.ToString(), e);
-        //        return false;
-        //    }
-
-        //}
     }
 }

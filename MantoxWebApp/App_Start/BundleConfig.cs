@@ -38,7 +38,8 @@ namespace MantoxWebApp
             bundles.Add(new StyleBundle("~/adminLte/css/Datepicker/").Include(
                "~/Content/adminLte/plugins/datepicker/datepicker3.css"));
 
-
+            bundles.Add(new StyleBundle("~/adminLte/css/ValidateJsTooltips/").Include(
+               "~/Content/adminLte/plugins/validate/jquery.validate.tooltips.css"));
 
 
 
@@ -70,7 +71,9 @@ namespace MantoxWebApp
                 "~/Content/adminLte/plugins/iCheck/icheck.min.js"));
 
             bundles.Add(new ScriptBundle("~/adminLte/js/validate/").Include(
-                "~/Content/adminLte/plugins/validate/jquery.validate.min.js"));
+                "~/Content/adminLte/plugins/validate/jquery.validate.min.js",
+                "~/Content/adminLte/plugins/validate/jquery.validate-custom.js",
+                "~/Content/adminLte/plugins/validate/jquery.validate.tooltips.js"));
 
             bundles.Add(new ScriptBundle("~/adminLte/js/msAjax/").Include(
                 "~/Content/adminLte/plugins/msAjax/jquery.unobtrusive-ajax.min.js"));
@@ -83,10 +86,17 @@ namespace MantoxWebApp
             bundles.Add(new ScriptBundle("~/adminLte/js/Datepicker/").Include(
               "~/Content/adminLte/plugins/datepicker/bootstrap-datepicker.js"));
 
-            
+            bundles.Add(new ScriptBundle("~/adminLte/js/InputMask/").Include(
+              "~/Content/adminLte/plugins/inputmask/dist/min/inputmask/inputmask.min.js",
+              "~/Content/adminLte/plugins/inputmask/dist/min/inputmask/jquery.inputmask.min.js",
+              "~/Content/adminLte/plugins/inputmask/dist/min/jquery.inputmask.bundle.min.js"));
 
+            bundles.Add(new ScriptBundle("~/adminLte/js/JQueryInputMask/").Include(
+              "~/Content/adminLte/plugins/jqueryMask/dist/jquery.mask.min.js"));
+
+            bundles.Add(new ScriptBundle("~/adminLte/js/IPMask/").Include(
+              "~/Content/adminLte/plugins/ipvalidate/jquery.input-ip-address-control-1.0.min.js"));
         }
-
 
     }
 

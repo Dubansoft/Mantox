@@ -34,13 +34,22 @@
                     </tr>
                     @for (int i = 0; i < tablaEquipo.Columns.Count; i = i + 2)
                     {
-                        <tr>
-                            <td style="font-weight:bold;">@tablaEquipo.Columns[i].ColumnName</td>
-                            <td>@tablaEquipo.Rows[0][i]</td>
+                        try
+                        {
+                            if(tablaEquipo.Columns[i].ColumnName.Contains("Id_") &&
+                                tablaEquipo.Columns[i + 1].ColumnName.Contains("Id_")){ continue; }
+                            <tr>
+                                <td style="font-weight:bold;">@tablaEquipo.Columns[i].ColumnName</td>
+                                <td>@tablaEquipo.Rows[0][i]</td>
 
-                            <td style="font-weight:bold;">@tablaEquipo.Columns[i + 1].ColumnName</td>
-                            <td>@tablaEquipo.Rows[0][i + 1]</td>
-                        </tr>
+                                <td style="font-weight:bold;">@tablaEquipo.Columns[i + 1].ColumnName</td>
+                                <td>@tablaEquipo.Rows[0][i + 1]</td>
+                            </tr>
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
                     }
 
                 </table>
