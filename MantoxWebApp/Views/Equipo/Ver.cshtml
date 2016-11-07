@@ -43,22 +43,46 @@
                     {
                         name: 'Activo',
                         index: 'Activo',
-                        width: 80,
+                        width: 70,
                         sortable: true,
                         sorttype: "text"
                     },
                     {
-                        name: 'Serial',
-                        index: 'Serial',
-                        width: 80,
+                        name: 'Nombre de Equipo',
+                        index: '[Nombre de Equipo]',
+                        width: 70,
                         sortable: true,
                         sorttype: "text",
                         editable: false
                     },
                     {
-                        name: 'Nombre de Equipo',
-                        index: '[Nombre de Equipo]',
-                        width: 80,
+                        name: 'Serial',
+                        index: 'Serial',
+                        width: 90,
+                        sortable: true,
+                        sorttype: "text",
+                        editable: false
+                    },
+                    {
+                        name: 'Marca',
+                        index: 'Marca',
+                        width: 90,
+                        sortable: true,
+                        sorttype: "text",
+                        editable: false
+                    },
+                    {
+                        name: 'Modelo',
+                        index: 'Modelo',
+                        width: 90,
+                        sortable: true,
+                        sorttype: "text",
+                        editable: false
+                    },
+                    {
+                        name: 'Tipo de Equipo',
+                        index: '[Tipo de Equipo]',
+                        width: 120,
                         sortable: true,
                         sorttype: "text",
                         editable: false
@@ -66,7 +90,7 @@
                     {
                         name: 'Ip',
                         index: 'Ip',
-                        width: 80,
+                        width: 120,
                         sortable: true,
                         sorttype: "text",
                         editable: false
@@ -98,7 +122,7 @@
                     {
                         name: 'Piso',
                         index: 'Piso',
-                        width: 30,
+                        width: 40,
                         sortable: true,
                         sorttype: "int",
                         editable: false
@@ -106,7 +130,7 @@
                     {
                         name: 'Area',
                         index: 'Area',
-                        width: 50,
+                        width: 90,
                         sortable: true,
                         sorttype: "text"
                     },
@@ -116,7 +140,38 @@
                         width: 50,
                         sortable: true,
                         sorttype: "text"
+                    },
+                    {
+                        name: 'Comentario',
+                        index: 'Comentario',
+                        width: 200,
+                        sortable: false
+                    },
+                    {
+                        name: 'Nombre de Responsable',
+                        index: '[Nombre de Responsable]',
+                        width: 120,
+                        sortable: false
+                    },
+                    {
+                        name: 'Fecha de Ingreso',
+                        index: '[Fecha de Ingreso]',
+                        width: 140,
+                        sortable: false
+                    },
+                    {
+                        name: 'Meses de Garantia',
+                        index: '[Meses de Garantia]',
+                        width: 100,
+                        sortable: false
+                    },
+                    {
+                        name: 'Fecha Fin de Garantia',
+                        index: '[Fecha Fin de Garantia]',
+                        width: 140,
+                        sortable: false
                     }
+
 
         ];
 
@@ -124,15 +179,23 @@
         var column_names = [
                     'Id',
                     'Activo',
+                    'Nombre',
                     'Serial',
-                    'Nombre de Equipo',
+                    'Marca',
+                    'Modelo',
+                    'Tipo de Equipo',
                     'Ip',
                     'Empresa',
                     'Sede',
                     'Edificio',
                     'Piso',
                     'Area',
-                    'Estado'
+                    'Estado',
+                    'Comentario',
+                    'Responsable',
+                    'Fecha de Ingreso',
+                    'Meses de Garantía',
+                    'Fecha Fin de Garantía'
         ];
 
         //Titulo de la lista
@@ -151,13 +214,16 @@
         var grid_grouping = false;
 
         //Agrupar cuales campos?
-        var grid_group_fields = ['Empresa', 'Sede', 'Edificio', 'Piso', 'Area'];
+        var grid_group_fields = ['Sede'];
 
         //Ancho de la primera columna
         var row_number_width = 20;
 
         //Altura de la tabla
         var grid_height = 'auto';
+
+        //Autoajustar columnas
+        var column_fit = false;
 
         //Seleccionar varios?
         var multi_select = false;
