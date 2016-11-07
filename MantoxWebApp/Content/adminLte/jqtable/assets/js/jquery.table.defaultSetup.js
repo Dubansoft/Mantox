@@ -49,9 +49,9 @@ jQuery(function ($) {
             jQuery(grid_selector).jqGrid({
                 url: grid_data_url,
                 mtype: method_type,
-                datatype: data_type,
+    			datatype: data_type,
 
-                subGrid: show_subgrid,
+    			subGrid: show_subgrid,
                 loadonce: load_once,
 
                 subGridOptions: {
@@ -76,7 +76,7 @@ jQuery(function ($) {
                 rownumWidth: 25,
                 autowidth: true,
                 toppager: top_pager,
-                shrinkToFit: column_fit,
+                shrinkToFit: true,
                 multiselect: multi_select,
 
                 loadComplete: function () {
