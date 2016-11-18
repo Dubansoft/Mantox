@@ -227,7 +227,13 @@
     <Compile Include="Models\Area.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ciudad.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Comentarios.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Departamento.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Edificio.cs">
@@ -245,6 +251,9 @@
     <Compile Include="Models\Helpers\MSqlServerConnectionHelper.cs" />
     <Compile Include="Models\Helpers\Torta.cs" />
     <Compile Include="Models\Licencia.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Licencias_Instaladas.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Mantenimiento.cs">
@@ -269,6 +278,10 @@
     <Compile Include="Models\Marca.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelExtension\Sede\SedeModels.cs" />
+    <Compile Include="Models\ModelExtension\Sede\SedeViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Edificio\EdifioModels.cs" />
+    <Compile Include="Models\ModelExtension\Edificio\EdificioViewModels.cs" />
     <Compile Include="Models\ModelExtension\Equipo\EquipoModels.cs" />
     <Compile Include="Models\ModelExtension\Equipo\EquipoViewModels.cs" />
     <Compile Include="Models\ModelExtension\Empresa\EmpresaModels.cs" />
@@ -279,6 +292,8 @@
     <Compile Include="Models\ModelExtension\Area\AreaModels.cs" />
     <Compile Include="Models\ModelExtension\Area\AreaViewModels.cs" />
     <Compile Include="Models\ModelExtension\Usuario\UsuarioViewModels.cs" />
+    <Compile Include="Models\ModelExtension\V_Sedes\V_SedesViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Edificios\V_EdificiosViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Equipos\V_EquiposViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Empresas\V_EmpresasViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Areas\V_AreasViewModel.cs" />
@@ -288,6 +303,9 @@
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Movimiento.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pais.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Parte.cs">
@@ -306,6 +324,9 @@
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sistema_Operativo.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Subtipos_Equipo.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tipo_Equipo.cs">
@@ -327,6 +348,9 @@
     <Compile Include="Models\V_Areas.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\V_Ciudades.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\V_Edificios.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
@@ -334,6 +358,12 @@
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_Equipos.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Estados.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Licencias.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_Modelos.cs">
@@ -407,22 +437,15 @@
     <Content Include="Views\Piso\_VistaParcial_FiltrarPisos.cshtml" />
     <Content Include="Views\Area\Crear.cshtml" />
     <Content Include="Views\Area\Ver.cshtml" />
-    <Content Include="Views\Edificio\Create.cshtml" />
-    <Content Include="Views\Edificio\Delete.cshtml" />
-    <Content Include="Views\Edificio\Details.cshtml" />
-    <Content Include="Views\Edificio\Edit.cshtml" />
-    <Content Include="Views\Edificio\Index.cshtml" />
+    <Content Include="Views\Edificio\Crear.cshtml" />
     <Content Include="Views\Usuario\Crear.cshtml" />
     <Content Include="Views\Parte\Create.cshtml" />
     <Content Include="Views\Parte\Delete.cshtml" />
     <Content Include="Views\Parte\Details.cshtml" />
     <Content Include="Views\Parte\Edit.cshtml" />
     <Content Include="Views\Parte\Index.cshtml" />
-    <Content Include="Views\Sede\Create.cshtml" />
-    <Content Include="Views\Sede\Delete.cshtml" />
+    <Content Include="Views\Sede\Crear.cshtml" />
     <Content Include="Views\Sede\Details.cshtml" />
-    <Content Include="Views\Sede\Edit.cshtml" />
-    <Content Include="Views\Sede\Index.cshtml" />
     <Content Include="Views\Area\_VistaParcial_FiltrarAreas.cshtml" />
     <Content Include="Views\Equipo\Crear.cshtml" />
     <Content Include="Views\Equipo\Delete.cshtml" />
@@ -440,10 +463,6 @@
     <Content Include="Views\Comentario\Edit.cshtml" />
     <Content Include="Views\Comentario\Index.cshtml" />
     <Content Include="Views\Estado\Create.cshtml" />
-    <Content Include="Views\Estado\Delete.cshtml" />
-    <Content Include="Views\Estado\Details.cshtml" />
-    <Content Include="Views\Estado\Edit.cshtml" />
-    <Content Include="Views\Estado\Index.cshtml" />
     <Content Include="Views\Empresa\Crear.cshtml" />
     <Content Include="Views\Licencia\Create.cshtml" />
     <Content Include="Views\Licencia\Delete.cshtml" />
@@ -520,6 +539,11 @@
     <Content Include="Views\Shared\_PlantillaDetalles.cshtml" />
     <Content Include="Views\Usuario\_VistaParcial_FiltrarResponsables.cshtml" />
     <Content Include="Views\Propietario\_VistaParcial_FiltrarPropietarios.cshtml" />
+    <Content Include="Views\Edificio\Ver.cshtml" />
+    <Content Include="Views\Edificio\_VistaParcial_BuscarEdificios.cshtml" />
+    <Content Include="Views\Estado\Ver.cshtml" />
+    <Content Include="Views\Sede\Ver.cshtml" />
+    <Content Include="Views\Sede\_VistaParcial_BuscarSedes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

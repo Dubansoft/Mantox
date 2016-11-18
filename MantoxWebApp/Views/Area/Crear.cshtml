@@ -145,6 +145,8 @@
                 $("#divResultadoSedes").load('@(Url.Action("FiltrarSedes", "Sede", null, Request.Url.Scheme))?idEmpresa=' + idEmpresa);
             }
 
+
+
             if (accion == "Editar") {
 
                 cargarSedes(@va.Id_Empresa);

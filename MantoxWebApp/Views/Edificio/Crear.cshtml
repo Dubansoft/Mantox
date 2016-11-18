@@ -1,0 +1,166 @@
+﻿@using MantoxWebApp.Models
+@model V_Edificios
+@{
+    //Se valida si se va a editar un edificio, en ese caso, se almacena el edificio en un
+    //objeto de tipo V_Edificios. Con estos datos el formulario de edición
+    V_Edificios ve = new V_Edificios();
+
+    if (ViewBag.Accion == "Editar")
+    {
+        ve = (V_Edificios)ViewData["EdificioActual"];
+    }
+
+    //Se asigna la plantilla de la vista actual
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+@section EstilosEncabezado {
+
+    @*Añadimos estilos propios de esta página*@
+    @Styles.Render("~/adminLte/css/select2/")
+
+}
+
+@using (Html.BeginForm("Crear", "Edificio", FormMethod.Post, new { @id = "formulario_crear_edificio" }))
+{
+
+    //La variable HiddenFor se usa para cargar los datos en el formulario cuando se está editando un registro exitente
+    @Html.HiddenFor(model => model.Id)
+    @Html.AntiForgeryToken()
+    <!-- Nuevo layout -->
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">            
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, "Nombre del edificio")
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+                <!-- /.form-group -->
+            
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Estado, "Estado")
+                    @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form-control select2" })
+                    @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+                </div>
+                <!-- /.form-group -->
+            </div>
+        
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    <label>Empresa</label>
+                    @Html.DropDownList("Id_Empresa", (MultiSelectList)ViewBag.Empresas, new { @class = "form-control select2 col-sm-12" })
+                </div>
+                <!-- /.form-group -->
+            
+                <div id="divResultadoSedes">
+                    <div class="form-group">
+                        <label>Sede</label>
+                        <select class="select2 form-control nivel2" id="Id_Sede" name="Id_Sede" title="Seleccione una empresa para mostrar las sedes en este campo"></select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <input type="submit" value="@ViewBag.Titulo" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+
+        <!-- /Fin nuevo layout -->
+        }
+
+
+
+        @section ScriptsPieDePagina {
+
+
+            <!-- Select2 -->
+            @Scripts.Render("~/adminLte/js/select2/")
+
+            <script>
+                $(function () {
+                    //Initialize Select2 Elements
+                    $(".select2").select2();
+                });
+            </script>
+
+            <!-- Ajax -->
+            @Scripts.Render("~/adminLte/js/msAjax/")
+
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+                    var accion = "@ViewBag.Accion";
+
+                    if (accion == "Crear") {
+                        //Eliminar selección predeterminada de empresa
+                        $('#Id_Empresa').val([]);
+                    } else {
+                        //Asignar selección predeterminada de empresa
+                        $('#Id_Empresa').val([@ve.Id_Empresa]);
+                    }
+
+                    //Carga asincrónica de las sedes al seleccionar la empresa
+                    $("#Id_Empresa").change(function () {
+                        var idEmpresa = $("#Id_Empresa").val();
+                        cargarSedes(idEmpresa);
+                    });
+
+                    function cargarSedes(idEmpresa) {
+                        $('.nivel2').empty();
+                        $("#divResultadoSedes").html(animacionCargaDeSelect);
+                        $("#divResultadoSedes").load('@(Url.Action("FiltrarSedes", "Sede", null, Request.Url.Scheme))?idEmpresa=' + idEmpresa);
+                    }
+
+                    if (accion == "Editar") {
+
+                        cargarSedes(@ve.Id_Empresa);
+
+                        setTimeout(function () {
+
+                            $('#Id_Sede').val([@ve.Id_Sede]).change();
+
+                        }, 50);
+
+                    }
+
+                });
+
+
+            </script>
+
+            <!-- Validate .js-->
+            @Scripts.Render("~/adminLte/js/validate/")
+
+            <script>
+                $().ready(function () {
+                    // validate signup form on keyup and submit
+
+                    $("#formulario_crear_edificio").validate({
+                        rules: {
+
+                            Nombre: "required",
+                           
+                            Id_Empresa: {
+                                required: true,
+                                min: 2  //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+                            },
+                            Id_Sede: {
+                                required: true,
+                                min: 2
+                            },
+                            Id_Estado: {
+                                required: true,
+                                min: 1
+                            },
+                        }
+                    });
+                });
+            </script>
+        }

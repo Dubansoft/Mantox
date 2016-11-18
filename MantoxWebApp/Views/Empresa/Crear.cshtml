@@ -41,7 +41,6 @@
             <!-- /.form-group -->
         </div>
         <div class="col-md-6 col-sm-6">
-
             <div class="form-group">
                 @Html.LabelFor(model => model.Id_Estado, "Estado")
                 @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form-control select2" })

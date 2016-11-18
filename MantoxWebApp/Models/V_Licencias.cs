@@ -12,12 +12,23 @@ namespace MantoxWebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Licencia
+    public partial class V_Licencias
     {
         public int Id { get; set; }
         public int Id_Tipo_Licencia { get; set; }
+        public int Id_Equipo { get; set; }
         public string Serial { get; set; }
         public long Fecha_Compra { get; set; }
-        public int Id_Equipo { get; set; }
+        public string Tipo_Licencia { get; set; }
+        public string Serial_Equipo { get; set; }
+        public string Nombre_de_Equipo { get; set; }
+        public string Ip { get; set; }
+        public string Nombre_de_Responsable { get; set; }
+        public string Apellido_de_Responsable { get; set; }
+        public string Area { get; set; }
+        public string Edificio { get; set; }
+        public string Sede { get; set; }
+        public string Empresa { get; set; }
+        public Nullable<int> Piso { get; set; }
     }
 }

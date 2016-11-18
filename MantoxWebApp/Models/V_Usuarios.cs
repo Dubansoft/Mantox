@@ -25,8 +25,6 @@ namespace MantoxWebApp.Models
         public string Edificio { get; set; }
         public string Sede { get; set; }
         public string Empresa { get; set; }
-        public string Ciudad { get; set; }
-        public string Departamento { get; set; }
         public Nullable<int> Id_Empresa { get; set; }
         public Nullable<int> Id_Sede { get; set; }
         public Nullable<int> Id_Edificio { get; set; }
@@ -34,5 +32,10 @@ namespace MantoxWebApp.Models
         public int Id_Area { get; set; }
         public int Id_Rol { get; set; }
         public Nullable<int> Piso { get; set; }
+        public string Pais { get; set; }
+        public string Ciudad { get; set; }
+        public string Departamento { get; set; }
+        public Nullable<int> Id_Departamento { get; set; }
+        public Nullable<int> Id_Pais { get; set; }
     }
 }

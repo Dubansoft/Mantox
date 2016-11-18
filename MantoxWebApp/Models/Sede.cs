@@ -16,9 +16,8 @@ namespace MantoxWebApp.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Ciudad { get; set; }
-        public string Departamento { get; set; }
         public int Id_Empresa { get; set; }
         public int Id_Estado { get; set; }
+        public int Id_Ciudad { get; set; }
     }
 }
