@@ -1,0 +1,189 @@
+﻿@using MantoxWebApp.Models
+@model V_Movimientos
+@{
+    //Se valida si se va a editar un movvimiento, en ese caso, se almacena el movimiento en un
+    //objeto de tipo V_movimientos con el llenar con estos datos el formulario de edición
+    V_Movimientos va = new V_Movimientos();
+
+    if (ViewBag.Accion == "Editar")
+    {
+        va = (V_Movimientos)ViewData["MovimientoActual"];
+    }
+
+    //Se asigna la plantilla de la vista actual
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+@section EstilosEncabezado {
+
+    @*Añadimos estilos propios de esta página*@
+    @Styles.Render("~/adminLte/css/select2/")
+}
+
+@using (Html.BeginForm("Crear", "Movimiento", FormMethod.Post, new { @id = "formulario_crear_movimiento" }))
+{
+
+    //La variable HiddenFor se usa para cargar los datos en el formulario cuando se está editando un registro exitente
+    @Html.HiddenFor(model => model.Id)
+    @Html.AntiForgeryToken()
+    <!-- Nuevo layout -->
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha, "Fecha ")
+                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- /.form-group -->
+
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Equipo, "Equipo")
+                @Html.DropDownList("Id_Equipo", (MultiSelectList)ViewBag.Equipos, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Equipo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- /.form-group -->
+
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Area_Origen, "Area de Origen")
+                @Html.DropDownList("Id_Area_Origen", (MultiSelectList)ViewBag.Areas, new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Area_Origen, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- /.form-group -->
+
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Area_Destino, "Area de Destino")
+                @Html.DropDownList("Id_Area_Destino", (MultiSelectList)ViewBag.Areas,  new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Area_Destino, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- /.form-group -->
+
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Razon_Movimiento, "Razon del Movimiento")
+                @Html.DropDownList("Id_Razon_Movimiento", (MultiSelectList)ViewBag.Movimientos, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Razon_Movimiento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- /.form-group -->
+
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Usuario, "Usuario")
+                @Html.DropDownList("Id_Usuario", (MultiSelectList)ViewBag.Usuarios, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Usuario, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- /.form-group -->
+
+        <!-- /.col -->
+    </div>
+
+        <!-- /.row -->
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="submit" value="@ViewBag.Titulo" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+        <!-- /Fin nuevo layout -->
+
+}
+
+
+
+
+@section ScriptsPieDePagina {
+
+    <!-- Inicio datepicker el cual genera el formato para el calendario en el formulario -->
+<!-- Data picker -->
+@Scripts.Render("~/adminLte/js/Datepicker/")
+
+<script>
+        $(function () {
+
+            //Date picker
+            $('#Fecha').datepicker({
+                autoclose: true
+            });
+        });
+</script>
+
+    <!-- Select2 -->
+    @Scripts.Render("~/adminLte/js/select2/")
+
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+      });
+    </script>
+
+    <!-- Ajax -->
+    @Scripts.Render("~/adminLte/js/msAjax/")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //Eliminar selección predeterminada de sede
+            $('#Id_Sede').val([]);
+
+           //Carga asincrónica de los edificios al seleccionar la sede
+        $("#Id_Sede").on("blur mouseup change", (function () {
+            $('.nivel3').empty();
+            var idSede = $("#Id_Sede").val();
+            $("#divResultadoEdificios").load('@(Url.Action("FiltrarEdificios", "Edificio",null, Request.Url.Scheme))?idSede=' + idSede);
+        }));
+
+        });
+    </script>
+
+    <!-- Validate .js-->
+    @Scripts.Render("~/adminLte/js/validate/")
+
+    <script>
+	    $().ready(function() {
+	    // validate signup form on keyup and submit
+
+	        $("#formulario_crear_movimiento").validate({
+	            rules: {
+
+	                Fecha: "required",
+
+	                Id_Equipo: {
+	                    required: true,
+	                    min: 2  //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+	                },
+	                Id_Area_Origen: {
+	                    required: true,
+	                    min: 2
+	                },
+	                Id_Area_Destino: {
+	                    required: true,
+	                    min: 2
+	                },
+	                Id_Razon_Movimiento: {
+	                    required: true,
+	                    min: 1
+	                },
+	                Id_Usuario: {
+	                    required: true,
+	                    min: 1
+	                },
+	            }
+	        });
+	    });
+    </script>
+}
+

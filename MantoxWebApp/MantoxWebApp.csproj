@@ -198,7 +198,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AreaController.cs" />
+    <Compile Include="Controllers\CiudadController.cs" />
     <Compile Include="Controllers\ComentarioController.cs" />
+    <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\EdificioController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\EquipoController.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\ModeloController.cs" />
     <Compile Include="Controllers\MovimientoController.cs" />
+    <Compile Include="Controllers\PaisController.cs" />
     <Compile Include="Controllers\ParteController.cs" />
     <Compile Include="Controllers\PisoController.cs" />
     <Compile Include="Controllers\PropietarioController.cs" />
@@ -216,7 +219,7 @@
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\SedeController.cs" />
     <Compile Include="Controllers\Sistema_OperativoController.cs" />
-    <Compile Include="Controllers\Tipo_EquipoController.cs" />
+    <Compile Include="Controllers\Tipos_EquipoController.cs" />
     <Compile Include="Controllers\Tipo_LicenciaController.cs" />
     <Compile Include="Controllers\Tipo_MantenimientoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -278,6 +281,15 @@
     <Compile Include="Models\Marca.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelExtension\Parte\ParteViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Parte\ParteModels.cs" />
+    <Compile Include="Models\ModelExtension\Movimiento\MovimientoModels.cs" />
+    <Compile Include="Models\ModelExtension\Movimiento\MovimientoViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Modelo\ModeloModels.cs" />
+    <Compile Include="Models\ModelExtension\Modelo\ModeloViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Departamento\DepartamentoModel.cs" />
+    <Compile Include="Models\ModelExtension\Marca\MarcaViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Marca\MarcaModels.cs" />
     <Compile Include="Models\ModelExtension\Sede\SedeModels.cs" />
     <Compile Include="Models\ModelExtension\Sede\SedeViewModels.cs" />
     <Compile Include="Models\ModelExtension\Edificio\EdifioModels.cs" />
@@ -292,6 +304,10 @@
     <Compile Include="Models\ModelExtension\Area\AreaModels.cs" />
     <Compile Include="Models\ModelExtension\Area\AreaViewModels.cs" />
     <Compile Include="Models\ModelExtension\Usuario\UsuarioViewModels.cs" />
+    <Compile Include="Models\ModelExtension\V_Partes\V_PartesViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Movimientos\V_MovimientosViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Modelos\V_ModelosViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Marcas\V_MarcasViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Sedes\V_SedesViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Edificios\V_EdificiosViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Equipos\V_EquiposViewModel.cs" />
@@ -329,7 +345,7 @@
     <Compile Include="Models\Subtipos_Equipo.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Tipo_Equipo.cs">
+    <Compile Include="Models\Tipos_Equipo.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tipo_Licencia.cs">
@@ -366,7 +382,16 @@
     <Compile Include="Models\V_Licencias.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\V_Marcas.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\V_Modelos.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Movimientos.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Partes.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_Sedes.cs">
@@ -439,11 +464,7 @@
     <Content Include="Views\Area\Ver.cshtml" />
     <Content Include="Views\Edificio\Crear.cshtml" />
     <Content Include="Views\Usuario\Crear.cshtml" />
-    <Content Include="Views\Parte\Create.cshtml" />
-    <Content Include="Views\Parte\Delete.cshtml" />
-    <Content Include="Views\Parte\Details.cshtml" />
-    <Content Include="Views\Parte\Edit.cshtml" />
-    <Content Include="Views\Parte\Index.cshtml" />
+    <Content Include="Views\Parte\Crear.cshtml" />
     <Content Include="Views\Sede\Crear.cshtml" />
     <Content Include="Views\Sede\Details.cshtml" />
     <Content Include="Views\Area\_VistaParcial_FiltrarAreas.cshtml" />
@@ -452,11 +473,7 @@
     <Content Include="Views\Equipo\_VistaParcial_DetallesEquipo.cshtml" />
     <Content Include="Views\Equipo\Edit.cshtml" />
     <Content Include="Views\Equipo\Ver.cshtml" />
-    <Content Include="Views\Modelo\Create.cshtml" />
-    <Content Include="Views\Modelo\Delete.cshtml" />
-    <Content Include="Views\Modelo\Details.cshtml" />
-    <Content Include="Views\Modelo\Edit.cshtml" />
-    <Content Include="Views\Modelo\Index.cshtml" />
+    <Content Include="Views\Modelo\Crear.cshtml" />
     <Content Include="Views\Comentario\Create.cshtml" />
     <Content Include="Views\Comentario\Delete.cshtml" />
     <Content Include="Views\Comentario\Details.cshtml" />
@@ -474,16 +491,8 @@
     <Content Include="Views\Mantenimiento\Details.cshtml" />
     <Content Include="Views\Mantenimiento\Edit.cshtml" />
     <Content Include="Views\Mantenimiento\Index.cshtml" />
-    <Content Include="Views\Marca\Create.cshtml" />
-    <Content Include="Views\Marca\Delete.cshtml" />
-    <Content Include="Views\Marca\Details.cshtml" />
-    <Content Include="Views\Marca\Edit.cshtml" />
-    <Content Include="Views\Marca\Index.cshtml" />
-    <Content Include="Views\Movimiento\Create.cshtml" />
-    <Content Include="Views\Movimiento\Delete.cshtml" />
-    <Content Include="Views\Movimiento\Details.cshtml" />
-    <Content Include="Views\Movimiento\Edit.cshtml" />
-    <Content Include="Views\Movimiento\Index.cshtml" />
+    <Content Include="Views\Marca\Crear.cshtml" />
+    <Content Include="Views\Movimiento\Crear.cshtml" />
     <Content Include="Views\Propietario\Create.cshtml" />
     <Content Include="Views\Propietario\Delete.cshtml" />
     <Content Include="Views\Propietario\Details.cshtml" />
@@ -544,6 +553,25 @@
     <Content Include="Views\Estado\Ver.cshtml" />
     <Content Include="Views\Sede\Ver.cshtml" />
     <Content Include="Views\Sede\_VistaParcial_BuscarSedes.cshtml" />
+    <Content Include="Views\Pais\Create.cshtml" />
+    <Content Include="Views\Pais\Delete.cshtml" />
+    <Content Include="Views\Pais\Details.cshtml" />
+    <Content Include="Views\Pais\Edit.cshtml" />
+    <Content Include="Views\Pais\Index.cshtml" />
+    <Content Include="Views\Departamento\Create.cshtml" />
+    <Content Include="Views\Departamento\Index.cshtml" />
+    <Content Include="Views\Ciudad\Create.cshtml" />
+    <Content Include="Views\Ciudad\Index.cshtml" />
+    <Content Include="Views\Departamento\_VistaParcial_FiltrarDepartamentos.cshtml" />
+    <Content Include="Views\Ciudad\_VistaParcial_FiltrarCiudades.cshtml" />
+    <Content Include="Views\Marca\Ver.cshtml" />
+    <Content Include="Views\Marca\_VistaParcial_BuscarMarcas.cshtml" />
+    <Content Include="Views\Modelo\Ver.cshtml" />
+    <Content Include="Views\Modelo\_VistaParcial_BuscarModelos.cshtml" />
+    <Content Include="Views\Movimiento\Ver.cshtml" />
+    <Content Include="Views\Movimiento\_VistaParcial_BuscarMovimientos.cshtml" />
+    <Content Include="Views\Parte\Ver.cshtml" />
+    <Content Include="Views\Parte\_VistaParcial_BuscarPartes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

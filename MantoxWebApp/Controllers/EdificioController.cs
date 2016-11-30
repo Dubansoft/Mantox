@@ -72,7 +72,7 @@ namespace MantoxWebApp.Controllers
         }
 
         /// <summary>
-        /// Devuelve un PartialView que contiene una lista JSon de las áreas filtradas por concepto de búsqueda, o por rango
+        /// Devuelve un PartialView que contiene una lista JSon de los edificios filtrados por concepto de búsqueda, o por rango
         /// </summary>
         /// <param name="searchString">Términos de búsqueda</param>
         /// <param name="rows">Numero de filas</param>

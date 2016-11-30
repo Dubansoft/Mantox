@@ -12,10 +12,18 @@ namespace MantoxWebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Marca
+    public partial class V_Movimientos
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public int Id_Estado { get; set; }
+        public string Usuario { get; set; }
+        public string RazonMovimiento { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Nombre_Equipo { get; set; }
+        public string Area { get; set; }
+        public int Id_Usuario { get; set; }
+        public int Id_Equipo { get; set; }
+        public int Id_Razon_Movimiento { get; set; }
+        public int Id_Area_Origen { get; set; }
+        public int Id_Area_Destino { get; set; }
     }
 }

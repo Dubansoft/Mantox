@@ -27,7 +27,7 @@ namespace MantoxWebApp.Models
     public partial class Edificio : MantoxModel
     {
         /// <summary>
-        /// Opeerador específico que convierte un objeto de clase UsuarViewModel en uno de clase Usuario
+        /// Opeerador específico que convierte un objeto de clase EdificioViewModel en uno de clase Edificio
         /// </summary>
         /// <param name="v"></param>
         public static explicit operator Edificio(CrearEditarEdificioViewModel v)
@@ -45,7 +45,7 @@ namespace MantoxWebApp.Models
         /// <summary>
         /// Verifica si existe el edificio
         /// </summary>
-        /// <param name="nombre">Nombre del área</param>
+        /// <param name="nombre">Nombre del edificio</param>
         /// <param name="id_edificio">Id del edificio</param>
         /// <returns>True si el edificio existe en el edificio enviado</returns>
         public bool Existe(string nombre, int id_edificio)

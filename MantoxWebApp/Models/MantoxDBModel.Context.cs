@@ -34,12 +34,9 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Razon_Movimiento> Razones_Movimiento { get; set; }
         public virtual DbSet<Rol> Roles { get; set; }
         public virtual DbSet<Sistema_Operativo> Sistemas_Operativos { get; set; }
-        public virtual DbSet<Tipo_Equipo> Tipos_Equipo { get; set; }
         public virtual DbSet<Tipo_Licencia> Tipos_Licencia { get; set; }
         public virtual DbSet<Tipo_Mantenimiento> Tipos_Mantenimiento { get; set; }
         public virtual DbSet<Version_Office> Versiones_Office { get; set; }
-        public virtual DbSet<Marca> Marcas { get; set; }
-        public virtual DbSet<V_Modelos> V_Modelos { get; set; }
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<V_Empresas> V_Empresas { get; set; }
         public virtual DbSet<Equipo> Equipos { get; set; }
@@ -62,5 +59,11 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<Edificio> Edificios { get; set; }
         public virtual DbSet<V_Edificios> V_Edificios { get; set; }
+        public virtual DbSet<V_Marcas> V_Marcas { get; set; }
+        public virtual DbSet<Marca> Marcas { get; set; }
+        public virtual DbSet<Tipos_Equipo> Tipos_Equipo { get; set; }
+        public virtual DbSet<V_Modelos> V_Modelos { get; set; }
+        public virtual DbSet<V_Movimientos> V_Movimientos { get; set; }
+        public virtual DbSet<V_Partes> V_Partes { get; set; }
     }
 }

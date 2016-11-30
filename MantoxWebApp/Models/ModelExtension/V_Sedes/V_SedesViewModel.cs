@@ -63,7 +63,7 @@ namespace MantoxWebApp.Models
             vs.Estado = null;
             vs.Id_Empresa = 0;
             vs.Id_Pais = 0;
-            vs.Id_Departamento = 0;
+            vs.Id_Departamento =0;
             vs.Id_Ciudad = 0;
             vs.Id_Estado = 0;
 

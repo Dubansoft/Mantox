@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MantoxWebApp.Models.Departamento>
+
+<div class="form-group">
+    <label>Departamento</label>
+    @Html.DropDownList("Id_Departamento", (MultiSelectList)ViewBag.Departamentos, new { @class = "select2 form-control nivel2 nivel3 nivel4 nivel5" })
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //Eliminar selección predeterminada de edificio
+        $('#Id_Departamento').val([]);
+
+        $(function () {
+            //Initialize Select2 Elements
+            $(".select2").select2();
+        });
+
+    });
+
+    //Carga asincrónica de los departamentos al seleccionar la pais
+    $("#Id_Departamento").change(function () {
+        console.log($('#Id_Departamento').val());
+        var idDepartamento = $("#Id_Departamento").val();
+        cargarCiudades(idDepartamento);
+    });
+
+    function cargarCiudades(idDepartamento) {
+        $('.nivel3').empty();
+        $("#divResultadoCiudades").html(animacionCargaDeSelect);
+        $("#divResultadoCiudades").load('@(Url.Action("FiltrarCiudades", "Ciudad", null, Request.Url.Scheme))?idDepartamento=' + idDepartamento);
+    }
+
+</script>

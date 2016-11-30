@@ -18,9 +18,9 @@ namespace MantoxWebApp.Models
         public string Nombre { get; set; }
         public int Id_Marca { get; set; }
         public string Marca { get; set; }
-        public string Tipo_de_Equipo { get; set; }
         public string Estado { get; set; }
-        public int Id_Tipo_Equipo { get; set; }
         public int Id_Estado { get; set; }
+        public int Id_Tipo_Equipo { get; set; }
+        public string TiposEquipo { get; set; }
     }
 }

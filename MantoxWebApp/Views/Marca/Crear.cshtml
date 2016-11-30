@@ -1,0 +1,102 @@
+﻿@using MantoxWebApp.Models
+@model V_Marcas
+@{
+    //Se valida si se va a editar una marca, en ese caso, se almacena la marca en un
+    //objeto de tipo V_Marcas. Con estos datos el formulario de edición
+    V_Marcas ve = new V_Marcas();
+
+    if (ViewBag.Accion == "Editar")
+    {
+        ve = (V_Marcas)ViewData["MarcaActual"];
+    }
+
+    //Se asigna la plantilla de la vista actual
+    Layout = "~/Views/Shared/_PlantillaMantox.cshtml";
+}
+
+@section EstilosEncabezado {
+
+   @*Añadimos estilos propios de esta página*@
+   @Styles.Render("~/adminLte/css/select2/")
+
+}
+
+@using (Html.BeginForm("Crear", "Marca", FormMethod.Post, new { @id = "formulario_crear_marca" }))
+{
+
+    //La variable HiddenFor se usa para cargar los datos en el formulario cuando se está editando un registro exitente
+    @Html.HiddenFor(model => model.Id)
+    @Html.AntiForgeryToken()
+    <!-- Nuevo layout -->
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.Nombre, "Nombre")
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+            <!-- /.form-group -->
+        <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Estado, "Estado")
+                @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+                <!-- /.form-group -->
+
+            </div>
+                <!-- /.col -->
+         
+            <!-- /.row -->
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <input type="submit" value="@ViewBag.Titulo" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- /Fin nuevo layout -->
+            }
+
+
+@section ScriptsPieDePagina {
+
+
+    <!-- Select2 -->
+    @Scripts.Render("~/adminLte/js/select2/")
+
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+      });
+    </script>
+
+    <!-- Validate .js-->
+    @Scripts.Render("~/adminLte/js/validate/")
+
+    <script>
+	    $().ready(function() {
+	    // validate signup form on keyup and submit
+
+	        $("#formulario_crear_marca").validate({
+		        rules: {
+
+		            Nombre: "required",
+
+		            Id_Estado: {
+		                required: true,
+		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+		            },
+		        }
+		    });
+	    });
+    </script>
+}

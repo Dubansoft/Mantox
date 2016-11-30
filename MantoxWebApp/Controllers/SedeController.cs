@@ -40,7 +40,7 @@ namespace MantoxWebApp.Controllers
         /// <summary>
         /// Lista de departamentos disponibles en la lista desplegable
         /// </summary>
-        IEnumerable Departamentos; //Almacenará la lista de departamentos
+        IEnumerable departamentos; //Almacenará la lista de departamentos
 
         /// <summary>
         /// Lista de ciudades disponibles en la lista desplegable
@@ -163,9 +163,10 @@ namespace MantoxWebApp.Controllers
             try
             {
                 ViewBag.Paises = new MultiSelectList(paises, "PaisId", "PaisNombre");
+                ViewBag.Empresas = new MultiSelectList(empresas, "EmpresaId", "EmpresaNombre");
                 ViewBag.Ciudades = new MultiSelectList(ciudades, "CiudadId", "CiudadNombre");
                 ViewBag.Estados = new MultiSelectList(estados, "EstadoId", "EstadoNombre");
-                ViewBag.Empresas = new MultiSelectList(empresas, "EmpresaId", "EmpresaNombre");
+                ViewBag.Departamentos = new MultiSelectList(departamentos, "DepartamentoId", "DepartamentoNombre");
 
                 ViewBag.Plantilla = "formTemplate";
 
@@ -190,16 +191,95 @@ namespace MantoxWebApp.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Crear([Bind(Include = "Id,Nombre,Ciudad,Departamento,Id_Empresa,Id_Estado")] Sede sede)
+        public async Task<ActionResult> Crear([Bind(Include = "Id,Nombre,Id_Empresa,Id_Pais,Id_Departamento,Id_Ciudad,Id_Estado")] CrearEditarSedeViewModel sedevm)
         {
-            if (ModelState.IsValid)
-            {
-                
-                await bdMantox.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+            //Validar acceso
+            if (!TieneAcceso(RolDeUsuario.Administrador)) { return PartialView("Error401"); }
 
-            return View(sede);
+            try
+            {
+                //Creamos una instancia de sede con los datos que recibimos del formulario
+                Sede sedeRecibida = new Sede();
+                sedeRecibida = (Sede)sedevm;
+
+                //Si la sede no es nueva (el id > 0) entonces validamos primero si ya existe una sede
+                //con un id diferente pero con los mismos datos, esto identificaria un duplicado.
+                if (sedeRecibida.Id > 0)
+                {
+                    //Buscamos un duplicado de la siguiente manera
+                    if (bdMantox.V_Sedes.FirstOrDefault(
+                        va =>
+                            va.Nombre.Trim().ToLower() == sedeRecibida.Nombre.Trim().ToLower() &&
+                            (int)va.Id_Empresa == (int)sedeRecibida.Id_Empresa &&
+                            (int)va.Id != (int)sedeRecibida.Id
+                        ) != null)
+                    {
+                        //Si existe, se añade error al modelo.
+                        ModelState.AddModelError("Nombre", "La sede ingresada ya existe en la empresa selecionada seleccionados.");
+                    }
+                }
+                else
+                {
+                    //Si la sede es nueva (id = 0), validamos que el no exista una con los mismos datos.
+                     if (bdMantox.V_Sedes.FirstOrDefault(
+                        ve =>
+                            ve.Nombre.Trim().ToLower() == sedevm.Nombre.Trim().ToLower()
+                        ) != null)
+                   { 
+                        //Si existe, se añade error al modelo
+                        ModelState.AddModelError("Nombre", "La sede ingresada ya existe.");
+                    }
+                }
+
+                //Validamos que no haya errores en el modelo
+                if (ModelState.IsValid)
+                {
+                    //Si es una sede nueva...
+                    if (sedevm.Id <= 0)
+                    {
+                        //La añadirmos a la base de datos
+                        bdMantox.Sedes.Add(sedeRecibida);
+                    }
+                    else //Si es sede existente (id > 0)
+                    {
+                        //Lo ponemos en estado modificado
+                        bdMantox.Entry(sedeRecibida).State = EntityState.Modified;
+                    }
+
+                    //Enviamos los cambios a la base de datos
+                    await bdMantox.SaveChangesAsync();
+
+                    //Redirigimos a la página de creación de sede.
+                    return RedirectToAction("Crear");
+                }
+
+                //Si el modelo tiene errores de validación, se crea nuevamente el
+                //formulario y se muestra con los errores
+
+                llenarListasDesplegables();
+
+                ViewBag.Paises = new MultiSelectList(paises, "PaisId", "PaisNombre");
+                ViewBag.Empresas = new MultiSelectList(empresas, "EmpresaId", "EmpresaNombre");
+                ViewBag.Ciudades = new MultiSelectList(ciudades, "CiudadId", "CiudadNombre");
+                ViewBag.Estados = new MultiSelectList(estados, "EstadoId", "EstadoNombre");
+                ViewBag.Departamentos = new MultiSelectList(departamentos, "DepartamentoId", "DepartamentoNombre");
+
+                ViewBag.Accion = "Editar";
+                ViewBag.Plantilla = "formTemplate";
+
+                ViewData.Add("NombreContexto", this.NombreContexto);
+                ViewData.Add("NombreObjeto", this.NombreObjeto);
+                ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
+
+                ViewData.Add("SedeActual", (V_Sedes)sedevm);
+
+                return VistaAutenticada(View((V_Sedes)sedeRecibida), RolDeUsuario.Administrador);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return View("Error500");
+            }
         }
 
 
@@ -208,7 +288,7 @@ namespace MantoxWebApp.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Nombre,Ciudad,Departamento,Id_Empresa,Id_Estado")] Sede sede)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Nombre,Id_Empresa,Id_Pais,Id_Departamento,Id_Ciudad,Id_Estado")] Sede sede)
         {
             if (ModelState.IsValid)
             {
@@ -288,15 +368,22 @@ namespace MantoxWebApp.Controllers
                             PaisNombre = pais.Nombre
                         });
 
+                        //Llenar lista de Departamentos
+                        departamentos = bdMantox.Departamentos.Select(departamento => new
+                        {
+                            DepartamentoId = departamento.Id,
+                            DepartamentoNombre = departamento.Nombre
+                        });
+
                         //Llenar lista de Paises
                         ciudades = bdMantox.Ciudades.Select(ciudad => new
                         {
                             CiudadId = ciudad.Id,
                             CiudadNombre = ciudad.Nombre
                         });
-                        
 
                         break;
+
                     case RolDeUsuario.Administrador:
                     default:
 
@@ -321,7 +408,7 @@ namespace MantoxWebApp.Controllers
                             PaisNombre = pais.Nombre
                         });
 
-                        //Llenar lista de Paises
+                        //Llenar lista de Ciudad
                         ciudades = bdMantox.Ciudades.Select(ciudad => new
                         {
                             CiudadId = ciudad.Id,

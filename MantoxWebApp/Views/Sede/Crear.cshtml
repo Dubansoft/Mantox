@@ -23,57 +23,71 @@
 
 @using (Html.BeginForm("Crear", "Sede", FormMethod.Post, new { @id = "formulario_crear_sede" }))
 {
-
+    //La variable HiddenFor se usa para cargar los datos en el formulario cuando se está editando un registro exitente
+    @Html.HiddenFor(model => model.Id)
     @Html.AntiForgeryToken()
-
     <!-- Nuevo layout -->
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Nombre, "Nombre")
                 @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
             </div>
+        </div>
             <!-- /.form-group -->
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Pais, "Pais")
-                @Html.DropDownList("Id_Pais", (MultiSelectList)ViewBag.Paises, "--Sin asignar--", new { @class = "form-control select2" })
-                @Html.ValidationMessageFor(model => model.Id_Pais, "", new { @class = "text-danger" })
-            </div>
-            <!-- /.form-group -->
 
             <div class="col-md-6 col-sm-6">
-                <div id="divResultadoSedes">
-                    <div class="form-group">
-                        <label>Pais</label>
-                        <select class="select2 form-control nivel2" id="Id_Pais" name="Id_Pais" title="Seleccione un pais para mostrar los departamentos en este campo"></select>
-                    </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Empresa, "Empresa")
+                    @Html.DropDownList("Id_Empresa", (MultiSelectList)ViewBag.Empresas, new { @class = "form-control select2" })
+                    @Html.ValidationMessageFor(model => model.Id_Empresa, "", new { @class = "text-danger" })
                 </div>
             </div>
-            
+                <!-- /.form-group -->
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Id_Pais, "Pais")
+                        @Html.DropDownList("Id_Pais", (MultiSelectList)ViewBag.Paises, "--Sin asignar--", new { @class = "form-control select2" })
+                        @Html.ValidationMessageFor(model => model.Id_Pais, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <!-- /.form-group -->
+
+
+                <div class="col-md-6 col-sm-6">
+                    <div id="divResultadoDepartamentos">
+                        <div class="form-group">
+                            <label>Departamento</label>
+                            <select class="select2 form-control nivel2" id="Id_Departamento" name="Id_Departamento" title="Seleccione un pais para mostrar los departamentos en este campo"></select>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="col-md-6 col-sm-6">
+            <div id="divResultadoCiudades">
+                <div class="form-group">
+                    <label>Ciudad</label>
+                    <select class="select2 form-control nivel2 nivel3" id="Id_Ciudad" name="Id_Ciudad" title="Seleccione un departamento para mostrar las ciudades en este campo"></select>
+                </div>
+            </div>
+        </div>
+
             <div class="col-md-6 col-sm-6">
-                <div id="divResultadoSedes">
-                    <div class="form-group">
-                        <label>Sede</label>
-                        <select class="select2 form-control nivel2" id="Id_Sede" name="Id_Sede" title="Seleccione una empresa para mostrar las sedes en este campo"></select>
-                    </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Estado, "Estado")
+                    @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form-control select2" })
+                    @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
                 </div>
-            </div>                                                                       
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Estado, "Estado")
-                @Html.DropDownList("Id_Estado", (MultiSelectList)ViewBag.Estados, "--Sin asignar--", new { @class = "form-control select2" })
-                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
             </div>
-
+                <!-- /.form-group -->
                 <!-- /row -->
             </div>
-            <!-- /.col -->
-        </div>
         <!-- /.row -->
         <div class="row">
             <div class="form-group">
@@ -85,10 +99,6 @@
 
         <!-- /Fin nuevo layout -->
         }
-
-        <div>
-            @Html.ActionLink("Volver a la lista", "Index")
-        </div>
 
 
 @section ScriptsPieDePagina {
@@ -104,41 +114,56 @@
       });
     </script>
 
+    <!-- Ajax -->
+@Scripts.Render("~/adminLte/js/msAjax/")
+
 <script type="text/javascript">
 
-        $(document).ready(function () {
-            var accion = "@ViewBag.Accion";
+    $(document).ready(function () {
+        var accion = "@ViewBag.Accion";
 
-            if (accion == "Crear") {
-                //Eliminar selección predeterminada de ciudad
-                $('#Id_Pais').val([]);
-            } else {
-                //Asignar selección predeterminada de ciudad
-                $('#Id_Pais').val([@vs.Id_Pais]);
-            }
+        if (accion == "Crear") {
+            //Eliminar selección predeterminada
+            $('#Id_Pais').val([]);
+        } else {
+            //Asignar selección predeterminada
+            $('#Id_Pais').val([@vs.Id_Pais]);
+        }
 
-            //Carga asincrónica de las sedes al seleccionar la empresa
-            $("#Id_Empresa").change(function () {
-                var idEmpresa = $("#Id_Empresa").val();
-                cargarSedes(idEmpresa);
-            });
+        //Carga asincrónica de los departamentos al seleccionar la pais
+        $("#Id_Pais").change(function () {
+            var idPais = $("#Id_Pais").val();
+            cargarDepartamentos(idPais);
+        });
 
-            function cargarSedes(idEmpresa) {
-                $('.nivel2').empty();
-                $("#divResultadoSedes").html(animacionCargaDeSelect);
-                $("#divResultadoSedes").load('@(Url.Action("FiltrarSedes", "Sede", null, Request.Url.Scheme))?idEmpresa=' + idEmpresa);
-            }
+        function cargarDepartamentos(idPais) {
+            $('.nivel2').empty();
+            $("#divResultadoDepartamentos").html(animacionCargaDeSelect);
+            $("#divResultadoDepartamentos").load('@(Url.Action("FiltrarDepartamentos", "Departamento", null, Request.Url.Scheme))?idPais=' + idPais);
+        }
 
+      if (accion == "Editar") {
 
+                cargarDepartamento(@vs.Id_Pais);
 
-            if (accion == "Editar") {
+                setTimeout(function () {
 
-                cargarSedes(@vs.Id_Empresa);
+                    $('#Id_Departamento').val([@vs.Id_Departamento]).change();
+
+                    setTimeout(function () {
+
+                        $('#Id_Ciudad').val([@vs.Id_Ciudad]).change();
+
+                    }, 50);
+
+                }, 50);
 
             }
 
         });
 </script>
+
+
 
     <!-- Validate .js-->
     @Scripts.Render("~/adminLte/js/validate/")
@@ -151,17 +176,29 @@
 		        rules: {
 
 		            Nombre: "required",
-		            Ciudad: "required",
-		            Departamento: "required",
-
 		            Id_Empresa: {
 		                required: true,
 		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
 		            },
-		          
+
+		            Id_Pais: {
+		                required: true,
+		                min: 1 
+		            },
+
+		            Id_Departamento: {
+		                required: true,
+		                min: 1
+		            },
+
+		            Id_Ciudad: {
+		                required: true,
+		                min: 1
+		            },
+
 		            Id_Estado: {
 		                required: true,
-		                min: 1 //min:1 o min:2 valor minimo de la opción seleccionada <option value="1">Texto de la opcipon </option>
+		                min: 1 
 		            },
 		        }
 		    });

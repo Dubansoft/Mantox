@@ -12,10 +12,11 @@ namespace MantoxWebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Marca
+    public partial class V_Partes
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public int Id_Estado { get; set; }
+        public string TipoEquipo { get; set; }
+        public int Id_Tipo_Equipo { get; set; }
     }
 }

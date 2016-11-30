@@ -8,6 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MantoxWebApp.Models;
+using System.Collections;
+using FileHelper;
+using System.Reflection;
 
 namespace MantoxWebApp.Controllers
 {
@@ -15,28 +18,115 @@ namespace MantoxWebApp.Controllers
     {
         private MantoxDBEntities bdMantox = new MantoxDBEntities();
         public string NombreContexto = "Partes";
+        public string NombreObjeto = "Parte";
 
-        // GET: Parte
-        public async Task<ActionResult> Index()
+        // <summary>
+        /// Lista de Tipo equipos.
+        /// </summary>
+        IEnumerable equipos; //Almacenará la lista de los Tipo de equipos
+
+        /// <summary>
+        /// Index modificado,redirige a Ver()
+        /// </summary>
+        /// <returns>View</returns>
+        public ActionResult Index()
         {
-            return VistaAutenticada(View(await bdMantox.Partes.ToListAsync()), RolDeUsuario.Reportes);
+            return RedirectToAction("Ver");
         }
 
-        // GET: Parte/Details/5
-        public async Task<ActionResult> Details(int? id)
+        /// <summary>
+        /// Obtiene una vista con la lista de elementos registrados y sus detalles
+        /// </summary>
+        /// <returns>Vista Partes</returns>
+        public async Task<ActionResult> Ver()
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.Accion = "Ver";
+
+                ViewData.Add("NombreContexto", this.NombreContexto);
+                ViewData.Add("NombreObjeto", this.NombreObjeto);
+                ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
+
+                ViewData.Add("UrlBase", this.BaseUrl);
+
+                return VistaAutenticada(View(await bdMantox.V_Partes.ToListAsync()), RolDeUsuario.Desarrollador);
+
             }
-            Parte parte = await bdMantox.Partes.FindAsync(id);
-            if (parte == null)
+            catch (Exception e)
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return View("Error500");
             }
-            return View(parte);
         }
 
+        /// <summary>
+        /// Devuelve un PartialView que contiene una lista JSon de las partes filtradas por concepto de búsqueda, o por rango
+        /// </summary>
+        /// <param name="searchString">Términos de búsqueda</param>
+        /// <param name="rows">Numero de filas</param>
+        /// <param name="page">Página</param>
+        /// <param name="idParte">Id de la parte</param>
+        /// <param name="sidx">Columna de ordenamiento</param>
+        /// <param name="sord">Tipo de ordenamiento, puede ser ASC o DESC</param>
+        /// <param name="searchField">Columna de búsqueda</param>
+        /// <param name="filters">Cadena JSON con los filtros que se usarán para busquedas generales que involucrarán todas las columnas de la tabla.</param>
+        /// <returns>PartialView</returns>
+        public PartialViewResult BuscarPartes(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
+        {
+            //Validar acceso
+            if (!TieneAcceso(RolDeUsuario.Desarrollador)) { return PartialView("Error401"); }
+
+            try
+            {
+                //Creamos nueva instancia de la clase parcial "v_partes"
+                V_Partes miVistaPartes = new V_Partes();
+
+                //Creamos un diccionario para almacener los resultados devueltos por la consulta
+                Dictionary<string, object> diccionarioResultados = new Dictionary<string, object>();
+
+                //Ejecutamos la consulta a la base de datos y almacenamos los resultados en  el diccionario
+                diccionarioResultados = miVistaPartes.BuscarPartes(searchString, idEmpresa, sidx, sord, page, rows, searchField, filters);
+
+                //Creamos tabla de datos para almacenar los resultados de la consulta en la base de datos
+                DataTable tablaResultadosPartes = new DataTable();
+
+                //Asignamos el valor tablaResultadosPartes tomando el valor del dicccionario
+                tablaResultadosPartes = (DataTable)diccionarioResultados["TablaResultados"];
+
+                //Creamos enteros para almacenar los diferentes valores requeridos por el paginador
+                int totalFilas = 0;
+                int filasPorPagina = 0;
+                int paginaActual = 0;
+                int totalPaginas = 0;
+
+                //Asignamos el valor a las variables tomando los valores del diccionario de resultados
+                totalFilas = (int)diccionarioResultados["TotalFilas"];
+                filasPorPagina = (int)diccionarioResultados["FilasPorPagina"];
+                paginaActual = (int)diccionarioResultados["PaginaActual"];
+                totalPaginas = (int)diccionarioResultados["TotalPaginas"];
+
+                //Adjuntamos estos datos a la vista
+                ViewBag.TablaResultadosPartes = tablaResultadosPartes;
+                ViewBag.FilasPorPagina = filasPorPagina;
+                ViewBag.TotalFilas = totalFilas;
+                ViewBag.PaginaActual = paginaActual;
+                ViewBag.TotalPaginas = totalPaginas;
+
+                //Devolvemos la vista
+                return VistaAutenticada(PartialView("_VistaParcial_BuscarPartes"), RolDeUsuario.Reportes);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return PartialView("Error500");
+            }
+
+        }
+        
+
+      
         // GET: Parte/Create
         public ActionResult Create()
         {

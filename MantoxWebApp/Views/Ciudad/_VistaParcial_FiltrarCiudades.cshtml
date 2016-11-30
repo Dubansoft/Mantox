@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MantoxWebApp.Models.Ciudad>
+
+<div class="form-group">
+    <label>Ciudad</label>
+    @Html.DropDownList("Id_Ciudad", (MultiSelectList)ViewBag.Ciudades, new { @class = "select2 form-control nivel2 nivel3 nivel4 nivel5" })
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //Eliminar selección predeterminada 
+        $('#Id_Ciudad').val([]);
+
+        $(function () {
+            //Initialize Select2 Elements
+            $(".select2").select2();
+        });
+    });
+</script>
