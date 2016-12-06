@@ -75,7 +75,7 @@ namespace MantoxWebApp.Models
                 Id_Responsable = v.Id_Responsable,
                 Id_Area = v.Id_Area,
                 Id_Modelo = v.Id_Modelo,
-                Id_Sistema_Operativo = v.Id_Sistema_Operativo,
+                Id_Sistemas_Operativo = v.Id_Sistema_Operativo,
                 Id_Propietario = v.Id_Propietario,
                 Id_Version_Office = v.Id_Version_Office,
                 Id_Estado = v.Id_Estado,

@@ -382,7 +382,7 @@ namespace MantoxWebApp.Controllers
 
                 //OJO CARGA ASINCRONICA
                 //Select para Sistemas operativos
-                sistemasoperativos = bdMantox.Sistemas_Operativos.Select(sistemaoperativo => new
+                sistemasoperativos = bdMantox.Sistemas_Operativo.Select(sistemaoperativo => new
                 {
                     SistemaOperativoId = sistemaoperativo.Id,
                     SistemaOperativoNombre = sistemaoperativo.Nombre

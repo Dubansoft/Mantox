@@ -31,21 +31,12 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Modelo> Modelos { get; set; }
         public virtual DbSet<Parte> Partes { get; set; }
         public virtual DbSet<Propietario> Propietarios { get; set; }
-        public virtual DbSet<Razon_Movimiento> Razones_Movimiento { get; set; }
         public virtual DbSet<Rol> Roles { get; set; }
-        public virtual DbSet<Sistema_Operativo> Sistemas_Operativos { get; set; }
-        public virtual DbSet<Tipo_Licencia> Tipos_Licencia { get; set; }
-        public virtual DbSet<Tipo_Mantenimiento> Tipos_Mantenimiento { get; set; }
-        public virtual DbSet<Version_Office> Versiones_Office { get; set; }
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<V_Empresas> V_Empresas { get; set; }
-        public virtual DbSet<Equipo> Equipos { get; set; }
-        public virtual DbSet<V_Equipos> V_Equipos { get; set; }
         public virtual DbSet<V_Estados> V_Estados { get; set; }
         public virtual DbSet<Subtipos_Equipo> Subtipos_Equipo { get; set; }
         public virtual DbSet<Licencias_Instaladas> Licencias_Instaladas { get; set; }
-        public virtual DbSet<V_Licencias> V_Licencias { get; set; }
-        public virtual DbSet<Licencia> Licencias { get; set; }
         public virtual DbSet<Movimiento> Movimientos { get; set; }
         public virtual DbSet<Sede> Sedes { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
@@ -61,9 +52,25 @@ namespace MantoxWebApp.Models
         public virtual DbSet<V_Edificios> V_Edificios { get; set; }
         public virtual DbSet<V_Marcas> V_Marcas { get; set; }
         public virtual DbSet<Marca> Marcas { get; set; }
-        public virtual DbSet<Tipos_Equipo> Tipos_Equipo { get; set; }
         public virtual DbSet<V_Modelos> V_Modelos { get; set; }
         public virtual DbSet<V_Movimientos> V_Movimientos { get; set; }
         public virtual DbSet<V_Partes> V_Partes { get; set; }
+        public virtual DbSet<Licencia> Licencias { get; set; }
+        public virtual DbSet<V_Licencias> V_Licencias { get; set; }
+        public virtual DbSet<V_Propietarios> V_Propietarios { get; set; }
+        public virtual DbSet<V_Razones_Movimientos> V_Razones_Movimientos { get; set; }
+        public virtual DbSet<V_Tipos_Equipos> V_Tipos_Equipos { get; set; }
+        public virtual DbSet<Razones_Movimiento> Razones_Movimiento { get; set; }
+        public virtual DbSet<Tipos_Equipo> Tipos_Equipo { get; set; }
+        public virtual DbSet<Tipos_Licencia> Tipos_Licencia { get; set; }
+        public virtual DbSet<Versiones_Office> Versiones_Office { get; set; }
+        public virtual DbSet<Sistemas_Operativo> Sistemas_Operativo { get; set; }
+        public virtual DbSet<V_Tipos_Licencias> V_Tipos_Licencias { get; set; }
+        public virtual DbSet<Tipos_Mantenimiento> Tipos_Mantenimiento { get; set; }
+        public virtual DbSet<V_Tipos_Mantenimientos> V_Tipos_Mantenimientos { get; set; }
+        public virtual DbSet<V_Versiones_Offices> V_Versiones_Offices { get; set; }
+        public virtual DbSet<V_Sistemas_Operativos> V_Sistemas_Operativos { get; set; }
+        public virtual DbSet<V_Equipos> V_Equipos { get; set; }
+        public virtual DbSet<Equipo> Equipos { get; set; }
     }
 }

@@ -22,31 +22,122 @@ namespace MantoxWebApp.Controllers
         public string NombreObjeto = "Propietario";
 
         /// <summary>
-        /// Lista de propietarios
+        /// Lista de empresas registradas en Mantox
         /// </summary>
-        IEnumerable propietarios; //Almacenará la lista de usuarios que se asignarán como responsables de los equipos
+        IEnumerable empresas; //Almacenará la lista de empresas
+
+        /// <summary>
+        /// Lista de estados de objetos. Los estados disponibles varían según el tipo de objeto al cual están asociados. Ejemplos: Activo, inactivo, pendiente, suspendido, etc.
+        /// </summary>
+        IEnumerable propietarios; //Almacenará la lista de estados
 
 
-        // GET: Propietario
-        public async Task<ActionResult> Index()
+        /// <summary>
+        /// Lista de estados de objetos. Los estados disponibles varían según el tipo de objeto al cual están asociados. Ejemplos: Activo, inactivo, pendiente, suspendido, etc.
+        /// </summary>
+        IEnumerable estados; //Almacenará la lista de estados
+
+
+        /// <summary>
+        /// Index modificado,redirige a Ver()
+        /// </summary>
+        /// <returns>View</returns>
+        public ActionResult Index()
         {
-            return View(await bdMantox.Propietarios.ToListAsync());
+            return RedirectToAction("Ver");
         }
 
-        // GET: Propietario/Details/5
-        public async Task<ActionResult> Details(int? id)
+        /// <summary>
+        /// Obtiene una vista con la lista de elementos registrados y sus detalles
+        /// </summary>
+        /// <returns>Vista Propietarios</returns>
+        public async Task<ActionResult> Ver()
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.Accion = "Ver";
+
+                ViewData.Add("NombreContexto", this.NombreContexto);
+                ViewData.Add("NombreObjeto", this.NombreObjeto);
+                ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
+
+                ViewData.Add("UrlBase", this.BaseUrl);
+
+                return VistaAutenticada(View(await bdMantox.V_Propietarios.ToListAsync()), RolDeUsuario.Desarrollador);
+
             }
-            Propietario propietario = await bdMantox.Propietarios.FindAsync(id);
-            if (propietario == null)
+            catch (Exception e)
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return View("Error500");
             }
-            return View(propietario);
         }
+
+        /// <summary>
+        /// Devuelve un PartialView que contiene una lista JSon de los propietarios filtrados por concepto de búsqueda, o por rango
+        /// </summary>
+        /// <param name="searchString">Términos de búsqueda</param>
+        /// <param name="rows">Numero de filas</param>
+        /// <param name="page">Página</param>
+        /// <param name="idEmpresa">Id de la empresa</param>
+        /// <param name="sidx">Columna de ordenamiento</param>
+        /// <param name="sord">Tipo de ordenamiento, puede ser ASC o DESC</param>
+        /// <param name="searchField">Columna de búsqueda</param>
+        /// <param name="filters">Cadena JSON con los filtros que se usarán para busquedas generales que involucrarán todas las columnas de la tabla.</param>
+        /// <returns>PartialView</returns>
+        public PartialViewResult BuscarPropietarios(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
+        {
+            //Validar acceso
+            if (!TieneAcceso(RolDeUsuario.Desarrollador)) { return PartialView("Error401"); }
+
+            try
+            {
+                //Creamos nueva instancia de la clase parcial "v_propietarios"
+                V_Propietarios miVistaPropietarios = new V_Propietarios();
+
+                //Creamos un diccionario para almacener los resultados devueltos por la consulta
+                Dictionary<string, object> diccionarioResultados = new Dictionary<string, object>();
+
+                //Ejecutamos la consulta a la base de datos y almacenamos los resultados en  el diccionario
+                diccionarioResultados = miVistaPropietarios.BuscarPropietarios(searchString, idEmpresa, sidx, sord, page, rows, searchField, filters);
+
+                //Creamos tabla de datos para almacenar los resultados de la consulta en la base de datos
+                DataTable tablaResultadosPropietarios = new DataTable();
+
+                //Asignamos el valor tablaResultadosPropietarios tomando el valor del dicccionario
+                tablaResultadosPropietarios = (DataTable)diccionarioResultados["TablaResultados"];
+
+                //Creamos enteros para almacenar los diferentes valores requeridos por el paginador
+                int totalFilas = 0;
+                int filasPorPagina = 0;
+                int paginaActual = 0;
+                int totalPaginas = 0;
+
+                //Asignamos el valor a las variables tomando los valores del diccionario de resultados
+                totalFilas = (int)diccionarioResultados["TotalFilas"];
+                filasPorPagina = (int)diccionarioResultados["FilasPorPagina"];
+                paginaActual = (int)diccionarioResultados["PaginaActual"];
+                totalPaginas = (int)diccionarioResultados["TotalPaginas"];
+
+                //Adjuntamos estos datos a la vista
+                ViewBag.TablaResultadosPropietarios = tablaResultadosPropietarios;
+                ViewBag.FilasPorPagina = filasPorPagina;
+                ViewBag.TotalFilas = totalFilas;
+                ViewBag.PaginaActual = paginaActual;
+                ViewBag.TotalPaginas = totalPaginas;
+
+                //Devolvemos la vista
+                return VistaAutenticada(PartialView("_VistaParcial_BuscarPropietarios"), RolDeUsuario.Reportes);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return PartialView("Error500");
+            }
+
+        }
+
 
         // GET: Propietario/Create
         public ActionResult Create()
@@ -160,6 +251,7 @@ namespace MantoxWebApp.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         /// <summary>
         /// Devuelve un PartialView que contiene un MultiSelect de los propietarios

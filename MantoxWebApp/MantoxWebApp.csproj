@@ -215,13 +215,13 @@
     <Compile Include="Controllers\ParteController.cs" />
     <Compile Include="Controllers\PisoController.cs" />
     <Compile Include="Controllers\PropietarioController.cs" />
-    <Compile Include="Controllers\Razon_MovimientoController.cs" />
+    <Compile Include="Controllers\Razones_MovimientoController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\SedeController.cs" />
-    <Compile Include="Controllers\Sistema_OperativoController.cs" />
+    <Compile Include="Controllers\Sistemas_OperativoController.cs" />
     <Compile Include="Controllers\Tipos_EquipoController.cs" />
-    <Compile Include="Controllers\Tipo_LicenciaController.cs" />
-    <Compile Include="Controllers\Tipo_MantenimientoController.cs" />
+    <Compile Include="Controllers\Tipos_LicenciaController.cs" />
+    <Compile Include="Controllers\Tipos_MantenimientoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\Version_OfficeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -281,6 +281,22 @@
     <Compile Include="Models\Marca.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelExtension\Sistemas_Operativo\Sistemas_OperativoModels.cs" />
+    <Compile Include="Models\ModelExtension\Sistemas_Operativo\Sistemas_OperativoViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Tipos_Equipo\Tipos_EquipoModels.cs" />
+    <Compile Include="Models\ModelExtension\Tipos_Equipo\Tipos_EquipoViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Tipos_Licencia\Tipos_LicenciaModels.cs" />
+    <Compile Include="Models\ModelExtension\Tipos_Licencia\Tipos_LicenciaViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Tipos_Mantenimiento\Tipos_MantenimientoModels.cs" />
+    <Compile Include="Models\ModelExtension\Tipos_Mantenimiento\Tipos_MantenimientoViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Versiones_Office\Versiones_OfficeModels.cs" />
+    <Compile Include="Models\ModelExtension\Versiones_Office\Versiones_OfficeViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Razones_Movimiento\Razones_MovimientoModels.cs" />
+    <Compile Include="Models\ModelExtension\Razones_Movimiento\Razones_MovimientoViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Propietario\PropietarioViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Propietario\PropietarioModels.cs" />
+    <Compile Include="Models\ModelExtension\Licencia\LicenciaViewModels.cs" />
+    <Compile Include="Models\ModelExtension\Licencia\LicenciaModels.cs" />
     <Compile Include="Models\ModelExtension\Parte\ParteViewModels.cs" />
     <Compile Include="Models\ModelExtension\Parte\ParteModels.cs" />
     <Compile Include="Models\ModelExtension\Movimiento\MovimientoModels.cs" />
@@ -304,6 +320,14 @@
     <Compile Include="Models\ModelExtension\Area\AreaModels.cs" />
     <Compile Include="Models\ModelExtension\Area\AreaViewModels.cs" />
     <Compile Include="Models\ModelExtension\Usuario\UsuarioViewModels.cs" />
+    <Compile Include="Models\ModelExtension\V_Licencias\V_LicenciasViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Sistemas_Operativos\V_Sistemas_OperativosViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Tipos_Equipos\V_Tipos_EquiposViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Tipos_Licencias\V_Tipos_LicenciasViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Tipos_Mantenimientos\V_Tipos_Mantenimientos.cs" />
+    <Compile Include="Models\ModelExtension\V_Versines_Offices\V_Versines_OfficesViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Razones_Movimientos\V_Razones_MovimientosViewModel.cs" />
+    <Compile Include="Models\ModelExtension\V_Propietarios\V_PropietariosViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Partes\V_PartesViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Movimientos\V_MovimientosViewModel.cs" />
     <Compile Include="Models\ModelExtension\V_Modelos\V_ModelosViewModel.cs" />
@@ -330,7 +354,7 @@
     <Compile Include="Models\Propietario.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Razon_Movimiento.cs">
+    <Compile Include="Models\Razones_Movimiento.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Rol.cs">
@@ -339,7 +363,7 @@
     <Compile Include="Models\Sede.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Sistema_Operativo.cs">
+    <Compile Include="Models\Sistemas_Operativo.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Subtipos_Equipo.cs">
@@ -348,19 +372,19 @@
     <Compile Include="Models\Tipos_Equipo.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Tipo_Licencia.cs">
+    <Compile Include="Models\Tipos_Licencia.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Tipo_Mantenimiento.cs">
+    <Compile Include="Models\Tipos_Mantenimiento.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Version_Office.cs">
+    <Compile Include="Models\ModelExtension\Usuario\UsuarioModels.cs" />
+    <Compile Include="Models\Versiones_Office.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelExtension\Usuario\UsuarioModels.cs" />
     <Compile Include="Models\V_Areas.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
@@ -394,10 +418,31 @@
     <Compile Include="Models\V_Partes.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\V_Propietarios.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Razones_Movimientos.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\V_Sedes.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\V_Sistemas_Operativos.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Tipos_Equipos.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Tipos_Licencias.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Tipos_Mantenimientos.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\V_Usuarios.cs">
+      <DependentUpon>MantoxDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_Versiones_Offices.cs">
       <DependentUpon>MantoxDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -456,7 +501,6 @@
     <Content Include="Views\Shared\_PlantillaMantox.cshtml" />
     <Content Include="Views\Shared\_PlantillaError.cshtml" />
     <Content Include="Views\Usuario\Ver.cshtml" />
-    <Content Include="Views\SistemaOperativo\Index.cshtml" />
     <Content Include="Views\Sede\_VistaParcial_FiltrarSedes.cshtml" />
     <Content Include="Views\Edificio\_VistaParcial_FiltrarEdificios.cshtml" />
     <Content Include="Views\Piso\_VistaParcial_FiltrarPisos.cshtml" />
@@ -481,11 +525,8 @@
     <Content Include="Views\Comentario\Index.cshtml" />
     <Content Include="Views\Estado\Create.cshtml" />
     <Content Include="Views\Empresa\Crear.cshtml" />
-    <Content Include="Views\Licencia\Create.cshtml" />
-    <Content Include="Views\Licencia\Delete.cshtml" />
+    <Content Include="Views\Licencia\Crear.cshtml" />
     <Content Include="Views\Licencia\Details.cshtml" />
-    <Content Include="Views\Licencia\Edit.cshtml" />
-    <Content Include="Views\Licencia\Index.cshtml" />
     <Content Include="Views\Mantenimiento\Create.cshtml" />
     <Content Include="Views\Mantenimiento\Delete.cshtml" />
     <Content Include="Views\Mantenimiento\Details.cshtml" />
@@ -493,46 +534,18 @@
     <Content Include="Views\Mantenimiento\Index.cshtml" />
     <Content Include="Views\Marca\Crear.cshtml" />
     <Content Include="Views\Movimiento\Crear.cshtml" />
-    <Content Include="Views\Propietario\Create.cshtml" />
-    <Content Include="Views\Propietario\Delete.cshtml" />
-    <Content Include="Views\Propietario\Details.cshtml" />
-    <Content Include="Views\Propietario\Edit.cshtml" />
-    <Content Include="Views\Propietario\Index.cshtml" />
-    <Content Include="Views\Razon_Movimiento\Create.cshtml" />
-    <Content Include="Views\Razon_Movimiento\Delete.cshtml" />
-    <Content Include="Views\Razon_Movimiento\Details.cshtml" />
-    <Content Include="Views\Razon_Movimiento\Edit.cshtml" />
-    <Content Include="Views\Razon_Movimiento\Index.cshtml" />
+    <Content Include="Views\Propietario\Crear.cshtml" />
+    <Content Include="Views\Razones_Movimiento\Crear.cshtml" />
     <Content Include="Views\Rol\Create.cshtml" />
     <Content Include="Views\Rol\Delete.cshtml" />
     <Content Include="Views\Rol\Details.cshtml" />
     <Content Include="Views\Rol\Edit.cshtml" />
     <Content Include="Views\Rol\Index.cshtml" />
-    <Content Include="Views\Tipo_Equipo\Create.cshtml" />
-    <Content Include="Views\Tipo_Equipo\Delete.cshtml" />
-    <Content Include="Views\Tipo_Equipo\Details.cshtml" />
-    <Content Include="Views\Tipo_Equipo\Edit.cshtml" />
-    <Content Include="Views\Tipo_Equipo\Index.cshtml" />
-    <Content Include="Views\Tipo_Licencia\Create.cshtml" />
-    <Content Include="Views\Tipo_Licencia\Delete.cshtml" />
-    <Content Include="Views\Tipo_Licencia\Details.cshtml" />
-    <Content Include="Views\Tipo_Licencia\Edit.cshtml" />
-    <Content Include="Views\Tipo_Licencia\Index.cshtml" />
-    <Content Include="Views\Tipo_Mantenimiento\Create.cshtml" />
-    <Content Include="Views\Tipo_Mantenimiento\Delete.cshtml" />
-    <Content Include="Views\Tipo_Mantenimiento\Details.cshtml" />
-    <Content Include="Views\Tipo_Mantenimiento\Edit.cshtml" />
-    <Content Include="Views\Tipo_Mantenimiento\Index.cshtml" />
-    <Content Include="Views\Version_Office\Create.cshtml" />
-    <Content Include="Views\Version_Office\Delete.cshtml" />
-    <Content Include="Views\Version_Office\Details.cshtml" />
-    <Content Include="Views\Version_Office\Edit.cshtml" />
-    <Content Include="Views\Version_Office\Index.cshtml" />
-    <Content Include="Views\Sistema_Operativo\Create.cshtml" />
-    <Content Include="Views\Sistema_Operativo\Delete.cshtml" />
-    <Content Include="Views\Sistema_Operativo\Details.cshtml" />
-    <Content Include="Views\Sistema_Operativo\Edit.cshtml" />
-    <Content Include="Views\Sistema_Operativo\Index.cshtml" />
+    <Content Include="Views\Tipos_Equipo\Crear.cshtml" />
+    <Content Include="Views\Tipos_Licencia\Crear.cshtml" />
+    <Content Include="Views\Tipos_Mantenimiento\Crear.cshtml" />
+    <Content Include="Views\Versiones_Office\Crear.cshtml" />
+    <Content Include="Views\Sistemas_Operativo\Crear.cshtml" />
     <Content Include="Views\Usuario\_VistaParcial_BuscarUsuarios.cshtml" />
     <Content Include="Views\Shared\_PlantillaFormulario.cshtml" />
     <Content Include="Views\Shared\_PlantillaTablaDinamica.cshtml" />
@@ -572,6 +585,22 @@
     <Content Include="Views\Movimiento\_VistaParcial_BuscarMovimientos.cshtml" />
     <Content Include="Views\Parte\Ver.cshtml" />
     <Content Include="Views\Parte\_VistaParcial_BuscarPartes.cshtml" />
+    <Content Include="Views\Licencia\Ver.cshtml" />
+    <Content Include="Views\Propietario\Ver.cshtml" />
+    <Content Include="Views\Licencia\_VistaParcial_BuscarLicencias.cshtml" />
+    <Content Include="Views\Propietario\_VistaParcial_BuscarPropietarios.cshtml" />
+    <Content Include="Views\Razones_Movimiento\Ver.cshtml" />
+    <Content Include="Views\Tipos_Equipo\Ver.cshtml" />
+    <Content Include="Views\Tipos_Licencia\Ver.cshtml" />
+    <Content Include="Views\Tipos_Mantenimiento\Ver.cshtml" />
+    <Content Include="Views\Razones_Movimiento\_VistaParcial_BuscarRazones_Movimientos.cshtml" />
+    <Content Include="Views\Sistemas_Operativo\_VistaParcial_BuscarSistemas_Operativos.cshtml" />
+    <Content Include="Views\Sistemas_Operativo\Ver.cshtml" />
+    <Content Include="Views\Tipos_Equipo\_VistaParcial_BuscarTipos_Equipos.cshtml" />
+    <Content Include="Views\Tipos_Licencia\_VistaParcial_BuscarTipos_Licencias.cshtml" />
+    <Content Include="Views\Tipos_Mantenimiento\_VistaParcial_BuscarTipos_Mantenimientos.cshtml" />
+    <Content Include="Views\Versiones_Office\_VistaParcial_BuscarVersiones_Offices.cshtml" />
+    <Content Include="Views\Versiones_Office\Ver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

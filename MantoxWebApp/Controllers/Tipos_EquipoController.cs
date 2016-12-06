@@ -8,33 +8,120 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MantoxWebApp.Models;
+using FileHelper;
+using System.Reflection;
 
 namespace MantoxWebApp.Controllers
 {
-    public class Tipo_EquipoController : Controller
+    public class Tipos_EquipoController : MantoxController
     {
-        private MantoxDBEntities db = new MantoxDBEntities();
-        public string NombreContexto = "Tipo de equipo";
-        // GET: Tipo_Equipo
-        public async Task<ActionResult> Index()
+
+        ///Instancia de conexión por framework a la base de datos
+        private MantoxDBEntities bdMantox = new MantoxDBEntities();
+        public string NombreContexto = "Tipo de Equipos";
+        public string NombreObjeto = "Tipo de Equipo";
+
+
+        /// <summary>
+        /// Index modificado,redirige a Ver()
+        /// </summary>
+        /// <returns>View</returns>
+        public ActionResult Index()
         {
-            return View(await db.Tipos_Equipo.ToListAsync());
+            return RedirectToAction("Ver");
         }
 
-        // GET: Tipo_Equipo/Details/5
-        public async Task<ActionResult> Details(int? id)
+        /// <summary>
+        /// Obtiene una vista con la lista de elementos registrados y sus detalles
+        /// </summary>
+        /// <returns>Vista Tipos Equipos</returns>
+        public async Task<ActionResult> Ver()
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.Accion = "Ver";
+
+                ViewData.Add("NombreContexto", this.NombreContexto);
+                ViewData.Add("NombreObjeto", this.NombreObjeto);
+                ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
+
+                ViewData.Add("UrlBase", this.BaseUrl);
+
+                return VistaAutenticada(View(await bdMantox.V_Tipos_Equipos.ToListAsync()), RolDeUsuario.Desarrollador);
+
             }
-            Tipos_Equipo tipo_Equipo = await db.Tipos_Equipo.FindAsync(id);
-            if (tipo_Equipo == null)
+            catch (Exception e)
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return View("Error500");
             }
-            return View(tipo_Equipo);
         }
+
+        /// <summary>
+        /// Devuelve un PartialView que contiene una lista JSon de los V_Tipos_Equipos filtrados por concepto de búsqueda, o por rango
+        /// </summary>
+        /// <param name="searchString">Términos de búsqueda</param>
+        /// <param name="rows">Numero de filas</param>
+        /// <param name="page">Página</param>
+        /// <param name="idtipos_equipos">Id de la Tipos_Equipos</param>
+        /// <param name="sidx">Columna de ordenamiento</param>
+        /// <param name="sord">Tipo de ordenamiento, puede ser ASC o DESC</param>
+        /// <param name="searchField">Columna de búsqueda</param>
+        /// <param name="filters">Cadena JSON con los filtros que se usarán para busquedas generales que involucrarán todas las columnas de la tabla.</param>
+        /// <returns>PartialView</returns>
+        public PartialViewResult BuscarTipos_Equipos(string searchString = "", int rows = 0, int page = 0, int idtipos_equipos = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
+        {
+            //Validar acceso
+            if (!TieneAcceso(RolDeUsuario.Desarrollador)) { return PartialView("Error401"); }
+
+            try
+            {
+                //Creamos nueva instancia de la clase parcial "v_tipos_equipos"
+                V_Tipos_Equipos miVistaTipos_Equipos = new V_Tipos_Equipos();
+
+                //Creamos un diccionario para almacener los resultados devueltos por la consulta
+                Dictionary<string, object> diccionarioResultados = new Dictionary<string, object>();
+
+                //Ejecutamos la consulta a la base de datos y almacenamos los resultados en  el diccionario
+                diccionarioResultados = miVistaTipos_Equipos.BuscarTipos_Equipos(searchString, idtipos_equipos, sidx, sord, page, rows, searchField, filters);
+
+                //Creamos tabla de datos para almacenar los resultados de la consulta en la base de datos
+                DataTable tablaResultadosTipos_Equipos = new DataTable();
+
+                //Asignamos el valor tablaResultadosTipos_Equipos tomando el valor del dicccionario
+                tablaResultadosTipos_Equipos = (DataTable)diccionarioResultados["TablaResultados"];
+
+                //Creamos enteros para almacenar los diferentes valores requeridos por el paginador
+                int totalFilas = 0;
+                int filasPorPagina = 0;
+                int paginaActual = 0;
+                int totalPaginas = 0;
+
+                //Asignamos el valor a las variables tomando los valores del diccionario de resultados
+                totalFilas = (int)diccionarioResultados["TotalFilas"];
+                filasPorPagina = (int)diccionarioResultados["FilasPorPagina"];
+                paginaActual = (int)diccionarioResultados["PaginaActual"];
+                totalPaginas = (int)diccionarioResultados["TotalPaginas"];
+
+                //Adjuntamos estos datos a la vista
+                ViewBag.TablaResultadosTipos_Equipos = tablaResultadosTipos_Equipos;
+                ViewBag.FilasPorPagina = filasPorPagina;
+                ViewBag.TotalFilas = totalFilas;
+                ViewBag.PaginaActual = paginaActual;
+                ViewBag.TotalPaginas = totalPaginas;
+
+                //Devolvemos la vista
+                return VistaAutenticada(PartialView("_VistaParcial_BuscarTipos_Equipos"), RolDeUsuario.Reportes);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return PartialView("Error500");
+            }
+
+        }
+
 
         // GET: Tipo_Equipo/Create
         public ActionResult Create()
@@ -54,8 +141,8 @@ namespace MantoxWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Tipos_Equipo.Add(tipos_Equipo);
-                await db.SaveChangesAsync();
+                bdMantox.Tipos_Equipo.Add(tipos_Equipo);
+                await bdMantox.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -69,7 +156,7 @@ namespace MantoxWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tipos_Equipo tipo_Equipo = await db.Tipos_Equipo.FindAsync(id);
+            Tipos_Equipo tipo_Equipo = await bdMantox.Tipos_Equipo.FindAsync(id);
             if (tipo_Equipo == null)
             {
                 return HttpNotFound();
@@ -86,8 +173,8 @@ namespace MantoxWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tipos_Equipo).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                bdMantox.Entry(tipos_Equipo).State = EntityState.Modified;
+                await bdMantox.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(tipos_Equipo);
@@ -100,7 +187,7 @@ namespace MantoxWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tipos_Equipo tipo_Equipo = await db.Tipos_Equipo.FindAsync(id);
+            Tipos_Equipo tipo_Equipo = await bdMantox.Tipos_Equipo.FindAsync(id);
             if (tipo_Equipo == null)
             {
                 return HttpNotFound();
@@ -113,9 +200,9 @@ namespace MantoxWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Tipos_Equipo tipo_Equipo = await db.Tipos_Equipo.FindAsync(id);
-            db.Tipos_Equipo.Remove(tipo_Equipo);
-            await db.SaveChangesAsync();
+            Tipos_Equipo tipo_Equipo = await bdMantox.Tipos_Equipo.FindAsync(id);
+            bdMantox.Tipos_Equipo.Remove(tipo_Equipo);
+            await bdMantox.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -123,7 +210,7 @@ namespace MantoxWebApp.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                bdMantox.Dispose();
             }
             base.Dispose(disposing);
         }

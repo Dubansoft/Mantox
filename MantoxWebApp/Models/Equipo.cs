@@ -19,13 +19,13 @@ namespace MantoxWebApp.Models
         public string Serial { get; set; }
         public string Nombre_Equipo { get; set; }
         public string Ip { get; set; }
-        public string Comentario { get; set; }
         public System.DateTime Fecha_Ingreso { get; set; }
         public System.DateTime Fecha_Fin_Garantia { get; set; }
+        public string Comentario { get; set; }
         public int Id_Responsable { get; set; }
         public int Id_Area { get; set; }
         public int Id_Modelo { get; set; }
-        public int Id_Sistema_Operativo { get; set; }
+        public int Id_Sistemas_Operativo { get; set; }
         public int Id_Propietario { get; set; }
         public int Id_Version_Office { get; set; }
         public int Id_Estado { get; set; }

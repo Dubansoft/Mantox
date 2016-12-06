@@ -17,7 +17,7 @@ namespace MantoxWebApp.Models
         public int Id { get; set; }
         public int Id_Tipo_Licencia { get; set; }
         public string Serial { get; set; }
-        public long Fecha_Compra { get; set; }
+        public System.DateTime Fecha_Compra { get; set; }
         public int Id_Equipo { get; set; }
     }
 }

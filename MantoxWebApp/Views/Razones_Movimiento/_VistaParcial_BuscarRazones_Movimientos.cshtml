@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MantoxWebApp.Models.V_Razones_Movimientos>
+@using System.Data;
+@using System.Data.SqlClient;
+@{
+    Response.ContentType = "application/javascript";
+
+    string gridDataString = "{\"records\":\"" + ViewBag.TotalFilas + "\",\"page\":" + ViewBag.PaginaActual + ",\"total\":" + ViewBag.TotalPaginas + ",\"rows\":[";
+
+    DataTable tablaResultadosRazones_Movimientos = ((DataTable)ViewBag.TablaResultadosRazones_Movimientos);
+
+    string[] excepciones = new string[] {};
+
+    foreach (DataRow filaActual in tablaResultadosRazones_Movimientos.Rows)
+    {
+        gridDataString += "{";
+
+        foreach (DataColumn columnaActual in tablaResultadosRazones_Movimientos.Columns) {
+            gridDataString += "\"" + columnaActual.ColumnName + "\":\"" + @filaActual[columnaActual.ColumnName] + "\",";
+
+        }
+        gridDataString = gridDataString.Substring(0, gridDataString.Length - 1);
+        gridDataString += "},";
+    }
+    if (ViewBag.TotalFilas > 0) {
+        gridDataString = gridDataString.Substring(0, gridDataString.Length - 1);
+    }
+    gridDataString += "]}" + "\n";
+    @Html.Raw(gridDataString)
+    gridDataString = string.Empty;
+}
