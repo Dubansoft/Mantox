@@ -52,7 +52,7 @@ namespace MantoxWebApp.Models
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<V_Areas> V_Areas { get; set; }
         public virtual DbSet<V_Empresas> V_Empresas { get; set; }
-        public virtual DbSet<Equipo> Equipos { get; set; }
         public virtual DbSet<V_Equipos> V_Equipos { get; set; }
+        public virtual DbSet<Equipo> Equipos { get; set; }
     }
 }

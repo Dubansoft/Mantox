@@ -19,6 +19,9 @@
     @*Añadimos estilos propios de esta página*@
     @Styles.Render("~/adminLte/css/select2/")
 
+    <!-- Validate js tooltip style -->
+    @Styles.Render("~/adminLte/css/ValidateJsTooltips/")
+
 }
 
 @using (Html.BeginForm("Crear", "Area", FormMethod.Post, new { @id = "formulario_crear_area" }))
@@ -179,8 +182,10 @@
 	    $().ready(function() {
 	    // validate signup form on keyup and submit
 
-		    $("#formulario_crear_area").validate({
-		        rules: {
+	        $("#formulario_crear_area").validate({
+	            errorPlacement: ValidatorErrorPlacement,
+	            success: ValidatorSuccess,
+	            rules: {
 		            Nombre: "required",
 		            Id_Empresa: {
 		                required: true,

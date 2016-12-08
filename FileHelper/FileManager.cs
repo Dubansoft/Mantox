@@ -1,14 +1,6 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DateHelper;
-using System.Data.SqlClient;
-using System.Data;
 
 
 namespace FileHelper
@@ -167,30 +159,17 @@ namespace FileHelper
 
     public static class EventLogger
     {
-        
+
         /// <summary>
         /// Writes a new line to the InkalertLog.txt log file
         /// </summary>
         /// <param name="sender">The form or object that sends the event</param>
         /// <param name="ErrorMessage">The message to be added to the log file</param>
         /// <param name="e">Exception reference e</param>
-        public static string LogEvent(object sender, string ErrorMessage, object e, string methodName = "<?>")
+        public static string LogEvent(object sender, string ErrorMessage, Exception e, string methodName = "<?>")
         {
             try
             {
-                Exception renderedException = null;
-                MySqlException renderedMySqlException = null;
-                SqlException renderedSqlException = null;
-
-                try { renderedException = (Exception)e; }
-                catch (Exception) { }
-
-                try { renderedMySqlException = (MySqlException)e; }
-                catch (Exception) { }
-
-                try { renderedSqlException = (SqlException)e; }
-                catch (Exception) { }
-
                 string activeControl = methodName;
                 string senderFormText = "<no form set>";
 
@@ -201,7 +180,7 @@ namespace FileHelper
                 catch (Exception)
                 {
                 }
-                
+
                 if (sender is string[])
                 {
                     string[] senderArray = (string[])sender;
@@ -212,55 +191,25 @@ namespace FileHelper
                 FileManager myFileManager = new FileManager(Application.StartupPath.ToString(), "ApplicationLog.txt");
                 FileManager.TextToAppend = FHDateEngine.CurrentDateTimeShort + " :: " + senderFormText + " :: " + methodName + " :: " + ErrorMessage;
 
-                if (renderedException is Exception)
+                try
                 {
-                    Exception myException = (Exception)e;
+                    FileManager.TextToAppend += "\n\t\tException type is " + e.GetType().Name;
 
-                    FileManager.TextToAppend += "\n\t\tException type is System.Exception";
+                    FileManager.TextToAppend += "\n\t\tSource: " + e.Source.ToString();
 
-                    FileManager.TextToAppend += "\n\t\tSource: " + myException.Source.ToString();
-
-                    if (renderedException.InnerException != null)
+                    if (e.InnerException != null)
                     {
-                        FileManager.TextToAppend += "\n\t\tInnerException: " + myException.InnerException.ToString();
+                        FileManager.TextToAppend += "\n\t\tInnerException: " + e.InnerException.ToString();
                     }
 
-                    FileManager.TextToAppend += "\n\t\tStackTrace: " + myException.StackTrace.ToString();
+                    FileManager.TextToAppend += "\n\t\tStackTrace: " + e.StackTrace.ToString();
                     FileManager.TextToAppend += "\n\t\tType: " + e.GetType().ToString();
+
                 }
-
-                if (renderedMySqlException is MySqlException)
+                catch (Exception ex)
                 {
-                    Exception mySqlException = (Exception)e;
-
-                    FileManager.TextToAppend += "\n\t\tException type is MySql.Data.MySqlCliente.MySqlException";
-
-                    FileManager.TextToAppend += "\n\t\tSource: " + mySqlException.Source.ToString();
-
-                    if (renderedMySqlException.InnerException != null)
-                    {
-                        FileManager.TextToAppend += "\n\t\tInnerException: " + mySqlException.InnerException.ToString();
-                    }
-
-                    FileManager.TextToAppend += "\n\t\tStackTrace: " + mySqlException.StackTrace.ToString();
-                    FileManager.TextToAppend += "\n\t\tType: " + e.GetType().ToString();
-                }
-
-                if (renderedSqlException is SqlException)
-                {
-                    Exception sqlException = (Exception)e;
-
-                    FileManager.TextToAppend += "\n\t\tException type is MySql.Data.MySqlCliente.MySqlException";
-
-                    FileManager.TextToAppend += "\n\t\tSource: " + sqlException.Source.ToString();
-
-                    if (renderedMySqlException.InnerException != null)
-                    {
-                        FileManager.TextToAppend += "\n\t\tInnerException: " + sqlException.InnerException.ToString();
-                    }
-
-                    FileManager.TextToAppend += "\n\t\tStackTrace: " + sqlException.StackTrace.ToString();
-                    FileManager.TextToAppend += "\n\t\tType: " + e.GetType().ToString();
+                    Console.Write("An error has ocurred: " + ex.Message.ToString());
+                    return "An error has ocurred: " + ex.Message.ToString();
                 }
 
                 FileManager.TextToAppend += "\n\n";
@@ -273,9 +222,10 @@ namespace FileHelper
 
                 return FileManager.TextToAppend;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return "Sorry, but we cant log an error that happened in the event logger itself";
+                Console.Write("An error has ocurred: " + ex.Message.ToString());
+                return "An error has ocurred: " + ex.Message.ToString();
                 //Sorry, but we cant log an error that happened in the event logger itself
             }
         }
