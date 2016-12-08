@@ -2,14 +2,14 @@
 
 <div class="form-group">
     <label>Ciudad</label>
-    @Html.DropDownList("Id_Ciudad", (MultiSelectList)ViewBag.Ciudades, new { @class = "select2 form-control nivel2 nivel3 nivel4 nivel5" })
+    @Html.DropDownList("Id_Ciudad", (MultiSelectList)ViewBag.Ciudades, new { @class = "select2 form-control nivel2 nivel3" })
 
 </div>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
-        //Eliminar selección predeterminada 
+        //Eliminar selección predeterminada
         $('#Id_Ciudad').val([]);
 
         $(function () {

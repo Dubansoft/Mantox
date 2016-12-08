@@ -593,14 +593,15 @@
     <Content Include="Views\Tipos_Equipo\Ver.cshtml" />
     <Content Include="Views\Tipos_Licencia\Ver.cshtml" />
     <Content Include="Views\Tipos_Mantenimiento\Ver.cshtml" />
-    <Content Include="Views\Razones_Movimiento\_VistaParcial_BuscarRazones_Movimientos.cshtml" />
+    <Content Include="Views\Razones_Movimiento\_VistaParcial_BuscarRazones_de_Movimientos.cshtml" />
     <Content Include="Views\Sistemas_Operativo\_VistaParcial_BuscarSistemas_Operativos.cshtml" />
     <Content Include="Views\Sistemas_Operativo\Ver.cshtml" />
     <Content Include="Views\Tipos_Equipo\_VistaParcial_BuscarTipos_Equipos.cshtml" />
-    <Content Include="Views\Tipos_Licencia\_VistaParcial_BuscarTipos_Licencias.cshtml" />
-    <Content Include="Views\Tipos_Mantenimiento\_VistaParcial_BuscarTipos_Mantenimientos.cshtml" />
-    <Content Include="Views\Versiones_Office\_VistaParcial_BuscarVersiones_Offices.cshtml" />
+    <Content Include="Views\Tipos_Licencia\_VistaParcial_BuscarTipos_de_Licencias.cshtml" />
+    <Content Include="Views\Tipos_Mantenimiento\_VistaParcial_BuscarTipos_de_Mantenimientos.cshtml" />
+    <Content Include="Views\Versiones_Office\_VistaParcial_BuscarVersiones_de_Office.cshtml" />
     <Content Include="Views\Versiones_Office\Ver.cshtml" />
+    <Content Include="Views\Licencia\_VistaParcial_DetallesLicencia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

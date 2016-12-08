@@ -69,7 +69,7 @@
         var base_url = "@ViewData["UrlBase"].ToString()";
 
         //Url de búsqueda de los datos de la tabla.
-        var grid_data_url = "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/Buscar", ViewData["NombreContexto"].ToString(),"?")"
+        var grid_data_url = "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/Buscar", ViewData["NombreContexto"].ToString().Replace(" ","_"), "?")"
 
         //Agrupar?
         var grid_grouping = false;

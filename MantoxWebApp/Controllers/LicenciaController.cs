@@ -22,7 +22,7 @@ namespace MantoxWebApp.Controllers
         public string NombreObjeto = "Licencia";
 
         /// <summary>
-        /// Lista de estados de objetos. 
+        /// Lista de estados de objetos.
         /// </summary>
         IEnumerable tipolicencias; //Almacenará la lista de Tipos de Licencia
 
@@ -132,22 +132,57 @@ namespace MantoxWebApp.Controllers
         }
 
 
-
-
-
-        // GET: Licencia/Details/5
-        public async Task<ActionResult> Details(int? id)
+        /// <summary>
+        /// Devuelve una tabla con los detalles de la Licencia en cuestión.
+        /// </summary>
+        /// <param name="id">El id de la Licencia</param>
+        /// <returns></returns>
+        public PartialViewResult Detalles(int? id)
         {
-            if (id == null)
+            //Validar acceso
+            if (!TieneAcceso(RolDeUsuario.Reportes)) { return PartialView("Error401"); }
+
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //Validamos si el id pasado es nulo
+                if (id == null)
+                {
+                    //Devolvemos error 400 si es nulo el id
+                    return PartialView("Error400");
+                }
+
+                //Buscamos el id en la base de datos
+                Licencia licencia = bdMantox.Licencias.Find(id);
+
+                //Validamos si se encontró el id en la base de datos
+                if (licencia == null)
+                {
+                    //Retornamos error 404 si no se encuentra
+                    return PartialView("Error404");
+                }
+
+                //Creamos el conector a la base de datos
+                MantoxSqlServerConnectionHelper conector = new MantoxSqlServerConnectionHelper();
+
+                //Consultamos la base de datos y almacenamos los resultados en un dataset
+                DataSet resDs = conector.ConsultarQuery("SELECT * FROM V_Licencias WHERE Id=" + id + "");
+
+                ViewData.Add("NombreContexto", this.NombreContexto);
+                ViewData.Add("NombreObjeto", this.NombreObjeto);
+                ViewData.Add("NombreControlador", ControllerContext.RouteData.Values["controller"].ToString());
+
+                //Añadimos la tabla de resultados al ViewBag de la vista
+                ViewBag.TablaDetallesLicencia = resDs.Tables[0];
+
+                //Devolvemos la vista
+                return VistaAutenticada(PartialView("_VistaParcial_DetallesLicencia"), RolDeUsuario.Reportes);
+
             }
-            Licencia licencia = await bdMantox.Licencias.FindAsync(id);
-            if (licencia == null)
+            catch (Exception e)
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = EventLogger.LogEvent(this, e.Message.ToString(), e, MethodBase.GetCurrentMethod().Name);
+                return PartialView("Error500");
             }
-            return View(licencia);
         }
 
         // GET: Licencia/Create
@@ -173,13 +208,13 @@ namespace MantoxWebApp.Controllers
 
             ViewBag.Titulo = "Crear Licencia";
             ViewData.Add("NombreContexto", this.NombreContexto);
-        
+
 
             return View();
         }
 
         // POST: Licencia/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -211,7 +246,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Licencia/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -241,7 +276,7 @@ namespace MantoxWebApp.Controllers
             return View(licencia);
         }
 
-      
+
 
         protected override void Dispose(bool disposing)
         {

@@ -18,7 +18,7 @@ namespace MantoxWebApp.Controllers
 
         ///Instancia de conexión por framework a la base de datos
         private MantoxDBEntities bdMantox = new MantoxDBEntities();
-        public string NombreContexto = "Tipo de Equipos";
+        public string NombreContexto = "Tipos de Equipos";
         public string NombreObjeto = "Tipo de Equipo";
 
 
@@ -69,7 +69,7 @@ namespace MantoxWebApp.Controllers
         /// <param name="searchField">Columna de búsqueda</param>
         /// <param name="filters">Cadena JSON con los filtros que se usarán para busquedas generales que involucrarán todas las columnas de la tabla.</param>
         /// <returns>PartialView</returns>
-        public PartialViewResult BuscarTipos_Equipos(string searchString = "", int rows = 0, int page = 0, int idtipos_equipos = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
+        public PartialViewResult BuscarTipos_de_Equipos(string searchString = "", int rows = 0, int page = 0, int idtipos_equipos = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
         {
             //Validar acceso
             if (!TieneAcceso(RolDeUsuario.Desarrollador)) { return PartialView("Error401"); }
@@ -133,7 +133,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Tipo_Equipo/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -165,7 +165,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Tipo_Equipo/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

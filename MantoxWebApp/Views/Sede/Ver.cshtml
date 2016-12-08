@@ -86,7 +86,7 @@
                         sorttype: "text",
                         editable: false
                     },
-                   
+
         ];
 
         //Los nombres de las columnas de la tabla.
@@ -98,7 +98,7 @@
                     'Pais',
                     'Departamento',
                     'Ciudad'
-                    
+
         ];
 
         //Titulo de la lista
@@ -111,7 +111,7 @@
         var base_url = "@ViewData["UrlBase"].ToString()";
 
         //Url de búsqueda de los datos de la tabla.
-        var grid_data_url = "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/Buscar", ViewData["NombreContexto"].ToString(),"?")"
+        var grid_data_url = "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/Buscar", ViewData["NombreContexto"].ToString().Replace(" ","_"), "?")"
 
         //Agrupar?
         var grid_grouping = false;
@@ -139,32 +139,7 @@
             var subgridTableId = subgridDivId + "_t";
             $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
 
-            //$("#" + subgridTableId).jqGrid({
-            //    mtype: "GET",
-            //    datatype: "json",
-            //    url: grid_data_url,
-            //    colNames: ['Id', 'Empresa', 'Piso'],
-            //    colModel: [
 
-            //        { name: 'Id', width: 50 },
-            //        { name: 'Empresa', width: 150 },
-            //        { name: 'Piso', width: 50 }
-            //    ],
-            //    loadonce: true
-            //});
-
-            //$.ajax({
-            //    url: grid_data_url,
-            //    type: "GET",
-            //    success: function (html) {
-            //        $("#" + subgridTableId).append(html);
-            //        alert(1);
-            //    },
-            //    fail: function (html) {
-            //        $("#" + subgridTableId).append("Fail");
-            //        alert(0);
-            //    }
-            //});
         };
 
         //Tipo de datos

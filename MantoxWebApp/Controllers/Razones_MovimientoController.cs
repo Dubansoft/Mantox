@@ -17,8 +17,8 @@ namespace MantoxWebApp.Controllers
     {
         ///Instancia de conexión por framework a la base de datos
         private MantoxDBEntities bdMantox = new MantoxDBEntities();
-        public string NombreContexto = "Razon Movimientos";
-        public string NombreObjeto = "RazonMovimiento";
+        public string NombreContexto = "Razones de Movimientos";
+        public string NombreObjeto = "Razon de Movimiento";
 
        /// <summary>
         /// Index modificado,redirige a Ver()
@@ -67,7 +67,7 @@ namespace MantoxWebApp.Controllers
         /// <param name="searchField">Columna de búsqueda</param>
         /// <param name="filters">Cadena JSON con los filtros que se usarán para busquedas generales que involucrarán todas las columnas de la tabla.</param>
         /// <returns>PartialView</returns>
-        public PartialViewResult BuscarRazones_Movimientos(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
+        public PartialViewResult BuscarRazones_de_Movimientos(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
         {
             //Validar acceso
             if (!TieneAcceso(RolDeUsuario.Desarrollador)) { return PartialView("Error401"); }
@@ -109,7 +109,7 @@ namespace MantoxWebApp.Controllers
                 ViewBag.TotalPaginas = totalPaginas;
 
                 //Devolvemos la vista
-                return VistaAutenticada(PartialView("_VistaParcial_BuscarRazones_Movimientos"), RolDeUsuario.Reportes);
+                return VistaAutenticada(PartialView("_VistaParcial_BuscarRazones_de_Movimientos"), RolDeUsuario.Reportes);
             }
             catch (Exception e)
             {
@@ -130,7 +130,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Razon_Movimiento/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -162,7 +162,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Razon_Movimiento/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

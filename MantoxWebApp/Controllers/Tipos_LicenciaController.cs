@@ -18,8 +18,8 @@ namespace MantoxWebApp.Controllers
 
         ///Instancia de conexión por framework a la base de datos
         private MantoxDBEntities bdMantox = new MantoxDBEntities();
-        public string NombreContexto = "Tipo Licencias";
-        public string NombreObjeto = "Tipo Licencia";
+        public string NombreContexto = "Tipos de Licencias";
+        public string NombreObjeto = "Tipo de Licencia";
 
 
         /// <summary>
@@ -58,38 +58,38 @@ namespace MantoxWebApp.Controllers
         }
 
         /// <summary>
-        /// Devuelve un PartialView que contiene una lista JSon de los Tipos_Equipos filtrados por concepto de búsqueda, o por rango
+        /// Devuelve un PartialView que contiene una lista JSon de los Tipos_Licencias filtrados por concepto de búsqueda, o por rango
         /// </summary>
         /// <param name="searchString">Términos de búsqueda</param>
         /// <param name="rows">Numero de filas</param>
         /// <param name="page">Página</param>
-        /// <param name="idTipos_Equipos">Id de la Tipos_Equipos</param>
+        /// <param name="idTipos_Licencias">Id de la Tipos_Licencias</param>
         /// <param name="sidx">Columna de ordenamiento</param>
         /// <param name="sord">Tipo de ordenamiento, puede ser ASC o DESC</param>
         /// <param name="searchField">Columna de búsqueda</param>
         /// <param name="filters">Cadena JSON con los filtros que se usarán para busquedas generales que involucrarán todas las columnas de la tabla.</param>
         /// <returns>PartialView</returns>
-        public PartialViewResult BuscarTipos_Equipos(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
+        public PartialViewResult BuscarTipos_de_Licencias(string searchString = "", int rows = 0, int page = 0, int idEmpresa = 0, string sidx = "", string sord = "", string searchField = "", string filters = "")
         {
             //Validar acceso
             if (!TieneAcceso(RolDeUsuario.Desarrollador)) { return PartialView("Error401"); }
 
             try
             {
-                //Creamos nueva instancia de la clase parcial "v_tipos_equipos"
-                V_Tipos_Equipos miVistaTipos_Equipos = new V_Tipos_Equipos();
+                //Creamos nueva instancia de la clase parcial "v_Tipos_Licencias"
+                V_Tipos_Licencias miVistaTipos_Licencias = new V_Tipos_Licencias();
 
                 //Creamos un diccionario para almacener los resultados devueltos por la consulta
                 Dictionary<string, object> diccionarioResultados = new Dictionary<string, object>();
 
                 //Ejecutamos la consulta a la base de datos y almacenamos los resultados en  el diccionario
-                diccionarioResultados = miVistaTipos_Equipos.BuscarTipos_Equipos(searchString, idEmpresa, sidx, sord, page, rows, searchField, filters);
+                diccionarioResultados = miVistaTipos_Licencias.BuscarTipos_Licencias(searchString, idEmpresa, sidx, sord, page, rows, searchField, filters);
 
                 //Creamos tabla de datos para almacenar los resultados de la consulta en la base de datos
-                DataTable tablaResultadosTipos_Equipos = new DataTable();
+                DataTable tablaResultadosTipos_Licencias = new DataTable();
 
-                //Asignamos el valor tablaResultadosTipos_Equipos tomando el valor del dicccionario
-                tablaResultadosTipos_Equipos = (DataTable)diccionarioResultados["TablaResultados"];
+                //Asignamos el valor tablaResultadosTipos_Licencias tomando el valor del dicccionario
+                tablaResultadosTipos_Licencias = (DataTable)diccionarioResultados["TablaResultados"];
 
                 //Creamos enteros para almacenar los diferentes valores requeridos por el paginador
                 int totalFilas = 0;
@@ -104,14 +104,14 @@ namespace MantoxWebApp.Controllers
                 totalPaginas = (int)diccionarioResultados["TotalPaginas"];
 
                 //Adjuntamos estos datos a la vista
-                ViewBag.TablaResultadosTipos_Equipos = tablaResultadosTipos_Equipos;
+                ViewBag.TablaResultadosTipos_Licencias = tablaResultadosTipos_Licencias;
                 ViewBag.FilasPorPagina = filasPorPagina;
                 ViewBag.TotalFilas = totalFilas;
                 ViewBag.PaginaActual = paginaActual;
                 ViewBag.TotalPaginas = totalPaginas;
 
                 //Devolvemos la vista
-                return VistaAutenticada(PartialView("_VistaParcial_BuscarTipos_Equipos"), RolDeUsuario.Reportes);
+                return VistaAutenticada(PartialView("_VistaParcial_BuscarTipos_de_Licencias"), RolDeUsuario.Reportes);
             }
             catch (Exception e)
             {
@@ -132,7 +132,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Tipo_Licencia/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -164,7 +164,7 @@ namespace MantoxWebApp.Controllers
         }
 
         // POST: Tipo_Licencia/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

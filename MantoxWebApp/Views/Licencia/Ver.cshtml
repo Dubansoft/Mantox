@@ -60,35 +60,35 @@
                     {
                         name: 'Fecha_Compra',
                         index: 'Fecha_Compra',
-                        width: 50,
+                        width: 100,
                         sortable: true,
                         sorttype: "text"
                     },
                     {
                         name: 'Nombre de Reponsable',
                         index: 'Nombre de Responsable',
-                        width: 50,
+                        width: 135,
                         sortable: true,
                         sorttype: "text"
                     },
                     {
                         name: 'Apellido de Responsable',
                         index: 'Apellido de Responsable',
-                        width: 50,
+                        width: 135,
                         sortable: true,
                         sorttype: "text"
                     },
                     {
                         name: 'Serial_Equipo',
                         index: 'Serial_Equipo',
-                        width: 50,
+                        width: 100,
                         sortable: true,
                         sorttype: "text"
                     },
                     {
                         name: 'Nombre de Equipo',
                         index: 'Nombre de Equipo',
-                        width: 50,
+                        width: 100,
                         sortable: true,
                         sorttype: "text"
                     },
@@ -134,7 +134,7 @@
                         sortable: true,
                         sorttype: "text"
                     },
-                   
+
         ];
 
         //Los nombres de las columnas de la tabla.
@@ -165,7 +165,7 @@
         var base_url = "@ViewData["UrlBase"].ToString()";
 
         //Url de búsqueda de los datos de la tabla.
-        var grid_data_url = "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/Buscar", ViewData["NombreContexto"].ToString(),"?")"
+        var grid_data_url = "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/Buscar", ViewData["NombreContexto"].ToString().Replace(" ","_"), "?")"
 
         //Agrupar?
         var grid_grouping = false;
@@ -186,41 +186,26 @@
         var top_pager = true;
 
         //Mostrar subgrid?
-        var show_subgrid = false;
+        var show_subgrid = true;
 
         //Lo que se ejecuta cuando se expande el subgrid
         var subGridRow_Expanded = function (subgridDivId, rowId) {
             var subgridTableId = subgridDivId + "_t";
-            $("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+            $("#" + subgridDivId).html("<div class='row' id='" + subgridTableId + "'></div>");
 
-            //$("#" + subgridTableId).jqGrid({
-            //    mtype: "GET",
-            //    datatype: "json",
-            //    url: grid_data_url,
-            //    colNames: ['Id', 'Empresa', 'Piso'],
-            //    colModel: [
+            $("#" + subgridTableId).html(animacionCargaDeSelect);
 
-            //        { name: 'Id', width: 50 },
-            //        { name: 'Empresa', width: 150 },
-            //        { name: 'Piso', width: 50 }
-            //    ],
-            //    loadonce: true
-            //});
-
-            //$.ajax({
-            //    url: grid_data_url,
-            //    type: "GET",
-            //    success: function (html) {
-            //        $("#" + subgridTableId).append(html);
-            //        alert(1);
-            //    },
-            //    fail: function (html) {
-            //        $("#" + subgridTableId).append("Fail");
-            //        alert(0);
-            //    }
-            //});
+            $.ajax({
+                url: "@string.Concat(@ViewData["UrlBase"].ToString(), @ViewData["NombreControlador"].ToString(), "/Detalles","/")" + rowId,
+            type: "GET",
+            success: function (html) {
+                $("#" + subgridTableId).html(html);
+            },
+            fail: function (html) {
+                $("#" + subgridTableId).html("Fail");
+            }
+        });
         };
-
         //Tipo de datos
         var data_type = "json";
 
